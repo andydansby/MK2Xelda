@@ -1,0 +1,38 @@
+changes done to engine
+
+engine.h
+
+starting at line 213
+was
+			key_jump = keyscancodes [gpjt ++];		// UP
+			keys.down = keyscancodes [gpjt ++];		// DOWN
+			keys.left = keyscancodes [gpjt ++];		// LEFT
+			keys.right = keyscancodes [gpjt ++];	// RIGHT
+			keys.fire = keyscancodes [gpjt ++];		// FIRE
+			keys.up = keyscancodes [gpjt];		// JUMP
+			
+now
+
+			//ATTENTION
+			// for some reason if key_jump is uncommented, if you
+			// turn off USE_TWO_BUTTONS, it will not compile
+			keys.up = keyscancodes [gpjt ++];
+			keys.down = keyscancodes [gpjt ++];
+			keys.left = keyscancodes [gpjt ++];
+			keys.right = keyscancodes [gpjt ++];
+			key_fire = keys.fire = keyscancodes [gpjt];
+			//key_jump = keyscancodes [gpjt];//ATTENTION, commented out
+			
+
+			
+in config.h
+// if this is disabled, you cannot compile
+//#define USE_TWO_BUTTONS 				// Alternate keyboard scheme for two-buttons games
+#define USE_ONE_BUTTONS					//ATTENTION Added
+
+
+in definitions.h
+//ATTENTION ADDED
+#ifdef USE_ONE_BUTTONS
+int key_fire;
+#endif
