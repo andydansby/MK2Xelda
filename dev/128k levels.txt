@@ -1,0 +1,181 @@
+Building a multi-level 128K game (simple) 
+
+This tutorial applies to version 0.89 (or later) of MK2
+
+The theme of multi-level games is very much about the customization of the engine. The included levels128.h file and the clevels.h handler contain two examples of how to do it: 
+
+- "Goku Mal" mode, in which each level is a compact entity consisting of map, locks, behaviors, enemies, hotspots, tileset, and Spriteset contained in a single binary. 
+
+- The "Ninjajar!" Mode, in which each level is composed of a series of "assets" stored in the extra RAM that can be combined in any way, besides including a structure of sequence of levels in case we want to repeat a level several Times (for example, Ninjajar stores !, which are all on the same real level). 
+
+In this brief tutorial we will explain how to mount a 128K multilevel game with simple level handler (Goku Mal).
+
+Configuration
+
+In config.h we will have to establish certain directives to achieve what we want. The first are the basic ones, then I put some more that comes good (at least for me, you can use something else).
+
+You have to activate these:
+Code: Select all
+#define MODE_128K
+#define COMPRESSED_LEVELS
+
+
+And I think its is that if you use scripting (because you use scripting !!) activate this one:
+Code: Select all
+#define SCRIPTED_GAME_ENDING
+
+
+Notice that we DO NOT activate this:
+Code: Select all
+//#define EXTENDED_LEVELS
+
+
+This is what he does is put all the ninjajar traya! And for now we will leave that quiet. Let's create a simple handler game. 
+
+Building the binary for each level
+
+To build the binary for each level we will use the buildlevel.exe utility that we have, like all the others, in the / utils directory. If we execute it to bare we obtain the parameters that it takes, that are a good billet (large):
+Code: Select all
+D:\Dropbox\nicanor\desarrollo\dev>..\utils\buildlevel.exe
+buildlevel v 0.2 [MK2]
+usage:
+
+$ buildlevel mapa.map map_w map_h lock font.png work.png spriteset.png enems.ene scr_ini x_ini y_ini max_objs enems_life behs.txt level.bin
+
+where:
+   * mapa.map is your map from mappy .map
+   * map_w, map_h are map dimmensions in screens
+   * lock is 15 to autodetect lock, 99 otherwise
+   * font.png is a 256x16 file with 64 chars ascii 32-95
+   * work.png is a 256x48 file with your 16x16 tiles
+   * spriteset.png is a 256x32 file with your spriteset
+   * enems.ene enems/hotspots directly from colocador.exe
+   * scr_ini, scr_x, scr_y, max_objs, enems_life general level data header
+   * behs.txt is a tile behaviours file
+   * level.bin is the output filename.
+   * decorations.spt if specified, maps are forced to 16 tiles + decorations
+
+
+We are going to use this convention not to mess with filenames (especially if we use many levels), where N is the number of the level:
+
+MapN.map: The map.
+WorkN.png: The tileset (256x48).
+SpritesN.png: The spriteset (256x32).
+EnemsN.ene: enemy / hotspots.
+BehsN.txt: Behaviors of tiles.
+LevelN.bin: The output file.
+DecorationsN.spt: Decorations to include in the script.
+
+We see that we need several things, therefore: 
+
+- Map, tileset, spriteset, enemies, as always. 
+- Behaviors: simply an ordered list of 48 values, like the one we used to put in config.h, something like this:
+Code: Select all
+0,24, 8, 8, 8, 8, 8, 8, 1, 1, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+- font.png: It is a 256x16 file with 64 characters of text font (ascii 32-97). It's a bit of a waste of memory, especially if we're going to always use the same source (which is your thing), but for now there's no other way to make a bundle by omitting a certain part of the charset. Nor will it involve much wasted space. 
+
+Once we have generated our binary and our decorations file (if applicable), we will have to compress the binary and put it in / bin for the librarian and move the decorations file to / script for later inclusion in the main script. 
+
+As the buildlevel commands are very long and you write bribes, and as we will have to generate the levels a lot of times during development, we will create a buildlevels.bat at / levels with calls to this command for each level.
+
+Code: Select all
+@echo off
+echo BUILDING LEVELS!
+
+echo LEVEL 0
+..\utils\buildlevel.exe ..\map\map0.map 4 4 99 ..\gfx\font.png ..\gfx\work0.png ..\gfx\sprites0.png ..\enems\enems0.ene 0 2 7 99 1 behs0.txt level0.bin decorations0.spt
+..\utils\apack.exe level0.bin ..\bin\level0c.bin
+move decorations0.spt ..\script
+
+... (etc)
+
+
+As you can see, by compressing levelN.bin we generate it directly in \ bin with the name of levelNc.bin 
+
+Modifications to make.bat
+
+First of all we have to remove everything that is construct the map, export enemies, graphics, etc. and include a call To our new buildlevels.bat that should look something like this:
+Code: Select all
+cd ..\levels
+call buildlevels.bat
+cd ..\dev
+
+
+We call so that when finished buildlevels.bat follow the execution of make.bat. 
+
+Librarian
+
+Supposedly we should already have the basics for the librarian. Remember that if you have pre-generated binaries for a specific RAM page (such as texts and script) you should place them in a preloadN.bin file where N is the RAM page where they should go so that librarian takes them into account. To the list of binary files /bin/list.txt we add our phases:
+Code: Select all
+title.bin
+marco.bin
+ending.bin
+level0c.bin
+...
+
+
+According to this configuration, the N-esima phase will be in the N + 2-th resource: the first phase in resource 3, the second phase in 4 ... 
+
+The script
+
+This deserves itself tutorial, but we will mention here: Script file will contain scripts for all levels. These scripts are separated into the file with END_OF_LEVEL:
+Code: Select all
+### level 0
+
+ENTERING GAME
+    IF TRUE
+    THEN
+       ...
+    END
+    ...
+END
+
+...
+
+END_OF_LEVEL
+
+### level 1
+
+ENTERING GAME
+    IF TRUE
+    THEN
+       ...
+    END
+    ...
+END
+
+...
+
+END_OF_LEVEL
+
+...
+
+
+Now you have to tell the engine where to find the script for each level. Msc3.exe, in the file msc-config.h that generates, creates a few constants that will suit us very well:
+Code: Select all
+#define SCRIPT_0 0x0000
+#define SCRIPT_1 0x0179
+#define SCRIPT_2 0x01CD
+...
+
+
+In addition, this make.bat line:
+Code: Select all
+..\utils\sizeof.exe ..\bin\texts.bin 49152 "#define SCRIPT_INIT" >> msc-config.h
+
+
+Add another SCRIPT_INIT constant that tells us where scripts start in memory. So, we will have the first script start at SCRIPT_INIT + SCRIPT_0, and so on. Well, these are the values ​​that we have to put in the array of levels that appears at the end of levels128.h :
+Code: Select all
+LEVEL levels [] = {
+   {3, 3, SCRIPT_INIT + SCRIPT_0},
+   {4, 4, SCRIPT_INIT + SCRIPT_1},
+   ...
+};
+
+
+- The first number is the number of resource librarian that contains the bundle of the level that is. As you can see, we started at 3. 
+- The second number is the number of the music within the OGT that should sound fondow. 
+- Finally, we have the expression that calculates where the concrete script to start for each phase begins. 
+
+With this and a sponge cake, the theme should work half what. And if not, as it is complicated the first time (and the second), there is always the forum to do it slowly and step by step.
