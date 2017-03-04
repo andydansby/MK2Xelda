@@ -1,0 +1,203 @@
+# ¡Script didáctico!
+
+# I have written a fairly complex script (and that does not carry puzzles)
+# To handle an entire game on screens from common locations (or almost).
+# There is a lot of shit that has to do with how the clauses and
+# When they are executed. If you have doubts, ask in the forum.
+
+# This adds the decoration tiles that map2bin automatically extracts :-)
+
+INC_DECORATIONS map.bin.spt
+
+# Flags:
+#  0 - All purpose.
+#  1 - Account enemies on screen 		[config.h -> #define COUNT_SCR_ENEMS_ON_FLAG 1]
+#  2 - Count the enemies we have killed	[config.h -> #define BODY_COUNT_ON 2]
+#  3 - Set to 1 when we are on the last screen.
+#  4 - Next level!
+#  5 - First time for each level
+#  6 - Fantys on?
+#  7 - Introduction text
+#  8 - Copy of the number of enemies on screen. [*]
+#  9 - Activating. [**]
+
+# Enemies will become bats when time runs out.
+# As bats are flying type they need initializations, and for
+# We both have to execute REHASH, which re-enters the screen but
+# Without painting anything (only initializes).
+
+# In addition, change the type of enemies in a game in which they are not
+# Decompressing the phases implies that we have to have a type backup
+# Of the enemies [config.h -> #define ENEMY_BACKUP].
+
+# Below you will see that in ENTERING ANY there is an ENEMIES RESTORE that restores
+# The kind of enemies from the backup. You will see that I do not know
+# Always runs. Follow the comments and you will see why.
+
+# [*] Why do we need a copy of the number of enemies on screen?
+# When the time runs out, we are running REHASH. This re-runs
+# The screen initialization. If we have killed an enemy, it will become
+# To make the count and the total number will be incorrect (it will not take into account the
+# That we have already killed). This is why the first time you enter the screen (and
+# This is controlled by the FLAG 5) we make the copy and use this copy in the
+# Checks.
+
+# It could be done differently: when the time runs out, we save the value
+# Of $ NENEMS in a temporary flag, we run the REHASH, and then we go back to
+# Write the original value in $ NENEMS. The same gives the same thing.
+
+# [**] Activating is set to 1 when enemies are changed by bats
+# And REHASH is called. This way, when ENTERING ANY is executed it will be detected
+# That we are activating the bats and we will not execute ENEMIES RESTORE,
+# That is executed in any other case when entering the screen and changing
+# To bats by normal enemies (for example, when they kill us).
+
+DEFALIAS
+	$ALLPURP 0
+	$NENEMS 1
+	$NKILLED 2
+	$LAST 3
+	$NEXT 4
+	$FIRSTTIME 5
+	$FANTYS 6
+	$INITEXT 7
+	$NENEMSC 8
+	$ACTIVATING 9
+END
+
+# In Leovigildo 2 we could choose where to appear on the next screen.
+# But this is an example game and I will not build such a pifostio. We will always appear
+# In the coordinates (7, 7) and take wind.
+
+ENTERING GAME
+    IF TRUE
+    THEN
+    	SET FLAG $NEXT = 0
+    	SET FLAG $FIRSTTIME = 1
+    	SET FLAG $LAST = 0
+    	SET FLAG $INITEXT = 0
+    	SET FLAG $ACTIVATING = 0
+    END
+END
+
+# Al entrar en cada pantalla, hay que resetear cosas:
+# En la pantalla se entra:
+# - Al pasar de nivel ($FIRSTIME = 1)
+# - Al perder una vida ($ACTIVATING = 0)
+# - Al convertir los enemigos en murciélagos ($ACTIVATING = 1)
+ENTERING ANY
+	# No estamos activando los murciélagos, así que hay que inicializar.
+	IF FLAG $ACTIVATING = 0
+	THEN
+		# Valor inicial: 15; rate: 22 (1 segundo ~= 25-30)
+		SET_TIMER 15, 22
+		# Colocamos a Meghan
+		SETXY 7, 7
+		# Restauramos el tipo de los enemigos de esta pantalla
+		ENEMIES RESTORE
+		# Reseteamos el contador de enemigos moridos.
+		SET FLAG $NKILLED = 0
+		# Y los murciélagos están desactivados.
+		SET FLAG $FANTYS = 0
+	END
+	
+	# Sí, ya nos hemos enterado de que estamos activando los murciélagos.
+	IF FLAG $ACTIVATING = 1
+	THEN
+		SET FLAG $ACTIVATING = 0
+	END
+	
+	# La primera vez...
+	IF FLAG $FIRSTTIME = 1
+	THEN
+		# Incrementamos el número de pantalla siguiente
+		INC FLAG $NEXT, 1
+		# Copiamos el número de enemigos que hay *ahora* en la pantalla
+		SET FLAG $NENEMSC = #$NENEMS
+		# Ya no es la primera vez...
+		SET FLAG $FIRSTTIME = 0
+	END
+END
+
+# Al golpear a un enemigo se lanza este script, ya que
+# en config.h hemos puesto que #define RUN_SCRIPT_ON_KILL
+
+PLAYER_KILLS_ENEMY
+	IF FLAG $NENEMSC = #$NKILLED
+	IF FLAG $LAST = 0
+	THEN
+		# Preparamos para cambiar de pantalla
+		EXTERN 0
+		# Es la primera vez que se entra
+		SET FLAG $FIRSTTIME = 1
+		# No entramos por activar murciélagos
+		SET FLAG $ACTIVATING = 0
+		# Vamos a la próxima pantalla
+		WARP_TO #$NEXT, 7, 7
+	END
+	
+	IF FLAG $NENEMSC = #$NKILLED
+	IF FLAG $LAST = 1
+	THEN
+		# Mostramos el texto del final
+		EXTERN 5
+		REDRAW
+		EXTERN 6
+		REDRAW
+		EXTERN 7
+		REDRAW
+		EXTERN 0
+		# ¡Fin del juego!
+		WIN GAME
+	END
+END
+
+# Cuando se acaba el tiempo...
+
+ON_TIMER_OFF
+	IF FLAG $FANTYS = 0
+	THEN
+		SET FLAG $FANTYS = 1
+		ENEMY 0 TYPE 19	 # X TTTT D NN = ? 0010 0 11
+		ENEMY 1 TYPE 19
+		ENEMY 2 TYPE 19
+		# Rehash hará un reenter sin pintar, así que necesitamos avisar
+		# A ENTERING ANY de que estamos activando a los murciélagos.
+		SET FLAG $ACTIVATING = 1
+		# Rehash = Reenter - Redraw. Vamos, inicializa sin pintar nada.
+		# Eso significa que no se ejecutará nada después de REHASH.
+		# ¡Es en ENTERING ANY donde tendremos que volver a poner 
+		# $ACTIVATING a 0!
+		SOUND 2
+		REHASH
+	END
+END
+
+# En la pantalla 0 mostramos una pequeña introducción
+# Así mostramos el nuevo REDRAW, en el que se dibujan los tiles de
+# decoración extra automáticamente (antes no, y era una putada).
+
+ENTERING SCREEN 0
+	IF FLAG $INITEXT = 20
+	THEN
+		SET FLAG $INITEXT = 1
+		EXTERN 1
+		REDRAW
+		EXTERN 2
+		REDRAW
+		EXTERN 3
+		REDRAW
+		EXTERN 4
+		REDRAW
+	END
+END
+
+# En la pantalla 8 le decimos al motor que estamos en la última,
+# para que cuando matemos a los bichos salte el final
+
+ENTERING SCREEN 8
+	IF TRUE
+	THEN
+		SET FLAG $LAST = 1
+	END
+END

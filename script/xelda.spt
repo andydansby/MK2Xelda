@@ -1,0 +1,514 @@
+# XELDA 1
+# Copyleft 2013 the Mojon Twins
+# Churrera 3.99.2
+
+
+# flags: not yet implemented
+# GOTO_BEACH you must first enter the house in order 
+# to goto the beach to collect your crossbow
+
+# CAN_FIRE once you have collected your crossbow, 
+# you can now fire also opens up the map
+
+# 1 = orb count
+# 2 = Object account 1
+# 3 = Object account 2
+# 4 = Object account 3
+# 5 = Control objects
+
+# define our flag names
+DEFALIAS
+	$ALLPURP 0
+	$GOTO_BEACH 1
+	$CAN_FIRE 2
+	#allows you to not only fire but to open map up
+	$DO_NOT_FIRE_IN_HOUSE 3
+	#end for now
+	$NEXT 4
+	$FIRSTTIME 5
+	$FANTYS 6
+	$INITEXT 7
+	$NENEMSC 8
+	$ACTIVATING 9
+END
+
+ENTERING GAME
+	# you will need to collect all orbs and crossbow to move to different levels
+	# need a flag for collection of the crossbow
+	# need a flag for collecting the orbs
+	IF TRUE
+    THEN
+		# initalize flags
+		SET FLAG GOTO_BEACH = 0
+		# if flag is 0 you are blocked from entering the beach or anywhere
+		# else until you talk to the island keeper.
+		
+		SET FLAG CAN_FIRE = 0
+		# if flag is 0, you cannot fire.  Once crossbow is collected you
+		# may fire and also opens up the map.
+    END
+END
+
+#ENTERING ANY
+#	THEN
+		# TEXT DONE!_COME_BACK_TO_BASE
+#	END
+#END
+
+### level 0
+ENTERING SCREEN 0 
+# upper left gateway swamp	
+	IF TRUE
+	THEN
+		SET TILE (4, 7) = 37 
+		# spikes
+		SET TILE (5, 5) = 37 
+		# spikes
+		SET TILE (7, 5) = 37 
+		# spikes
+		SET TILE (7, 1) = 34 
+		# sign
+		SET TILE (5, 0) = 20
+		
+		#conditional
+		# Horizontal Gate
+		SET TILE (6, 0) = 20 
+		# Horizontal Gate
+		SET TILE (5, 3) = 26 
+		# pit
+	END
+END
+
+# cave screen
+ENTERING SCREEN 1	
+	IF TRUE
+	THEN
+		SET TILE (10, 0) = 32 
+		# spikes 32
+		SET TILE (12, 2) = 34 
+		# sign
+		SET TILE (4, 3) = 36 
+		# spikes
+		SET TILE (4, 6) = 36 
+		# spikes
+		SET TILE (4, 7) = 36 
+		# spikes
+		SET TILE (9, 3) = 36 
+		# spikes
+		SET TILE (10, 3) = 36 
+		# spikes
+		SET TILE (11, 3) = 36 
+		# spikes
+		SET TILE (12, 3) = 17 
+		# orb
+		SET TILE (6, 4) = 44 
+		# flower
+	END
+END
+
+# cemetary
+ENTERING SCREEN 2	
+	IF TRUE
+	THEN
+		#headstone 24
+		#water 46
+		#orb 17
+		#secret passage 33
+		SET TILE (3, 2) = 24 
+		SET TILE (6, 2) = 24 
+		SET TILE (9, 2) = 24		
+		SET TILE (12, 2) = 24
+		SET TILE (13, 0) = 46 
+		SET TILE (14, 0) = 46
+		SET TILE (13, 2) = 17
+		SET TILE (14, 2) = 33
+	END
+END
+
+# dungeon entrance
+ENTERING SCREEN 3	
+	IF TRUE
+	THEN
+		SET TILE (0, 2) = 33 
+		#secret
+		SET TILE (0, 0) = 46 
+		#water
+		SET TILE (1, 0) = 46 
+		#water
+		SET TILE (2, 0) = 46 
+		#water
+		SET TILE (3, 0) = 46 
+		#water
+		SET TILE (4, 0) = 46 
+		#water
+		SET TILE (5, 0) = 46 
+		#water
+		SET TILE (6, 0) = 46 
+		#water
+		SET TILE (7, 0) = 46 
+		#water
+		SET TILE (8, 0) = 46 
+		#water
+		SET TILE (9, 0) = 46 
+		#water
+		SET TILE (10, 0) = 46 
+		#water
+		SET TILE (11, 0) = 46 
+		#water
+		SET TILE (12, 0) = 46 
+		#water
+		SET TILE (13, 0) = 46 
+		#water
+		SET TILE (6,3) = 22 
+		#Obelisk Top
+		SET TILE (6,4) = 23 
+		#Obelisk bottom
+		SET TILE (6,5) = 22 
+		#Obelisk Top
+		SET TILE (6,6) = 23 
+		#Obelisk bottom
+		SET TILE (10,3) = 22 
+		#Obelisk Top
+		SET TILE (10,4) = 23 
+		#Obelisk bottom
+		SET TILE (10,5) = 22 
+		#Obelisk Top
+		SET TILE (10,6) = 23 
+		#Obelisk bottom
+		# conditional
+		SET TILE (7,3) = 20 
+		#horizontal gate
+		SET TILE (8,3) = 20 
+		#horizontal gate
+		SET TILE (9,3) = 20 
+		#horizontal gate
+	END
+END
+
+# YARD of child gatekeeper, uses XYZZY to open gate, missing teddybear
+ENTERING SCREEN 4	
+	IF TRUE
+	THEN
+		SET TILE (5, 6) = 41 
+		#House Window
+		SET TILE (6, 6) = 40 
+		#House Door
+		SET TILE (7, 6) = 41 
+		#House Window
+		SET TILE (5, 5) = 42 
+		#House Chimney
+		SET TILE (6, 5) = 43 
+		#House Chimney
+		SET TILE (7, 5) = 42 
+		#House Chimney
+		SET TILE (5, 7) = 34 
+		#sign
+	END
+END
+
+#TEDDY bear	
+ENTERING SCREEN 5
+	IF TRUE
+	THEN
+		#teddybear 30
+		SET TILE (7, 5) = 30
+	END
+END
+
+# house of axeman
+ENTERING SCREEN 6
+	IF TRUE
+	THEN
+		SET TILE (5, 6) = 41 
+		#House Window
+		SET TILE (6, 6) = 40 
+		#House Door
+		SET TILE (7, 6) = 41 
+		#House Window
+		SET TILE (5, 5) = 42 
+		#House Chimney
+		SET TILE (6, 5) = 43 
+		#House Chimney
+		SET TILE (7, 5) = 42 
+		#House Chimney
+		SET TILE (5, 7) = 34 
+		#sign
+		SET TILE (13,1) = 17 
+		#orb
+	END
+END
+
+# maze
+ENTERING SCREEN 7
+	IF TRUE
+	THEN
+		SET TILE (7, 4) = 25 
+		#mushroom
+		SET TILE (3, 7) = 25 
+		#mushroom
+		#SET_FIRE_ZONE 112  64  112  64 
+		#measured in pixels
+		#SET_FIRE_ZONE 24  112  24  112 
+		#measured in pixels
+	END
+END
+
+# pushable blocks and boulders
+ENTERING SCREEN 8
+	IF TRUE
+	THEN
+		SET TILE (6, 5) = 16 
+		#heart   life
+		SET TILE (7, 5) = 36 
+		#green spikes
+		SET TILE (3, 3) = 36 
+		#green spikes
+		SET TILE (2, 2) = 17 #orb
+	END
+END
+
+# statue
+ENTERING SCREEN 9
+	IF TRUE
+	THEN
+		SET TILE (7, 4) = 28 
+		#Statue Top
+		SET TILE (7, 5) = 27 
+		#Statue bottom
+		SET TILE (8, 5) = 34 
+		#sign
+		SET TILE (6, 3) = 46 
+		#water
+		SET TILE (6, 4) = 46 
+		#water
+		SET TILE (6, 5) = 46 
+		#water
+		SET TILE (6, 6) = 46 
+		#water		
+		SET TILE (9, 3) = 46 
+		#water
+		SET TILE (9, 4) = 46 
+		#water
+		SET TILE (9, 5) = 46 
+		#water
+		SET TILE (9, 6) = 46 
+		#water		
+		SET TILE (7, 3) = 46 
+		#water
+		SET TILE (8, 3) = 46 
+		#water
+		SET TILE (7, 6) = 46 
+		#water
+		SET TILE (8, 6) = 46 
+		#water
+	END
+END
+
+#right of statue orb plant
+ENTERING SCREEN 10
+	IF TRUE
+	THEN
+		SET TILE (10, 2) = 17 
+		#orb
+		SET TILE (5, 2) = 36 
+		#green spikes
+		SET TILE (5, 3) = 17 
+		#orb
+		SET TILE (5, 4) = 36 
+		#green spikes
+		SET TILE (6, 8) = 39 
+		#destroyabe
+		# 9 7 is tile to stand on to open gate push movable block to keep open
+	END
+END
+
+# center maze
+ENTERING SCREEN 11	
+	IF TRUE
+	THEN
+		# SET TILE (3, 2) = 24 #headstone
+	END
+END
+
+# left side house stairs second from bottom of map	
+ENTERING SCREEN 12
+	IF TRUE
+	THEN
+		SET TILE (5, 4) = 41 
+		#House Window
+		SET TILE (6, 4) = 40 
+		#House Door
+		SET TILE (7, 4) = 41 
+		#House Window
+		SET TILE (5, 3) = 42 
+		#House Chimney
+		SET TILE (6, 3) = 43 
+		#House Chimney
+		SET TILE (7, 3) = 42 
+		#House Chimney
+		SET TILE (5, 5) = 34 
+		#sign
+	END
+	
+	IF FLAG $CAN_FIRE = 0
+	THEN
+		SET TILE (9, 7) = 2
+	END
+END
+
+ENTERING SCREEN 13
+	IF TRUE
+	THEN
+		# dimensions X, Y X left to right start at 0 Y top to bottom  start at 0
+		SET TILE (12, 9) = 38 #crossbow
+	END
+	
+	IF FLAG $GOTO_BEACH = 0
+	THEN
+		SET TILE (0, 7) = 2
+	END
+	
+	IF FLAG $CAN_FIRE = 0
+	THEN
+		SET TILE (3, 4) = 2
+	END	
+END
+
+# entryway to game and house of island keeper
+# should block off everything until island keeper is talked to
+ENTERING SCREEN 14
+	IF TRUE
+	THEN
+		#DECORATIONS
+		#3,5,41
+		#4,5,40
+		#5,5,41
+		#3,4,42
+		#4,4,43
+		#5,4,42
+		#5,6,34
+		#7,4,25
+		SET TILE (3, 5) = 41 
+		#House Window
+		SET TILE (4, 5) = 40 
+		#House Door
+		SET TILE (5, 5) = 41 
+		#House Window
+		SET TILE (3, 4) = 42 
+		#House Chimney
+		SET TILE (4, 4) = 43 
+		#House Chimney
+		SET TILE (5, 4) = 42 
+		#House Chimney		
+		SET TILE (5, 6) = 34 
+		#sign
+		
+		#mushroom	
+		SET TILE (7, 6) = 25			
+		SET_FIRE_ZONE_TILES 7, 6, 7, 6
+		
+		# SET_FIRE_ZONE 56  32  63  39 #measured in pixels
+		
+		# This blocks us from going anywhere until that crossbow is collected
+		IF FLAG $CAN_FIRE = 0
+		THEN
+			SET TILE (7, 4) = 2
+			SET TILE (8, 8) = 2
+		END
+	END
+END
+
+PRESS_FIRE AT SCREEN 14
+ 	IF PLAYER_TOUCHES 7, 6
+ 	THEN
+ 		WARP_TO 16, 5, 8
+ 	END
+END
+
+# maze
+ENTERING SCREEN 15	
+	IF TRUE
+	THEN
+		SET TILE (8, 4) = 17 
+		#orb
+	END
+END
+
+# beach with stairs	
+ENTERING SCREEN 16
+	IF TRUE
+	THEN
+		SET TILE (3, 7) = 17 
+		#orb
+		SET TILE (5, 5) = 29 
+		#cactus
+		SET TILE (5, 6) = 29 
+		#cactus		
+		SET TILE (6, 5) = 29 
+		#cactus		
+		SET TILE (13, 3) = 29 
+		#cactus
+		SET TILE (13, 4) = 29 
+		#cactus
+		SET TILE (13, 5) = 29 
+		#cactus
+		SET TILE (13, 6) = 29 
+		#cactus
+	END
+END
+
+#beach
+ENTERING SCREEN 17	
+	IF TRUE
+	THEN
+
+	END
+	
+	IF FLAG $CAN_FIRE = 0
+	THEN
+		SET TILE (14, 4) = 2
+		SET TILE (14, 5) = 2
+	END
+END
+
+ENTERING SCREEN 18
+	IF TRUE
+	THEN
+
+	END
+END
+
+#gate to another level (woods for Axeman)
+#need to talk to axeman first
+ENTERING SCREEN 19
+	IF TRUE
+	THEN
+		SET TILE (14, 6) = 21
+		SET TILE (14, 7) = 21 
+		#Vertical Gate
+	END
+END
+
+END_OF_LEVEL 
+#end level 0
+
+### level 1
+#ENTERING GAME
+#	IF TRUE
+#    THEN
+	
+#	END
+#END
+
+#END_OF_LEVEL #end level 1
+
+### level 2
+#ENTERING GAME
+#	IF TRUE
+#    THEN
+	
+#	END
+#END
+
+#END_OF_LEVEL #end level 2
+
