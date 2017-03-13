@@ -18,8 +18,8 @@
 
 # define our flag names
 DEFALIAS
-	$ALREADY_PLAYING 0
-	$WARPED_TO_HERE 1
+	ALLPURP 0
+	WARPED_TO_HERE 1
 	#SCREEN_NUMBER 2
 	#SCREEN_X 3
 	#SCREEN_Y 4	
@@ -29,18 +29,15 @@ DEFALIAS
 END
 
 ENTERING GAME
-
-		IF ALREADY_PLAYING = 1
-			IF $WARPED_TO_HERE = 1
-			THEN
-				SET $WARPED_TO_HERE = 0
-				WARP_TO 19, 13, 6
-				BREAK
-			END
-			
+	# you will need to collect all orbs and crossbow to move to different levels
+	# need a flag for collection of the crossbow
+	# need a flag for collecting the orbs
+	IF TRUE
+    THEN
 		# initalize flags
-		SET $ALREADY_PLAYING = 0
-		SET $WARPED_TO_HERE = 0
+		#SET FLAG CAN_FIRE = 0
+		#SET FLAG GOTO_BEACH = 0
+		SET WARPED_TO_HERE = 0
 		#SET FLAG SCREEN_NUMBER = 0
 		#SET FLAG SCREEN_X = 0
 		#SET FLAG SCREEN_Y = 0
@@ -49,39 +46,14 @@ ENTERING GAME
 		# else until you talk to the island keeper.		
 		# if flag is 0, you cannot fire.  Once crossbow is collected you
 		# may fire and also opens up the map.
-		
-
-			
     END	
 END
 
-ENTERING ANY
-	SET $ALREADY_PLAYING = 1
-	
-	#handle warping first
-	#WARPING
-	#back to beach
-	IF $WARPED_TO_HERE = 1
-	THEN
-		#SET $WARPED_TO_HERE = 0
-		#WARP_TO 19, 13, 6
-		#BREAK
-	END
-		
-	IF $WARPED_TO_HERE = 2
-	THEN
-		#SET $WARPED_TO_HERE = 0
-		#WARP_TO 18, 6, 6
-		#BREAK			
-	END
-		
-	IF $WARPED_TO_HERE = 3
-	THEN
-		#SET $WARPED_TO_HERE = 0
-		#WARP_TO 16, 6, 6
-		#BREAK
-	END
-END
+#ENTERING ANY
+#	THEN
+		# TEXT DONE!_COME_BACK_TO_BASE
+#	END
+#END
 
 ################################################
 # Level 0
@@ -91,50 +63,49 @@ END
 ENTERING SCREEN 0	
 	IF TRUE
 	THEN
-	
-		DECORATIONS
-		4,7,37#spikes
-		5,5,37#sign
-		7,5,37#spikes
-		6,0,32#cave
-		END
-
+		SET TILE (4, 7) = 37 
+		# spikes
+		SET TILE (5, 5) = 37 
+		# spikes
+		SET TILE (7, 5) = 37 
+		# spikes
+		SET TILE (7, 1) = 34 
+		# sign
+		SET TILE (5, 0) = 20
 		
 		#conditional
 		# Horizontal Gate
-		SET TILE (7, 1) = 20
-		SET_FIRE_ZONE_TILES 6, 0, 6, 0
-		
+		SET TILE (6, 0) = 20 
+		# Horizontal Gate
+		SET TILE (5, 3) = 26 
+		# pit
 	END
-END
-
-PRESS_FIRE AT SCREEN 0
-
- 	IF PLAYER_TOUCHES 6, 0
- 	THEN
-		SET $WARPED_TO_HERE = 4		
-		WARP_TO_LEVEL 3, 12, 3, 3, 1
- 	END
 END
 
 # cave screen
 ENTERING SCREEN 1	
 	IF TRUE
 	THEN
-	
-		DECORATIONS
-		10,0,32#spikes
-		12,2,34#sign
-		4,3,36#spikes
-		4,6,36#spikes
-		4,7,36#spikes
-		9,3,36#spikes
-		10,3,36#spikes
-		11,3,36#spikes
-		12,3,17#orb
-		6,4,44#flower
-		END
-
+		SET TILE (10, 0) = 32 
+		# spikes 32
+		SET TILE (12, 2) = 34 
+		# sign
+		SET TILE (4, 3) = 36 
+		# spikes
+		SET TILE (4, 6) = 36 
+		# spikes
+		SET TILE (4, 7) = 36 
+		# spikes
+		SET TILE (9, 3) = 36 
+		# spikes
+		SET TILE (10, 3) = 36 
+		# spikes
+		SET TILE (11, 3) = 36 
+		# spikes
+		SET TILE (12, 3) = 17 
+		# orb
+		SET TILE (6, 4) = 44 
+		# flower
 	END
 END
 
@@ -142,17 +113,18 @@ END
 ENTERING SCREEN 2	
 	IF TRUE
 	THEN
-		DECORATIONS
-		3,2,24#headstone
-		6,2,24#headstone
-		9,2,24#headstone
-		12,2,24#headstone
-		13,0,46#water
-		14,0,46#water
-		13,2,17#orb
-		14,2,33#secret passage
-		END
-		
+		#headstone 24
+		#water 46
+		#orb 17
+		#secret passage 33
+		SET TILE (3, 2) = 24 
+		SET TILE (6, 2) = 24 
+		SET TILE (9, 2) = 24		
+		SET TILE (12, 2) = 24
+		SET TILE (13, 0) = 46 
+		SET TILE (14, 0) = 46
+		SET TILE (13, 2) = 17
+		SET TILE (14, 2) = 33
 	END
 END
 
@@ -347,9 +319,8 @@ ENTERING SCREEN 10
 		#orb
 		SET TILE (5, 4) = 36 
 		#green spikes
-		
-		SET TILE (5,5)= 39
-		#BUSH
+		SET TILE (6, 8) = 39 
+		#destroyabe
 		# 9 7 is tile to stand on to open gate push movable block to keep open
 	END
 END
@@ -389,7 +360,8 @@ PRESS_FIRE AT SCREEN 12
 	#Door
 	IF PLAYER_TOUCHES 6, 4
 	THEN
-		
+		SET WARPED_TO_HERE = 1
+		WARP_TO_LEVEL 1, 16, 7, 7, 1
 	END	
 END
 
@@ -399,7 +371,17 @@ ENTERING SCREEN 13
 	THEN
 		# dimensions X, Y X left to right start at 0 Y top to bottom  start at 0
 		SET TILE (12, 9) = 38 #crossbow
-	END	
+	END
+	
+	#IF $GOTO_BEACH = 0
+	#THEN
+		#SET TILE (0, 7) = 2
+	#END
+	
+	#IF $CAN_FIRE = 0
+	#THEN
+		#SET TILE (3, 4) = 2
+	#END	
 END
 
 # entryway to game 
@@ -408,69 +390,50 @@ END
 ENTERING SCREEN 14
 	IF TRUE
 	THEN
-		DECORATIONS
-		3,5,41#House Window
-		4,5,40#House Door
-		5,5,41#House Window
-		3,4,42#House roof
-		4,4,43#House Chimney
-		5,4,42#House roof
-		5,6,34#sign
-		7,6,25#mushroom
-	END
-
-	SET $FIRST_TIME = 1
-		#mushroom	
-		#SET TILE (7, 6) = 25
-		SET_FIRE_ZONE_TILES 7, 6, 7, 6
-		
-		
-		# This blocks us from going anywhere until that crossbow is collected
-		#IF FLAG $CAN_FIRE = 0
-		#THEN
-			#SET TILE (7, 4) = 2
-			#SET TILE (8, 8) = 2
-		#END
-		
-		#SET TILE (3, 5) = 41 
+		#DECORATIONS
+		#3,5,41
+		#4,5,40
+		#5,5,41
+		#3,4,42
+		#4,4,43
+		#5,4,42
+		#5,6,34
+		#7,4,25
+		SET TILE (3, 5) = 41 
 		#House Window
 		
 		#House Door
-		#SET TILE (4, 5) = 40		
-		#SET_FIRE_ZONE_TILES 4, 5, 4, 5
+		SET TILE (4, 5) = 40		
+		SET_FIRE_ZONE_TILES 4, 5, 4, 5
 		
-		#SET TILE (5, 5) = 41 
+		SET TILE (5, 5) = 41 
 		#House Window
 		
-		#SET TILE (3, 4) = 42 
+		SET TILE (3, 4) = 42 
 		#House roof
 		
-		#SET TILE (4, 4) = 43 
+		SET TILE (4, 4) = 43 
 		#House Chimney
 		
-		#SET TILE (5, 4) = 42 
+		SET TILE (5, 4) = 42 
 		#House roof
 		
 		
-		#SET TILE (5, 6) = 34
-		#SET_FIRE_ZONE_TILES 5, 6, 5, 6
+		SET TILE (5, 6) = 34
+		SET_FIRE_ZONE_TILES 5, 6, 5, 6
 		#sign
 		
+		#mushroom	
+		SET TILE (7, 6) = 25
+		# SET_FIRE_ZONE_TILES 7, 6, 7, 6
+		SET_FIRE_ZONE 56, 48, 63, 55
 		
-		
-		#SET_FIRE_ZONE 56, 48, 63, 55
-		
-		#IF PLAYER_IN_X (56, 63)
-		#	IF PLAYER_IN_Y (48, 55)
-		#		THEN
-		#			SET $WARPED_TO_HERE = 2
-		#			WARP_TO_LEVEL 1, 16, 7, 7, 1
-		#		END
-		#	END
-		#END
-
-		
-		
+		# This blocks us from going anywhere until that crossbow is collected
+		#IF FLAG $CAN_FIRE = 0
+		THEN
+			#SET TILE (7, 4) = 2
+			#SET TILE (8, 8) = 2
+		END
 	END		
 END
 
@@ -479,17 +442,15 @@ PRESS_FIRE AT SCREEN 14
  	IF PLAYER_TOUCHES 7, 6
  	THEN
  		#WARP_TO 16, 5, 8
-		SET $WARPED_TO_HERE = 4		
-		WARP_TO_LEVEL 3, 16, 7, 7, 1
+		SET WARPED_TO_HERE = 2		
+		WARP_TO_LEVEL 1, 16, 7, 7, 1
  	END
-	
-	#SET_FIRE_ZONE 56, 48, 63, 55
 	
 	#Door to island keeper
 	IF PLAYER_TOUCHES 4, 5
 	THEN
-		SET $WARPED_TO_HERE = 3		
-		WARP_TO_LEVEL 1, 18, 7, 7, 1
+		SET WARPED_TO_HERE = 3		
+		WARP_TO_LEVEL 1, 16, 7, 7, 1
 	END
 	
 END
@@ -526,13 +487,13 @@ ENTERING SCREEN 16
 		#cactus		
 		SET TILE (6, 5) = 29 
 		#cactus		
-		SET TILE (12, 3) = 29 
+		SET TILE (13, 3) = 29 
 		#cactus
-		SET TILE (12, 4) = 29 
+		SET TILE (13, 4) = 29 
 		#cactus
-		SET TILE (12, 5) = 29 
+		SET TILE (13, 5) = 29 
 		#cactus
-		SET TILE (12, 6) = 29 
+		SET TILE (13, 6) = 29 
 		#cactus
 	END
 END
@@ -543,6 +504,12 @@ ENTERING SCREEN 17
 	THEN
 
 	END
+	
+	#IF FLAG CAN_FIRE = 0
+	#THEN
+		#SET TILE (14, 4) = 2
+		#SET TILE (14, 5) = 2
+	#END
 END
 
 ENTERING SCREEN 18
@@ -557,26 +524,10 @@ END
 ENTERING SCREEN 19
 	IF TRUE
 	THEN
-		#SET TILE (14, 6) = 21
-		#SET TILE (14, 7) = 21 
+		SET TILE (14, 6) = 21
+		SET TILE (14, 7) = 21 
 		#Vertical Gate
-		
-		
-		#CAVE
-		SET TILE (14, 6) = 32
-		SET_FIRE_ZONE_TILES 14, 6, 14, 6
 	END
-END
-
-PRESS_FIRE AT SCREEN 19
-	#entry to level 1
- 	IF PLAYER_TOUCHES 14, 6
- 	THEN
- 		#WARP_TO 16, 5, 8
-		SET $WARPED_TO_HERE = 1		
-		WARP_TO_LEVEL 1, 16, 7, 7, 1
- 	END
-	
 END
 
 END_OF_LEVEL
@@ -585,32 +536,28 @@ END_OF_LEVEL
 # Level 1
 ################################################
 
-
 ENTERING GAME
-	IF TRUE
-		#from level 0
-		IF $WARPED_TO_HERE = 1
-		THEN
-			SET $WARPED_TO_HERE = 0
-			WARP_TO 16, 1, 6
-			BREAK
-		END
-		#from level 2
-		IF $WARPED_TO_HERE = 2
-		THEN
-			SET $WARPED_TO_HERE = 0
-			WARP_TO 19, 13, 7
-			BREAK			
-		END
-		
-		IF $WARPED_TO_HERE = 3
-		THEN
-			SET $WARPED_TO_HERE = 0
-			WARP_TO 16, 6, 6
-			BREAK
-		END		
+	IF WARPED_TO_HERE = 1
+	THEN
+		SET WARPED_TO_HERE = 0
+		WARP_TO 19, 6, 6
+	END
+			
+	IF WARPED_TO_HERE = 2
+	THEN
+		SET WARPED_TO_HERE = 0
+		WARP_TO 18, 6, 6
+	END
+			
+	IF WARPED_TO_HERE = 3
+	THEN
+		SET WARPED_TO_HERE = 0
+		WARP_TO 17, 6, 6
 	END
 END
+
+
+
 
 ENTERING SCREEN 0
 	IF TRUE
@@ -657,10 +604,7 @@ END
 ENTERING SCREEN 6
 	IF TRUE
 	THEN
-		## need to blockade until you speak to blacksmith
-		## you will need to collect fire flower to ignite the furnace
-		SET TILE (6, 8) = 13
-		SET TILE (7, 8) = 13
+
 	END
 END
 
@@ -688,7 +632,7 @@ END
 ENTERING SCREEN 10
 	IF TRUE
 	THEN
-		SET TILE (6, 2) = 17
+
 	END
 END
 
@@ -733,17 +677,13 @@ ENTERING SCREEN 16
 	THEN
 		#SET_FIRE_ZONE_TILES 0, 6, 0, 7
 		#BRICKS
-		#SET TILE (0,6) = 2
-		#SET TILE (0,7) = 2
+		SET TILE (0,6) = 2
+		SET TILE (0,7) = 2
 		
 		#mushroom
 		SET TILE (7, 6) = 25
-		SET_FIRE_ZONE_TILES 7, 6, 7, 6
-		
-		#warp to level 0
-		#CAVE
-		SET TILE (0, 6) = 32
-		SET_FIRE_ZONE_TILES 0, 6, 0, 6
+		# SET_FIRE_ZONE_TILES 7, 6, 7, 6
+		SET_FIRE_ZONE 56, 48, 63, 55
 		
 	END
 END
@@ -753,12 +693,6 @@ PRESS_FIRE AT SCREEN 16
 	#magic mushroom
 	IF PLAYER_TOUCHES 7, 6
 	THEN
-		WARP_TO_LEVEL 0, 19, 13, 6, 1		
-	END
-	
-	IF PLAYER_TOUCHES 0, 6
-	THEN
-		SET $WARPED_TO_HERE = 1
 		WARP_TO_LEVEL 0, 19, 13, 6, 1		
 	END	
 END
@@ -780,19 +714,8 @@ END
 ENTERING SCREEN 19
 	IF TRUE
 	THEN
-		#warp to level 2
-		SET TILE (14, 7) = 32
-		SET_FIRE_ZONE_TILES 14, 7, 14, 7
-	END
-END
 
-PRESS_FIRE AT SCREEN 19
-	
-	IF PLAYER_TOUCHES 14, 7
-	THEN
-		SET $WARPED_TO_HERE = 1
-		WARP_TO_LEVEL 2, 16, 13, 6, 1
-	END	
+	END
 END
 
 END_OF_LEVEL 
@@ -803,12 +726,7 @@ END_OF_LEVEL
 ENTERING GAME
 	IF TRUE
 	THEN
-		IF $WARPED_TO_HERE = 1
-		THEN
-			SET $WARPED_TO_HERE = 0
-			WARP_TO 16, 1, 7
-			BREAK
-		END
+	
 	END
 END
 
@@ -817,27 +735,6 @@ ENTERING SCREEN 0
 	THEN
 
 	END
-END
-
-#entryway to level
-ENTERING SCREEN 16
-	IF TRUE
-	THEN
-
-		#warp to level 1
-		SET TILE (0, 7) = 2
-		SET_FIRE_ZONE_TILES 0, 7, 0, 7
-		
-	END
-END
-
-PRESS_FIRE AT SCREEN 16
-	
-	IF PLAYER_TOUCHES 0, 7
-	THEN
-		SET $WARPED_TO_HERE = 2
-		WARP_TO_LEVEL 1, 19, 13, 6, 1
-	END	
 END
 
 END_OF_LEVEL 
@@ -846,37 +743,9 @@ END_OF_LEVEL
 ################################################
 # Level 3
 ################################################
-
 ENTERING GAME
-	IF TRUE 
-	THEN
-		IF $WARPED_TO_HERE = 4 #from level 0
-		THEN
-			SET $WARPED_TO_HERE = 0
-			WARP_TO 16, 6, 8
-			BREAK
-		END
-	END
-END
-
-ENTERING SCREEN 0	
 	IF TRUE
-	THEN
-
-	END
-END
-
-ENTERING SCREEN 1	
-	IF TRUE
-	THEN
-
-	END
-END
-
-ENTERING SCREEN 16	
-	IF TRUE
-	THEN
-
+	THEN	
 	END
 END
 
