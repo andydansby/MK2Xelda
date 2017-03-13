@@ -22,7 +22,8 @@
 // This contains the level data for current level. Not really needed, but
 // this is here because of legacy support of 128K full-contained levels like
 // those found in Goku Mal.
-typedef struct {
+typedef struct 
+{
 	unsigned char map_w, map_h;
 	unsigned char scr_ini, ini_x, ini_y;
 	unsigned char max_objs;
@@ -38,22 +39,26 @@ typedef struct {
 	unsigned char d09;
 } LEVELHEADER;
 
-typedef struct {
+typedef struct 
+{
     unsigned char np, x, y, st;
 } BOLTS;
 
-typedef struct {
+typedef struct 
+{
 	int x, y;
 	unsigned char x1, y1, x2, y2;
 	char mx, my;
 	unsigned char t, life;
 } BADDIE;
 
-typedef struct {
+typedef struct 
+{
 	unsigned char xy, tipo, act;
 } HOTSPOT;
 
-typedef struct {
+typedef struct 
+{
 #ifdef EXTENDED_LEVELS
 	unsigned char map_res;
 	unsigned char bolts_res;
@@ -130,7 +135,8 @@ extern unsigned char behs [0];
 
 // Level struct
 #ifdef EXTENDED_LEVELS
-LEVEL levels [] = {
+LEVEL levels [] = 
+{
 	// Fase 0: Intro.
 	{MAP5C_BIN, BOLTS5C_BIN, TS5C_BIN, SS0C_BIN, ENEMS5C_BIN, HOTSPOTS5C_BIN, BEHS5C_BIN, 0,
 	 8, 7, 7, 99, 7, 3, 99, 1, 2, SENG_JUMP, 0,
@@ -241,14 +247,50 @@ unsigned char level_sequence [] = {
 
 #else
 
-LEVEL levels [] = {
-	/*
+/*
+LEVEL levels [] = 
+{
+	
+	//{3, 0, SCRIPT_INIT + SCRIPT_0},
+	//{4, 4, SCRIPT_INIT + SCRIPT_1},
+	//{5, 5, SCRIPT_INIT + SCRIPT_2}
+	
+	//{3, 0, SCRIPT_INIT + SCRIPT_0}	
+};
+#endif
+*/
+
+/*
+LEVEL levels [] = 
+{
 	{3, 0, SCRIPT_INIT + SCRIPT_0},
 	{4, 4, SCRIPT_INIT + SCRIPT_1},
-	{5, 5, SCRIPT_INIT + SCRIPT_2}
-	*/
-	
-	{3, 0, SCRIPT_INIT + SCRIPT_0}	
+	{5, 5, SCRIPT_INIT + SCRIPT_2},
+	{7, 5, SCRIPT_INIT + SCRIPT_3},
+	{6, 5, SCRIPT_INIT + SCRIPT_4},
+	{8, 5, SCRIPT_INIT + SCRIPT_5},
+	{9, 5, SCRIPT_INIT + SCRIPT_6},
+	{10, 5, SCRIPT_INIT + SCRIPT_7},
+	{11, 5, SCRIPT_INIT + SCRIPT_8},
+	{12, 5, SCRIPT_INIT + SCRIPT_9},
+	{13, 5, SCRIPT_INIT + SCRIPT_10}	
+};
+#endif*/
+
+
+LEVEL levels [] = 
+{
+	{3, 0, SCRIPT_INIT + SCRIPT_0},
+	{4, 4, SCRIPT_INIT + SCRIPT_1},
+	{5, 5, SCRIPT_INIT + SCRIPT_2},
+	{6, 5, SCRIPT_INIT + SCRIPT_3},
+	{7, 5, SCRIPT_INIT + SCRIPT_4},
+	{8, 5, SCRIPT_INIT + SCRIPT_5},
+	{9, 5, SCRIPT_INIT + SCRIPT_6},
+	{10, 5, SCRIPT_INIT + SCRIPT_7},
+	{11, 5, SCRIPT_INIT + SCRIPT_8},
+	{12, 5, SCRIPT_INIT + SCRIPT_9},
+	{13, 5, SCRIPT_INIT + SCRIPT_10}	
 };
 #endif
 
@@ -264,5 +306,5 @@ LEVEL levels [] = {
 
 // The first number is the number of resource librarian that contains the bundle 
 // of the level that is. As you can see, we started at 3. 
-// The second number is the number of the music within the OGT that should sound fondow. 
+// The second number is the number of the music within the OGT that should sound or play. 
 // Finally, we have the expression that calculates where the concrete script to start for each phase begins.

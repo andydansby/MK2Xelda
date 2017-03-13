@@ -4,9 +4,9 @@
 // config.h
 // game engine configuration & behaviour
 
-// ============================================================================
+// ===================================
 // I. General configuration
-// ============================================================================
+// ===================================
 
 // 128K support
 #define MODE_128K 						// 128K mode.
@@ -26,17 +26,17 @@
 #define MAP_W					4		//
 #define MAP_H					5		// Map dimmensions in screens
 //#define ENABLE_CUSTOM_CONNECTIONS 	// Custom connections array. MAP_W/MAP_H just define how many screens
-#define SCR_INICIO				14		//  Initial screen
-#define PLAYER_INI_X			3		//
-#define PLAYER_INI_Y			8		// Initial tile coordinates
+#define SCR_INICIO				99		//  Initial screen
+#define PLAYER_INI_X			99		//
+#define PLAYER_INI_Y			99		// Initial tile coordinates
 #define SCR_FIN 				99		// Last screen. 99 = deactivated.
 #define PLAYER_FIN_X			99		//
 #define PLAYER_FIN_Y			99		// Player tile coordinates to finish game
 #define PLAYER_NUM_OBJETOS		99		// Objects to get to finish game
-#define PLAYER_LIFE 			6	//5	// Max and starting life gauge.
+#define PLAYER_LIFE 			9	//5	// Max and starting life gauge.
 //#define DONT_LIMIT_LIFE				// If defined, no upper limit to life gauge.
 #define PLAYER_REFILL			1		// Life recharge
-#define MAX_LEVELS				1		// # of compressed levels
+#define MAX_LEVELS				10		// # of compressed levels
 //#define REFILL_ME 					// If defined, refill player on each level
 #define WIN_CONDITION			2		// 0 = objects collected, 1 = screen 'N', 2 = scripting, 3 = SIM
 
@@ -89,7 +89,7 @@
 //#define PLAYER_CHECK_MAP_BOUNDARIES	// If defined, you can't exit the map.
 //#define PLAYER_CANNOT_FLICK_SCREEN	// If defined, automatic screen flicking is disabled.
 //#define PLAYER_WRAP_AROUND			// If defined, wrap-around. Needs PLAYER_CANNOT_FLICK_SCREEN
-#define DIRECT_TO_PLAY					// If defined, title screen is also the game frame.
+//#define DIRECT_TO_PLAY					// If defined, title screen is also the game frame.
 #define DEACTIVATE_KEYS 				// If defined, keys are not present.
 #define DEACTIVATE_OBJECTS				// If defined, objects are not present.
 //#define ONLY_ONE_OBJECT				// If defined, only one object can be carried at a time.
@@ -150,12 +150,12 @@
 #define COCO_SPEED_9			8		// pixels per frame
 */
 
-//#define ENABLE_DROPS					// Enemy type 9 = drops
-//#define ENABLE_ARROWS					// Enemy type 10 = arrows
+#define ENABLE_DROPS					// Enemy type 9 = drops
+#define ENABLE_ARROWS					// Enemy type 10 = arrows
 
 // if this is disabled, you cannot compile
 //#define USE_TWO_BUTTONS 				// Alternate keyboard scheme for two-buttons games
-#define USE_ONE_BUTTONS					//ATTENTION Added
+//#define USE_ONE_BUTTON					//ATTENTION Added
 
 //#define USE_HOTSPOTS_TYPE_3 			// Alternate logic for recharges.
 //#define TILE_GET				22		// If defined, player can "get" tile #
@@ -196,7 +196,7 @@
 // ----------------------------
 #define PLAYER_CAN_FIRE 				// If defined, shooting engine is enabled.
 #define CAN_FIRE_UP					// If defined, player can fire upwards and diagonal.
-#define PLAYER_CAN_FIRE_FLAG	2		// If defined, player can only fire when flag # is 1
+//#define PLAYER_CAN_FIRE_FLAG	2		// If defined, player can only fire when flag # is 1
 //#define PLAYER_CAN_FIRE_INV		45		// If defined, player con only fire if item # is selected!
 #define PLAYER_BULLET_SPEED 	4		// Pixels/frame.
 #define MAX_BULLETS 			1		// Max number of bullets on screen. Be careful!.
@@ -255,10 +255,16 @@
 #define ACTIVATE_SCRIPTING			// Activates msc scripting and flag related stuff.
 #define SCRIPT_PAGE		3			// Which RAM page holds the script (128)
 //#define CLEAR_FLAGS				// If defined, clear flags each level/beginning.
+
+//#############################
+//DOES NOT COMPILE IF ALL COMMENTED
 //#define SCRIPTING_DOWN			// Use DOWN as the action key.
 //#define SCRIPTING_KEY_M			// Use M as the action key instead.
 #define SCRIPTING_KEY_FIRE			// User FIRE as the action key instead.
-//#define ENABLE_EXTERN_CODE			// Enables custom code to be run from the script using EXTERN n
+//DOES NOT COMPILE IF ALL COMMENTED
+//#############################
+
+//#define ENABLE_EXTERN_CODE		// Enables custom code to be run from the script using EXTERN n
 //#define EXTERN_E					// Uncomment this as well if you use EXTERN_E in your script
 #define ENABLE_FIRE_ZONE			// Allows to define a zone which auto-triggers "FIRE"
 
@@ -349,7 +355,7 @@
 // Top view:
 // ---------
 #define PLAYER_MOGGY_STYLE				// Enable top view.
-//#define TOP_OVER_SIDE 				// UP/DOWN has priority over LEFT/RIGHT
+#define TOP_OVER_SIDE 				// UP/DOWN has priority over LEFT/RIGHT
 
 // Side view:
 // ----------
@@ -382,31 +388,31 @@
 #define VIEWPORT_Y				2		// Viewport character coordinates
 #define LIFE_X					4		//
 #define LIFE_Y					0		// Life gauge counter character coordinates
-#define OBJECTS_X				99		//
-#define OBJECTS_Y				99		// Objects counter character coordinates
-#define OBJECTS_ICON_X			99		//
-#define OBJECTS_ICON_Y			99		// Objects icon character coordinates (use with ONLY_ONE_OBJECT)
-#define KEYS_X					99		//
-#define KEYS_Y					99		// Keys counter character coordinates
-#define KILLED_X				99		//
-#define KILLED_Y				99		// Kills counter character coordinates
+//#define OBJECTS_X				99		//
+//#define OBJECTS_Y				99		// Objects counter character coordinates
+//#define OBJECTS_ICON_X			99		//
+//#define OBJECTS_ICON_Y			99		// Objects icon character coordinates (use with ONLY_ONE_OBJECT)
+//#define KEYS_X					99		//
+//#define KEYS_Y					99		// Keys counter character coordinates
+//#define KILLED_X				99		//
+//#define KILLED_Y				99		// Kills counter character coordinates
 //#define PLAYER_SHOW_KILLS 			// If defined, show kill counter.
 //#define AMMO_X					14		//
 //#define AMMO_Y					0		// Ammo counter character coordinates
 //#define TIMER_X 				9		//
 //#define TIMER_Y 				0		// Timer counter coordinates
-#define PLAYER_SHOW_TIMER 				// If defined, show timer counter
-#define FLAG_X					99		//
-#define FLAG_Y					99		// Custom flag character coordinates
+//#define PLAYER_SHOW_TIMER 				// If defined, show timer counter
+//#define FLAG_X					99		//
+//#define FLAG_Y					99		// Custom flag character coordinates
 //#define PLAYER_SHOW_FLAG		1		// If defined, show flag #
 //#define FUEL_X					99		//
 //#define FUEL_Y					99		// Fuel counter in bla bla bla
 //#define PLAYER_SHOW_FUEL				// If defined, show fuel counter.
 
 // Text
-//#define LINE_OF_TEXT			1		// If defined, scripts can show text @ Y = #
-//#define LINE_OF_TEXT_X		1		// X coordinate.
-//#define LINE_OF_TEXT_ATTR 	71		// Attribute
+#define LINE_OF_TEXT			1		// If defined, scripts can show text @ Y = #
+#define LINE_OF_TEXT_X		10		// X coordinate.
+#define LINE_OF_TEXT_ATTR 	71		// Attribute
 
 // Graphic FX, uncomment which applies...
 //#define USE_AUTO_SHADOWS				// Automatic shadows made of darker attributes

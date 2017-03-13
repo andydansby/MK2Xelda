@@ -272,10 +272,14 @@ void run_fire_script (void);
 int key_jump, key_fire;
 #endif
 
+
 //ATTENTION ADDED
-#ifdef USE_ONE_BUTTONS
+int key_fire;
+/*
+#ifdef USE_ONE_BUTTON
 int key_fire;
 #endif
+*/
 
 #ifdef MODE_128K
 void blackout_area (void);

@@ -144,6 +144,17 @@ void run_script (unsigned char whichs) {
                         sc_n = read_vbyte ();
                         update_tile (sc_x, sc_y, behs [sc_n], sc_n);
                         break;
+                    case 0x69:
+                        // WARP_TO_LEVEL
+                        // Opcode: 69 l n_pant x y silent
+                        warp_to_level = read_vbyte ();
+                        n_pant = read_vbyte ();
+                        o_pant = 99;
+                        reloc_player ();
+                        silent_level = read_vbyte ();
+                        sc_terminado = 1;
+                        script_result = 3;
+                        return;
                     case 0x6D:
                         // WARP_TO sc_n
                         // Opcode: 6D sc_n
@@ -152,6 +163,17 @@ void run_script (unsigned char whichs) {
                         reloc_player ();
                         sc_terminado = 1;
                         return;
+                    case 0xF2:
+                        // BREAK
+                        sc_terminado = 1;
+                        return;
+                    case 0xF4:
+                        // DECORATIONS
+                        while (0xff != (sc_x = read_byte ())) {
+                            sc_n = read_byte ();
+                            update_tile (sc_x >> 4, sc_x & 15, behs [sc_n], sc_n);
+                        }
+                        break;
                     case 0xFF:
                         sc_terminado = 1;
                         break;

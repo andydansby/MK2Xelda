@@ -41,6 +41,7 @@ unsigned char *behs = (unsigned char *) (BEHAVIOURS);
 
 extern unsigned char *level1c;
 extern unsigned char *level2c;
+extern unsigned char *level3c;//added
 extern unsigned char *tileset1c;
 extern unsigned char *tileset2c;
 
@@ -56,7 +57,7 @@ typedef struct {
 LEVELTYPE levelset [MAX_LEVELS] = {
 	{level1c, tileset1c, 0, 12, 16, 4, 5, 0},
 	{level2c, tileset2c, 0, 12, 0, 1, 5, 0}
-};
+};//added {level3c, tileset3c, 0, 12, 0, 1, 5, 0}
 
 #asm
 	._level1c

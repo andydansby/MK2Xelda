@@ -17,12 +17,34 @@ cd ..\levels
 call buildlevels.bat
 cd ..\dev
 
-REM pause
+rem pause
 
 
+rem but for 48K/single level games... 
+rem echo ### MAKING MAPS ###
 
+rem the "Force" parameter is to force 16 tiles maps even if the actual map data
+rem has more tan 16 tiles. Extra tiles are written to extra.spt. Me have to move
+rem that file to the script folder.
+
+REM this was commented out before
+rem ..\utils\map2bin.exe ..\map\mapa.map 4 4 99 map.bin bolts.bin force
+rem move map.bin.spt ..\script
+
+REM this was commented out before
+REM echo ### MAKING ENEMS ###
+REM ..\utils\ene2bin.exe 4 4 1 ..\enems\enems.ene enems.bin hotspots.bin
+
+REM this was commented out before
+REM echo ### MAKING TILESET ###
+REM ..\utils\ts2bin.exe ..\gfx\font.png ..\gfx\work.png ts.bin
+
+REM this was commented out before
+REM echo ### MAKING SPRITESET ###
+REM ..\utils\sprcnv.exe ..\gfx\sprites.png sprites.h
 
 rem If you use arrows and/or drops this will make the sprites binary:
+
 ..\utils\spg2bin.exe ..\gfx\drop.png spdrop.bin
 ..\utils\spg2bin.exe ..\gfx\arrow.png sparrow.bin
 
@@ -55,9 +77,8 @@ rem i.e. "msc3.exe ninjajar.spt 21 rampage
 echo ### MAKING SCRIPT ###
 cd ..\script
 echo ..\utils\msc3.exe %game%.spt 20 rampage
+rem ..\utils\msc3.exe %game%.spt 20 rampage
 ..\utils\msc3.exe %game%.spt 20 rampage
-
-
 
 
 rem If scripts and texts are going to share the same RAM page, use this line
@@ -169,17 +190,12 @@ echo ### MAKING TAPS ###
 ..\utils\bas2tap -a10 -sFINAL loader\loader.bas loader.tap
 ..\utils\bin2tap -o loading.tap -a 16384 loading.bin
 ..\utils\bin2tap -o reubica.tap -a 25000 loader\reubica.bin
-
 ..\utils\bin2tap -o ram1.tap -a 32768 ram1.bin
 ..\utils\bin2tap -o ram3.tap -a 32768 ram3.bin
-..\utils\bin2tap -o ram4.tap -a 32768 ram4.bin
-
 ..\utils\bin2tap -o main.tap -a 24200 %game%.bin
+copy /b loader.tap + loading.tap + reubica.tap + ram1.tap + ram3.tap + main.tap %game%.tap
 
-copy /b loader.tap + loading.tap + reubica.tap + ram1.tap + ram3.tap + ram4.tap + main.tap %game%.tap
-REM copy /b loader.tap + loading.tap + reubica.tap + ram1.tap + ram3.tap +  main.tap %game%.tap
-
-echo ### CLEANING ###
+echo ### LIMPIANDO ###
 del loader.tap
 del main.tap
 del loading.tap
@@ -188,7 +204,6 @@ del ram1.tap
 del ram1.bin
 del ram3.tap
 del ram3.bin
-del ram4.tap
 del ram4.bin
 del ram6.bin
 del ram7.bin
