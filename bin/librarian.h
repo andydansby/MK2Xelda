@@ -8,20 +8,23 @@ typedef struct {
 } RESOURCE;
  
 RESOURCE resources [] = {
-   {3, 51114},   // 0: title.bin
-   {3, 53764},   // 1: marco.bin
-   {3, 53964},   // 2: ending.bin
-   {3, 56648},   // 3: level0c.bin
-   {3, 59291},   // 4: level1c.bin
-   {3, 62065},   // 5: level2c.bin
-   {4, 49152},   // 6: level3c.bin
-   {4, 51418},   // 7: level4c.bin
-   {4, 51418},   // 8: level5c.bin
-   {4, 51418},   // 9: level6c.bin
-   {4, 51418},   // 10: level7c.bin
-   {4, 51418},   // 11: level8c.bin
-   {4, 51418},   // 12: level9c.bin
-   {4, 51418}    // 13: level10c.bin
+   {4, 49152},   // 0: title.bin
+   {4, 51160},   // 1: marco.bin
+   {4, 51345},   // 2: ending.bin
+   {4, 52652},   // 3: level0c.bin
+   {4, 55855},   // 4: level1c.bin
+   {4, 59178},   // 5: level2c.bin
+   {4, 62357},   // 6: level3c.bin
+   {6, 49152},   // 7: level4c.bin
+   {6, 52253},   // 8: level5c.bin
+   {6, 55252},   // 9: level6c.bin
+   {6, 58243},   // 10: level7c.bin
+   {6, 61137},   // 11: level8c.bin
+   {7, 49152},   // 12: level9c.bin
+   {7, 51318},   // 13: level10c.bin
+   {7, 54187},   // 14: level11c.bin
+   {7, 57100},   // 15: level12c.bin
+   {7, 60023}    // 16: texts.bin
 };
  
 void get_resource (unsigned char res, unsigned int dest) {
@@ -43,3 +46,6 @@ void get_resource (unsigned char res, unsigned int dest) {
 #define LEVEL8C_BIN         	11
 #define LEVEL9C_BIN         	12
 #define LEVEL10C_BIN        	13
+#define LEVEL11C_BIN        	14
+#define LEVEL12C_BIN        	15
+#define TEXTS_BIN           	16
