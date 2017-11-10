@@ -136,13 +136,25 @@ void __FASTCALL__ draw_scr (void) {
 	
 #ifdef SHOW_LEVEL_ON_SCREEN
 		blackout_area ();
-		print_str (12, 12, 71, "LEVEL");
-		print_number2 (18, 12, n_pant + 1);
+		//print_str (12, 12, 71, "LEVEL");
+		//print_number2 (18, 12, n_pant + 1);
 		sp_UpdateNow ();
-		espera_activa (500);
+		espera_activa (100);
 #endif
 
 		draw_scr_background ();
+		
+	//added for lighting modification?
+	if (lit == 0)	
+	{
+		*((unsigned char *) (24999)) = 0;
+	}
+	if (lit == 1)	
+	{
+		*((unsigned char *) (24999)) = 1;
+	}
+	
+	
 	}
 
 #ifdef ENABLE_FIRE_ZONE
@@ -189,6 +201,14 @@ void __FASTCALL__ draw_scr (void) {
 #ifdef ENABLE_SHOOTERS
 	init_cocos ();
 #endif
+
+
+
+
+
+
+
+
 
 #ifdef PLAYER_CHECK_MAP_BOUNDARIES
 #ifdef MODE_128K
