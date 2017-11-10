@@ -12,6 +12,7 @@
 		p_disparando = 1;
 #ifdef PLAYER_HAZ_SWORD		
 		p_up = ((gpit & sp_UP) == 0);
+		p_down = ((gpit & sp_DOWN) == 0);//added
 #endif		
 		if (0 == hitter_on) {
 			hitter_hit = 0;
