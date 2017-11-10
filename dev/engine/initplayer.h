@@ -5,13 +5,13 @@
 // Player initialization
 
 void init_player (void) {
-	// Inicializa player con los valores iniciales
-	// (de ahí lo de inicializar).
+	// Initializes player with initial values
+	// (Hence the initialize).
 
 #ifndef COMPRESSED_LEVELS
 #if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
 	p_x = PLAYER_INI_X << 4;
-	p_y = PLAYER_INI_Y << 4;;
+	p_y = PLAYER_INI_Y << 4;
 #else
 	p_x = PLAYER_INI_X << 10;
 	p_y = PLAYER_INI_Y << 10;

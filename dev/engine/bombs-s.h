@@ -67,7 +67,7 @@ void bomb_run (void) {
 				bomb_state = 2;
 				// Paint explosions!
 				bomb_racime (CMD_EXPLODE);
-				_AY_PL_SND (17);
+				_AY_PL_SND (7);
 			}
 			break;
 		case 2:
@@ -83,7 +83,7 @@ void bomb_run (void) {
 				// W/player-> here
 				if (gpx + 15 >= bomb_px && gpx <= bomb_px + 47 &&
 					gpy + 15 >= bomb_py && gpy <= bomb_py + 47) {
-					kill_player (13);
+					kill_player (6);
 				}
 				// W/enemies-> enems.h
 			}

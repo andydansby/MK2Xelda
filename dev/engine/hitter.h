@@ -4,112 +4,104 @@
 // hitter_h
 // Hitter (punch/sword/whip) helper functions
 
-#ifdef PLAYER_CAN_PUNCH
-	//								H   H   H
-	unsigned char hoffs_x [] = {12, 14, 16, 16, 12};
-	#define HITTER_MAX_FRAME 5
-#endif
 #ifdef PLAYER_HAZ_SWORD
 	//                                     H   H   H   H
-	unsigned char hoffs_x [] = {8, 10, 12, 14, 15, 15, 14, 13, 10};
-	unsigned char hoffs_y [] = {2,  2,  2, 3,  4,  4,  5,  6,  7};
-	#define HITTER_MAX_FRAME 9
-#endif
-#ifdef PLAYER_HAZ_WHIP
-	//                          H  H   H
-	unsigned char hoffs_x [] = {8, 16, 16, 12, 8,  4, 0};
-	unsigned char hoffs_y [] = {4, 4,  4,  6,  8, 10, 12};
-	#define HITTER_MAX_FRAME 7
+	//unsigned char hoffs_x [] = {10, 12, 14, 15, 15, 14, 13, 10};
+	unsigned char hoffs_x [] = {10, 12, 14, 15, 15, 14, 12, 10};
+	unsigned char hoffs_y [] = {4 ,  4,  4,  4,  4,  4,  4,  4};
+	//unsigned char hoffs_y [] = {4 ,  4,  4,  4,  4,  4,  4,  4};
+	//unsigned char hoffs_y [] = {2,  2,  2, 3,  4,  4,  5,  6,  7};//sword wiggle
+	#define HITTER_MAX_FRAME 8
 #endif
 
 void __FASTCALL__ render_hitter (void) {
-#if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
-	gpy = p_y;
-	gpx = p_x;
-#else
+	
 	gpy = (p_y >> 6);
 	gpx = (p_x >> 6);
-#endif
-
-// Punching main code
-
-#ifdef PLAYER_CAN_PUNCH
-	hitter_y = gpy + 6;
-	if (p_facing) {
-		hitter_x = gpx + hoffs_x [hitter_frame];
-		hitter_next_frame = sprite_20_a;
-#if (defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)) && defined (HITTER_BREAKS_WALLS)
-		gpxx = (hitter_x + 7) >> 4; gpyy = (hitter_y + 3) >> 4;
-#endif
-	} else {
-		hitter_x = gpx + 8 - hoffs_x [hitter_frame];
-		hitter_next_frame = sprite_21_a;
-#if (defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)) && defined (HITTER_BREAKS_WALLS)
-		gpxx = (hitter_x) >> 4; gpyy = (hitter_y + 3) >> 4;
-#endif
-	}
-#if (defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)) && defined (HITTER_BREAKS_WALLS)
-	if (hitter_frame >= 1 && hitter_frame <= 3)
-		break_wall (gpxx, gpyy);
-#endif		
-#endif
 
 // Sword main code
 
 #ifdef PLAYER_HAZ_SWORD
-	if (p_up) {
-		hitter_x = gpx + hoffs_y [hitter_frame];
-		hitter_y = gpy + 6 - hoffs_x [hitter_frame];
-		hitter_next_frame = sprite_sword_u;
-#if (defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)) && defined (HITTER_BREAKS_WALLS)
-		gpxx = (hitter_x + 4) >> 4; gpyy = (hitter_y) >> 4;
-#endif		
-	} else {
-		hitter_y = gpy + hoffs_y [hitter_frame];
-#if (defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)) && defined (HITTER_BREAKS_WALLS)
-		gpyy = (hitter_y + 4) >> 4;
-#endif
-		if (p_facing) {
-			hitter_x = gpx + hoffs_x [hitter_frame];
-			hitter_next_frame = sprite_sword_r;
-#if (defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)) && defined (HITTER_BREAKS_WALLS)
-			gpxx = (hitter_x + 7) >> 4; 
-#endif
-		} else {
-			hitter_x = gpx + 8 - hoffs_x [hitter_frame];
-			hitter_next_frame = sprite_sword_l;
-#if (defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)) && defined (HITTER_BREAKS_WALLS)
-			gpxx = (hitter_x) >> 4; 
-#endif			
-		}
+
+	//works ok
+	if (p_facing == FACING_UP) 
+	{		
+		//gpy = (p_y >> 6);
+		//gpx = (p_x >> 6);
+		
+		hitter_x = 3 + gpx;
+		//how the sprite travels width from character		
+		hitter_y = (gpy + 1) - hoffs_x[hitter_frame];
+		//hitter_y = gpy - 1 - hoffs_x[hitter_frame];
+		//how the sprite travels height from character		
+		hitter_next_frame = sprite_sword_u;//which sprite to use
+
+		gpxx = (hitter_x + 4) >> 4;
+		gpyy = (hitter_y) >> 4;
 	}
+
+
+	//works ok
+	if (p_facing == FACING_DOWN) 
+	{
+		//gpy = (p_y >> 6);
+		//gpx = (p_x >> 6);
+		
+		hitter_x = 3 + gpx;// + hoffs_x[hitter_frame];
+		//how the sprite travels width from character
+		hitter_y = gpy + 6 + hoffs_x[hitter_frame];
+		//how the sprite travels height from character
+		hitter_next_frame = sprite_sword_d;//which sprite to use
+		
+		gpxx = (hitter_x + 4) >> 4;		
+		gpyy = (hitter_y) >> 4;
+	}
+
+	//works ok
+	if (p_facing == FACING_LEFT) 
+	{
+		//gpy = (p_y >> 6);
+		//gpx = (p_x >> 6);	
+	
+		hitter_x = 6 + gpx - hoffs_x [hitter_frame];
+		//how the sprite travels width from character
+		
+		hitter_y = (gpy + 4) + hoffs_y [hitter_frame];
+		//how the sprite travels height from character
+		
+		hitter_next_frame = sprite_sword_l;//which sprite to use
+		
+		gpxx = (hitter_x - 6) >> 4; //gpxx = (hitter_x - 7) >> 4; 
+		gpyy = (hitter_y) >> 4;
+	}
+
+	//works ok
+	if (p_facing == FACING_RIGHT) 
+	{
+		//gpy = (p_y >> 6);
+		//gpx = (p_x >> 6);
+		
+		hitter_x = 6 + gpx + hoffs_x [hitter_frame];		
+		//how the sprite travels width from character
+		
+		hitter_y = (gpy + 4) + hoffs_y [hitter_frame];
+		//how the sprite travels height from character
+		
+		hitter_next_frame = sprite_sword_r;		
+		
+		gpxx = (hitter_x + 5) >> 4;//gpxx = (hitter_x + 7) >> 4;
+		gpyy = (hitter_y) >> 4;
+	}
+
+	
+		//print_number2(1,1,gpx);		
+		//p_x hex, cannot determine pattern
+		//gpx = 00 to 255? getts odd after 99
+
+		
 #if defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)
-	if (hitter_frame > 2 && hitter_frame < 7)
+	if (hitter_frame > 0 && hitter_frame < 7)
 		break_wall (gpxx, gpyy);
-#endif
-#endif
-
-// Whippo main code
-
-#ifdef PLAYER_HAZ_WHIP
-	hitter_y = gpy + hoffs_y [hitter_frame];
-#if (defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)) && defined (HITTER_BREAKS_WALLS)
-	gpyy = (hitter_y + 3) >> 4;
-#endif
-	if (p_facing) {
-		hitter_x = gpx + hoffs_x [hitter_frame];
-#if (defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)) && defined (HITTER_BREAKS_WALLS)
-		gpxx = (hitter_x + 15) >> 4; 
-#endif
-	} else {
-		hitter_x = gpx - hoffs_x [hitter_frame];
-#if (defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)) && defined (HITTER_BREAKS_WALLS)
-		gpxx = (hitter_x) >> 4; 
-#endif			
-	}
-#if (defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)) && defined (HITTER_BREAKS_WALLS)
-if (hitter_frame < 3)
-	break_wall (gpxx, gpyy);
 #endif
 #endif
 

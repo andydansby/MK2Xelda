@@ -35,7 +35,7 @@ void process_breakable () {
 		if (breaking_f [brkit]) {
 			if (! --breaking_f [brkit]) {
 #ifdef MODE_128K
-				_AY_PL_SND (17);
+				_AY_PL_SND (7);
 #endif
 				wall_broken (breaking_x [brkit], breaking_y [brkit]);
 			} else {
@@ -64,7 +64,7 @@ void break_wall (unsigned char x, unsigned char y) {
 #endif
 	
 #ifdef MODE_128K
-		_AY_PL_SND (14);
+		_AY_PL_SND (7);
 #else
 		peta_el_beeper (7);
 #endif

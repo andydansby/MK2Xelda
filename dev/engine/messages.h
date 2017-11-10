@@ -26,6 +26,9 @@ void game_ending (void) {
 	} while (--bs);
 	peta_el_beeper (9);
 #endif
+	
+	
+
 }
 
 void game_over (void) {

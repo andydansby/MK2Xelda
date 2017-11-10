@@ -81,7 +81,10 @@ void mueve_bicharracos (void) {
 #endif
 #ifdef ENABLE_PURSUERS
 			case 3:			// pursuers
-				#include "engine/enemmods/move_pursuers.h"
+				//#include "engine/enemmods/move_pursuers.h"
+				//C:\z88dk10\Xelda\Xelda game\dev\engine\enemmods
+				//#include "engine/enemmods/move_pursuers.h"
+				#include "engine/enemmods/move_pursuer.h"
 				break;
 #endif
 #ifdef ENABLE_DROPS
@@ -219,14 +222,15 @@ void mueve_bicharracos (void) {
 #if defined(SLOW_DRAIN) && defined(PLAYER_BOUNCES)
 					if ((lasttimehit == 0) || ((maincounter & 3) == 0)) {
 #ifdef MODE_128K
-						kill_player (13);
+						kill_player (7);
 #else
 						kill_player (4);
 #endif
 					}
 #else
 #ifdef MODE_128K
-					kill_player (13);
+					kill_player (6);
+					//sound player makes when gets hit//6
 #else
 					kill_player (4);
 #endif

@@ -131,7 +131,7 @@ void fire_bullet (void) {
 #endif			
 #endif
 #ifdef MODE_128K
-			_AY_PL_SND (12);
+			_AY_PL_SND (7);
 #else
 			peta_el_beeper (6);
 #endif

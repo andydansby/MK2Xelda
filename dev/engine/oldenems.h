@@ -104,21 +104,25 @@ char player_hidden (void) {
 }
 #endif
 
+//next we will try to convert the #ifdef WALLS_STOP_ENEMIES to
+// (if wall_stopping = 1) {}
 #ifdef WALLS_STOP_ENEMIES
 unsigned char __FASTCALL__ mons_col_sc_x (void) {
 	gpaux = gpen_xx + (baddies [enoffsmasi].mx > 0);
-#ifdef EVERYTHING_IS_A_WALL
+/*#ifdef EVERYTHING_IS_A_WALL
 	return (attr (gpaux, gpen_yy) || ((baddies [enoffsmasi].y & 15) && attr (gpaux, gpen_yy + 1)));
-#else
+#else*/
 	return (attr (gpaux, gpen_yy) & 8 || ((baddies [enoffsmasi].y & 15) && attr (gpaux, gpen_yy + 1) & 8));
 #endif
 }
 
 unsigned char __FASTCALL__ mons_col_sc_y (void) {
 	gpaux = gpen_yy + (baddies [enoffsmasi].my > 0);
-#ifdef EVERYTHING_IS_A_WALL
+	
+/*#ifdef EVERYTHING_IS_A_WALL
 	return (attr (gpen_xx, gpaux) || ((baddies [enoffsmasi].x & 15) && attr (gpen_xx + 1, gpaux)));
-#else
+#else*/
+	
 	return (attr (gpen_xx, gpaux) & 8 || ((baddies [enoffsmasi].x & 15) && attr (gpen_xx + 1, gpaux) & 8));
 #endif
 }
