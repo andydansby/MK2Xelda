@@ -1,0 +1,4 @@
+PLAYER_HAS_ITEM
+PLAYER_HASN'T_ITEM
+SEL_ITEM
+Case "<>", "!=":

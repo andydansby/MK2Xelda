@@ -1,0 +1,32 @@
+GAME BUGS
+
+TALKING TO BOOM BETTY BEFORE FINDING BOULDER, YOU CAN COLLECT DYNOMITE BEFORE COLLECTING STAFF.		fixed?
+
+GATES ARE OPEN ON LEVELS 6 BEFORE YOU COLLECT STAFF		fixed?
+
+AFTER YOU  GO INTO LEVEL 7 ALL MONSTERS WILL WALK THRU WALLS	fixed?
+
+
+Keyboard controls CRAP! fixed
+
+CHILD DUNGEON KEEPER IS A PRISONER fixed
+
+Andy, there you have an attached .zip with 2 snaphots.
+- Having collected the torch does not seem to allow me lighting the cave (I was lost in ther btw :) ) perhaps enemies in the cave should look more menacing? it'd be cool that the halo was bigger and that enemies would chase down to you when they are lighted.. if you'd come back to the dark then they'd stop chasing you by staying waiting in the dark. Something like this: http://greg-anims.com/wp-content/uploads/2012/09/monster-pit-0.3.swf
+- when I visited the Dungeon master for the second time, his daughter was jailed as you can seen on the snapshot, though afterwards I was able to bring the bear to her. then she said to open the door for me. where is this door? is the one on the left top corner? or perhaps another door close to the woods?
+
+
+
+GO THRU LEVEL 4 AND CHANGE OUT BARRIERS WITH GATES
+SCREENS 2 (3) , 5 (1), 
+
+6 (2), 8 (1), 10 (2), 
+
+11 (2), 
+
+SOLVED 13 (3), 15 (1)
+FIXED
+
+
+
+WANT arrow in dungeons to point to where door is unlocked

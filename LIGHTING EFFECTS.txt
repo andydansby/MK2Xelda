@@ -1,0 +1,8 @@
+Fabio: The problem is that lighting effects require a version of splib2 "tuneada" (hence the T). If you want to experiment, it's in this file: 
+http://www.mojontwins.com/churrera/mt-splib2.zip
+
+Just grab the splib2t.lib inside the zip and copy it to the lib / clibs directory of your z88dk. 
+
+This version of splib2 is special: it will not update the colors if the value of the memory address 24999 is 0. The engine sets this value to 0 and is in charge of updating the colors of the screen to make the effects (the overlay file .h contains the halo and ray routines).
+
+http://www.mojontwins.com/churrera/

@@ -1,0 +1,22 @@
+SET ENEMY AS TYPE 24 IN COLOCADORMK2
+
+#EXTERN 244 #WALLS STOP PURSERS
+		EXTERN 245 #WALK THRU WALLS		
+
+
+
+in definitions.h, line 153
+added
+
+#ifdef WALLS_STOP_ENEMIES
+unsigned char wall_stopping = 1;//1 stops enemies & 0 enemies walk thru walls
+#endif
+
+
+
+in move_pursuer.h line 48
+
+change from
+#ifdef WALLS_STOP_ENEMIES
+if (mons_col_sc_x ()) baddies [enoffsmasi].x = gpen_x;
+#endif

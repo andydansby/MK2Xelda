@@ -1,0 +1,449 @@
+I - Brainstorming
+=================
+
+I have to store clauses and actions. The first thing I have to do, to try to design a simple, common and compact format, is to see how many types of clauses and how many types of actions I need, and what types of clauses and actions I will have. This comes first. Let's go by parts ...
+
+The subject of the clauses is that each script will consist of a lot of these checks, which can be launched in two ways: by pressing SPACE or by entering the screen. Then I will have to see how I organize it so that it is efficient to cross the lists. But first, first things first.
+
+A clause, in pseudolanguage, can be such as that. For example, on screen 8 press FIRE next to a computer (on tile 7, 4) to insert a floppy disk (ITEM 3). This should open a door on screen 15. For this, we use FLAG 1
+
+PRESS_FIRE AT SCREEN 8          ; Press ACTION on screen 8
+    IF PLAYER_HAS_ITEM 3        ; If we have ITEM 3
+    IF PLAYER_IN_X 6, 8         ; Player position:
+    IF PLAYER_IN_Y 3, 5         ; This defines a rectangle centered on the tile 7, 4
+    THEN                        ; If all of the above is true...
+        SET ITEM 3, 0           ; We lost ITEM 3
+        SET FLAG 1, 1           ; We put FLAG 1 to 1
+    END                         ; End of actions
+END                             ; End of the checks
+
+In screen 15, we must check the status of flag 1 to remove the door, which occupies tiles (8, 4) and (9, 4):
+
+ENTERING SCREEN 15              ; Enter the screen 15
+    IF FLAG 1 = 1               ; If FLAG 1 is worth 1
+    THEN                        ; If all of the above is met ...
+        SET TILE (8, 4) = 0     ;
+        SET TILE (9, 4) = 0     ; We put tile 0 instead of the door on the map.
+    END
+END
+    
+Another important thing: the compiler will also generate the interpreter code so that it only generates the checks of the clauses and actions used in the script, to save memory.
+
+Especiales:
+
+Section 						Coded as
+ENTERING ANY					ENTERING #MAX_PANTS
+ENTERING GAME					ENTERING #(MAX_PANTS+1)
+PRESS_FIRE AT ANY               FIRE #MAX_PANTS
+PLAYER_GETS_COIN				FIRE #(MAX_PANTS+1)
+PLAYER_KILLS_ENEMY				FIRE #(MAX_PANTS+2)
+
+I.0. Items
+==========
+
+You can use items and you can have the user select them with the "Z" key.
+Everything is done in a section that should be defined at the beginning of the script, similar to this:
+
+ITEMSET
+	# Number of slots
+	SIZE 6
+	
+	# Position x, y
+	LOCATION 1, 21
+	
+	# Horizontal / vertical, spaced
+	DISPOSITION HORZ, 3
+	
+	# Color and characters to paint the selector
+	SELECTOR 66, 8, 9
+	
+	# Flag containing which slot is selected
+	SLOT_FLAG 20
+	
+	# Flag that contains which object is in the selected slot
+	ITEM_FLAG 21
+END
+
+Then we will have checks and commands to handle the items.
+
+I.1. Types of clauses (IFs)
+=============================
+
+* IF PLAYER_HAS_ITEM t      
+    Description: Evaluate to TRUE if the player has tile item T in their inventory.
+    Opcode: 01 x
+    
+* IF PLAYER_HASN'T_ITEM x
+    Description: Evaluate to TRUE if the player does NOT have tile item T in their inventory.
+    Opcode: 02 x
+    
+EYE! The two previous ones put enough code of interpreter. It is better not to use them if
+it can be avoided. There are better ways to manage inventory:
+
+* IF SEL_ITEM = t
+	Description: TRUE if the selected item is T
+	Opcode: 10 ITEM_FLAG t
+	El código generado equivale a IF FLAG ITEM_FLAG = t
+	
+* IF SEL_ITEM <> t
+	Description: TRUE if the selected item is not T
+	Opcode: 13 ITEM_FLAG t
+	El código generado equivale a IF FLAG ITEM_FLAG <> t
+	
+* IF ITEM n = t
+	Description: TRUE if slot N is T
+	Opcode: 04 n t
+	
+* IF ITEM n <> t
+	Description: TRUE if slot N is not T
+	Opcode: 05 n t
+    
+* IF FLAG x = n
+    Description: Will evaluate to TRUE if flag "x" is equal to "n"
+    Opcode: 10 x n
+    
+* IF FLAG x < n
+    Descripción: It will evaluate to TRUE if the flag "x" < n
+    Opcode: 11 x n
+    
+* IF FLAG x > n
+    Description: Will evaluate to TRUE if flag "x"> n
+    Opcode: 12 x n
+    
+* IF FLAG x <> n
+	Description: It will evaluate to TRUE if the flag "x" <> n
+    Opcode: 13 x n
+    
+* IF FLAG x = FLAG y
+    Description: It will evaluate to TRUE if the flag "x" = flag "y"
+    Opcode: 14 x y
+    
+* IF FLAG x < FLAG y
+    Description: It will evaluate to TRUE if the flag "x" < flag "y"
+    Opcode: 15 x y
+    
+* IF FLAG x > FLAG y
+   Description: It will evaluate to TRUE if the flag "x" > flag "y"
+    Opcode: 16 x y
+    
+* IF FLAG x <> FLAG y
+    Description: It will evaluate to TRUE if the flag "x" <> flag "y"
+    Opcode: 17 x y
+    
+* IF PLAYER_TOUCHES x, y
+    Description: Will evaluate to TRUE if the player is touching the tile (x, y)
+    Opcode: 20 x y
+    
+* IF PLAYER_IN_X x1, x2
+    Description: Evaluate to TRUE if the player is horizontally between tiles x1, x2
+    Opcode: 21 x1 x2
+
+* IF PLAYER_IN_Y y1, y2
+    Description: Evaluate to TRUE if the player is vertically between tiles y1, y2
+    Opcode: 22 y1 y2
+    
+* IF ALL_ENEMIES_DEAD//CRASHES
+	Description: Evaluate to TRUE if all enemies are dead.
+	Opcode: 30
+
+* IF ENEMIES_KILLED_EQUALS n//WILL NOT COMPILE, p_killed MISSING
+	Description: Evaluate to TRUE if the number of enemies eliminated is n.
+	Opcode: 31 n
+
+* IF PLAYER_HAS_OBJECTS
+	Description: Will evaluate to TRUE if the player has objects.
+	Opcode: 40
+	
+* IF OBJECT_COUNT = n
+	Description: Evaluates to TRUE if the player has N objects.
+	Opcode: 41 n
+
+* IF NPANT n
+	Description: It will evaluate to TRUE if the player is in the screen n
+	Opcode: 50 n
+
+* IF NPANT_NOT n
+	Description: Evaluate to TRUE if the player is NOT on screen n
+	Opcode: 51 n
+		
+* IF JUST_PUSHED
+	Description: comes from finishing pushing (!)
+	Opcode: 60
+	
+* IF TIMER >= x
+	Description: the timer >= x
+	Opcode: 70 x
+	
+* IF TIMER <= x
+	Description: the timer <= x
+	Opcode: 71 x
+	
+* IF LEVEL = n
+	Description: TRUE if the current level is n
+	Opcode: 80 n
+	
+* IF TRUE
+	Description: Always TRUE
+	Opcode: F0
+	
+* THEN
+	Description: Finish the evaluations and start executing:
+    Opcode: FF
+    
+I.2. Types of actions
+======================
+
+* SET ITEM n = t
+    Description: Assign item t to slot n
+    Opcode: 00 x n
+    
+* SET FLAG x = n
+    Description: Give the value N to flag X.
+    Opcode: 01 x n
+    
+* INC FLAG x, n
+    Description: Increases the value of flag X in N.
+    Opcode: 10 x n
+    
+* DEC FLAG x, n
+    Description: Decrements the value of flag X in N
+    Opcode: 11 x n
+    
+* ADD FLAGS x, y
+    Description x = x + y
+    Opcode: 12 x y
+    
+* SUB FLAGS x, y
+    Description: x = x - y
+    Opcode: 13 x y
+    
+* FLIPFLOP x
+	Description: x = 1 - x
+	Opcode: 15 x    
+    
+* SET TILE (x, y) = n
+    Description: Sets the tile (x, y) of the screen to be n
+    Opcode: 20 x y n
+    
+* INC LIFE n
+    Description: Increases the value of life in n
+    Opcode: 30 n
+    
+* DEC LIFE n
+    Description: Decrements the value of life in n
+    Opcode: 31 n
+
+* FLICKER	
+	Description: The player goes to state flicker
+	Opcode: 32
+    
+* INC OBJECTS n
+	Description: Adds n more objects.
+	Opcode: 40 n
+	
+* DEC OBJECTS n
+	Description: Subtract n objects (if objects >= n; otherwise objects = 0).
+	Òpcode: 41 n
+  
+* SWAP x, y
+	Description: exchange the value of flags x and y
+	Opcode: 14 x y
+	
+* PRINT_TILE_AT (x, y) = n
+	Opcode: 50 x y n
+	
+* SET_FIRE_ZONE x1, y1, x2, y2
+	Opcode: 51 x1 y1 x2 y2
+
+* SHOW_COINS
+	Opcode: 60
+	
+* HIDE_COINS
+	Opcode: 61
+	
+* ENABLE_KILL_SLOWLY
+	Opcode: 62
+	
+* DISABLE_KILL_SLOWLY
+	Opcode: 63
+	
+* ENABLE_TYPE_6
+	Opcode: 64
+	
+* DISABLE_TYPE_6
+	Opcode: 65
+	
+* ENABLE_MAKE_TYPE_6
+	Opcode: 66
+
+* DISABLE_MAKE_TYPE_6
+	Opcode: 67
+	
+* REENTER
+	Drill: Re-enter the screen (with all that means)
+	Opcode: 6F
+	
+* REDRAW
+	Description: Just redraw the screen.
+	Opcode: 6E
+	
+* WARP_TO n,x,y
+	Description: Jump to screen n, x, y
+	Opcode: 6D n x y
+	
+* REPOSTN x, y
+	Description: REENTER a x, and without respawn of enemies.
+	Opcode: 6C x y
+
+* SETX x
+	Opcode: 6B x
+
+* SETY y
+	Opcode: 6A y
+	
+* WARP_TO_LEVEL l, n_pant, x, y, silent
+	Opcode: 69 l n x y s
+	
+* SET_TIMER a, b
+	Descripción: Timer = a, rate = b
+	Opcode: 70 a b
+	
+* TIMER_START
+	Description: Turn on the timer
+	Opcode: 71
+
+* TIMER_STOP
+	Description: Turn off the timer
+	Opcode: 72
+	
+* SOUND n
+	Description: peta_el_beeper (n);
+	Opcode: E0 n
+	      
+* SHOW
+	Description: Refresh the screen
+	Opcode: E1
+	
+* RECHARGE
+	Description: Recharge all life
+	Opcode: E2
+	
+* TEXT
+	Description: Print a text
+	Opcode:	E3 chars 255
+	
+* EXTERN n
+	Description: executes an "extern" function passing it as parameter N
+	Opcode: E4 n
+	
+* PAUSE n
+	Description: Holds "n" ticks.
+	Opcode: E5 n
+	
+* MUSIC n
+	Description: Play the music "n"
+	Opcode: E6 n
+	
+* REDRAW_ITEMS
+	Description: Force a redraw of the items
+	Opcode: E7
+	NOT WORKING
+	
+* GAME OVER
+    Description: Lose the game
+    Opcode: F0
+
+* WIN GAME
+    Description: Win the game
+    Opcode: F1
+
+* END
+    Description: Finish the block.
+    Opcode: FF
+    
+II. COMPILATION IDEAS
+
+El código compilado:
+
+[code]defb 18               ; This block occupies 18 bytes
+defb 0x01                   ; Is the type "Press fire"
+defb 0x01, 0x03             ; IF PLAYER_HAS_ITEM 3
+defb 0x21, 0x06, 0x08       ; IF PLAYER_IN_X 6, 8 
+defb 0x22, 0x03, 0x05       ; IF PLAYER_IN_Y 3, 5
+defb 0xFF                   ; THEN
+defb 0x00, 0x03, 0x00       ; SET ITEM 3, 0
+defb 0x01, 0x01, 0x01       ; SET FLAG 1, 1
+defb 0xFF                   ; END[/code]
+
+The interpreter generated:
+
+[code]
+// Checks
+
+continue = 0;
+terminado = 0;
+while (!terminado) {
+    c = read_byte ();
+    switch (c) {
+        case 0x01:
+            // IF PLAYER_HAS_ITEM x
+            // Opcode: 01 x
+            x = read_byte ();
+            if (items [x].status == 0)
+                terminado = 1;
+            break;
+            
+        case 0x02: 
+            // IF PLAYER_HASN'T_ITEM x
+            // Opcode: 02 x
+            x = read_byte ();
+            if (items [x].status == 1)
+                terminado = 1;
+            break;
+            
+        case 0x10:
+            // IF FLAG x = n
+            // Opcode: 10 x n
+            x = read_byte ();
+            n = read_byte ();
+            if (flags [x] != n)
+                terminado = 1;
+            break;
+            
+        // etcétera
+    
+        case 0xFF:
+            terminado = 1;
+            continue = 1;       
+    }
+    
+if (continue) {
+    // Acciones
+    terminado = 0;
+    while (!terminado) {
+        c = read_byte ();
+        switch (c) {
+            case 0x00:
+                // SET ITEM x n
+                // Opcode: 00 x n
+                x = read_byte ();
+                n = read_byte ();
+                items [x] = n;
+                break;
+                
+            case 0x10:
+                // INC FLAG x, n
+                // Opcode: 10 x n
+                x = read_byte ();
+                n = read_byte ();
+                flags [x] += n;
+                break;
+                
+            // etcétera
+            
+            case 0xFF:
+                terminado = 1;
+        }
+    }
+}[/code]
+

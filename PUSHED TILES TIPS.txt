@@ -1,0 +1,25 @@
+I'm afraid animated tiles are not integrated with the scripting system, as I mentioned, so a lot of things are not patched. The change is not simple and would involve greatly expanding the animated tiles module (to allow you to remove one from what is already active on screen). 
+
+On the moving tile, it will only disappear if you print on the coordinate where it is. 
+Mobile tiles are very shabby and do not exist as entities, the engine does not know "where they are". 
+
+It only makes modifications on the screen tiles. 
+When you move a tile 14 it just deletes it from where it is and prints it on the new site, wherever it is. 
+
+If you make a SET TILE to the original position and the player has moved it, obviously you will not delete it, because it is no longer there. 
+
+One way to do this is to use the FLAGs that you have configured in MOVED_X_FLAG and MOVED_Y_FLAG. 
+
+I do not know what exactly the problem is that you have to solve, but if you have to remove it "with delay" you should detect the movement and copy them into other flags. 
+
+If you activate #define PUSHING_ACTION, the PRESS_FIRE of the screen is launched. 
+
+There you can put a clause with an IF JUST_PUSHED to sew and save if any other condition is met. 
+
+IF JUST_PUSHED will only be true if you reached PRESS_FIRE after pushing a box (by action of #define PUSHING_ACTION). 
+
+If you activate #define PUSHING_ACTION, the PRESS_FIRE of the screen is launched. 
+
+There you can put a clause with an IF JUST_PUSHED to sew and save them if any other condition is met. 
+
+IF JUST_PUSHED will only be true if you reached PRESS_FIRE after pushing a box (by action of #define PUSHING_ACTION).

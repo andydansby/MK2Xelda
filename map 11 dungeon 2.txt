@@ -1,0 +1,160 @@
+0
+top switch (SWITCH_1)
+bottom switch (SWITCH_2)
+
+toggle switches to open barrier in rooms 6/2. just pressing one, you can remove barrier, if both are pressed DUNGEON_FLAG_1 will flipflop back to 1
+IF $DUNGEON_FLAG_1 = 0 you can enter
+
+solution, only press 1 switch
+
+DONE
+
+1
+top switch transports you to room 14 (evil) (SWITCH_3) DONE
+bottom switch OPENS BARRIER SCREEN 4 (SWITCH_4)	DONE
+
+DON'T PRESS THE TOP SWITCH
+PRESS THE BOTTOM SWITCH
+
+2
+top switch (SWITCH_5)
+toggles floor plate in room 7
+
+bottom switch (SWITCH_6)
+open barrier in room 7	DONE
+
+solution, don't press the top switch, only press the bottom
+
+3 (end goal)
+
+4
+floor switch (SWITCH_7)	
+toggles barriers in room 4	DONE
+
+5
+floor switch (SWITCH_8)
+toggles barriers in room 5, room 9 and room 4	DONE
+
+6
+
+7
+floor switch (SWITCH_9)
+(on if the switch is OFF in room 2(SWITCH 5)), closes barrier in room 7.
+WORKING ON
+
+BARRIER IN ROOM 7 REMOVED WHEN SWITCH 6 IS OFF
+
+DONE
+
+
+8
+floor switch (SWITCH_10)
+open barrier in room 4
+
+DONE
+
+9
+
+10
+floor switch (SWITCH_11)
+toggles gates in room 10 which open in the opposite gate from the switch, so moving from right to left open right gate and moving from left to right open left gate.  also opens barrier in room 6 
+DONE
+
+11
+top switch (SWITCH_12)
+toggles gate in room 5
+bottom switch (SWITCH_13)
+toggles gate in room 5
+
+TOP SWITCH UP
+BOTTOM SWITCH DOWN
+
+DONE
+
+
+12
+floor pressure switch (SWITCH_14)
+toggles barrier in room 12 (top)/13 and barrier at bottom between room 12/16	DONE
+
+wall switch (SWITCH_15)		DONE
+opens barrier in room 3
+
+13
+floor switch (SWITCH_16)
+toggles gates in room 13 (swap between left most and right most)
+
+DONE
+
+
+14
+top switch (SWITCH_17)
+closes gate screen 10/11 (don't touch)
+ELIMINATED *MEMORY*
+
+bottom switch (SWITCH_18)
+toggles gate in room 14 either top or bottom and triggers floor switch in room 18 (don't touch)
+
+ELIMINATED *MEMORY*
+
+DONE
+
+15
+top switch (SWITCH_19)
+transports you to room 19 
+ELIMINATED *MEMORY*
+STILL THERE, JUST FOR SHOW
+
+bottom switch (SWITCH_20)
+opens gate screen 10/11
+
+DONE
+
+16
+switch (SWITCH_21)
+toggles gate found near top of room 17
+DONE
+
+floor plate (SWITCH_22)
+toggles barrier behind (right most) and barrier to the left (to go up), also opens barrier in room 8.
+DONE
+
+
+17
+floor switch (SWITCH_23)
+toggles gate room 16/17 and block in room 17
+
+DONE
+
+
+18
+floor switch (SWITCH_24)
+only turns on when bottom switch of 14 toggled, when triggered closes gate at top of room 18 and closes gates in room 17 (top and bottom)
+
+DONE
+
+19
+top switch (SWITCH_25)
+bottom switch (SWITCH_26)
+both toggle to open and close right gate in room 14, so only move TOP switch
+
+DONE
+
+
+
+
+switch in seperate room (SWITCH_27)
+opens gate in top room 14 & 15
+
+
+
+
+
+#SET_TIMER 0, 20 #ABOUT 1 SECONDS
+		#SET_TIMER 1, 20 #ABOUT 2 SECONDS
+		#SET_TIMER 2, 20 #ABOUT 3 SECONDS
+		#SET_TIMER 3, 20 #ABOUT 4 SECONDS
+		#SET_TIMER 5, 20 #ABOUT 7 SECONDS
+		#SET_TIMER 10, 20 #ABOUT 9 SECONDS
+		#SET_TIMER 15, 20 #ABOUT 18 SECONDS
+		#SET_TIMER 20, 20 #ABOUT 15 SECONDS
+		#TIMER_START
