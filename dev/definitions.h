@@ -89,7 +89,8 @@ unsigned char p_disparando;
 unsigned char p_hitting;
 #endif
 #ifdef PLAYER_HAZ_SWORD
-unsigned char p_up; 
+unsigned char p_up;
+unsigned char p_down;
 #endif
 unsigned char p_facing_v, p_facing_h;
 #ifdef DIE_AND_RESPAWN
@@ -148,6 +149,11 @@ unsigned char en_an_fanty_activo [3];
 #endif
 #endif
 
+//added
+#ifdef WALLS_STOP_ENEMIES
+unsigned char wall_stopping = 1;//1 stops enemies & 0 enemies walk thru walls
+#endif
+
 #ifdef ENABLE_PURSUERS
 unsigned char en_an_alive [3];
 unsigned char en_an_dead_row [3];
@@ -180,7 +186,7 @@ unsigned char bullets_life [MAX_BULLETS];
 unsigned char hitter_on;
 unsigned char hitter_type;
 unsigned char hitter_frame;
-unsigned char hitter_x, hitter_y;
+unsigned char hitter_x, hitter_y;//changed from unsigned
 unsigned char *hitter_current_frame, *hitter_next_frame;
 unsigned char hitter_hit;
 #endif
@@ -188,6 +194,8 @@ unsigned char hitter_hit;
 // Current screen buffers
 unsigned char map_attr [150];
 //unsigned char map_buff [150];
+
+
 // There's XXX bytes free at FREEPOOL according to splib2's doc.
 // (240 if in 128K mode, 512 - stack size (do not risk!) in 48K mode)
 // Why not use them?
@@ -203,7 +211,8 @@ unsigned char no_draw;
 
 // Flags para scripting
 #if defined(ACTIVATE_SCRIPTING) || defined(TILE_GET) || defined(ENABLE_SIM)
-#define MAX_FLAGS 32
+//#define MAX_FLAGS 32
+#define MAX_FLAGS 130	//#define MAX_FLAGS 100
 unsigned char flags[MAX_FLAGS];
 #endif
 
@@ -212,7 +221,10 @@ unsigned char n_pant, o_pant;
 unsigned char level = 0;
 unsigned char silent_level;
 
+//unsigned char BREAKABLE_WALLS_LIFE = 1;
+
 unsigned char maincounter;
+//unsigned int lit;
 
 // Breakable walls/etc
 #ifdef BREAKABLE_WALLS
@@ -233,6 +245,7 @@ unsigned char do_process_breakable = 0;
 unsigned char *breaking_x = FREEPOOL + 150;
 unsigned char *breaking_y = FREEPOOL + 150 + MAX_BREAKABLE;
 unsigned char *breaking_f = FREEPOOL + 150 + MAX_BREAKABLE + MAX_BREAKABLE;
+
 //
 
 unsigned char breaking_idx = 0;
@@ -275,6 +288,12 @@ int key_jump, key_fire;
 
 //ATTENTION ADDED
 int key_fire;
+
+//int x,y;
+unsigned char player_X;
+unsigned char player_Y;
+unsigned char ray_on;
+unsigned int lit;
 /*
 #ifdef USE_ONE_BUTTON
 int key_fire;

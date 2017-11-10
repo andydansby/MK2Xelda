@@ -50,47 +50,48 @@ void step (void) {
 }
 #endif
 
+//curtain
 void cortina (void) {
 	#asm
 		ld b, 7
 	.fade_out_extern
 		push bc
 
-		ld   e, 3               ; 3 tercios
-		ld   hl, 22528          ; aquí empiezan los atributos
+		ld   e, 3               ; 3 Thirds
+		ld   hl, 22528          ; Attributes start here
 	#endasm
 #ifdef MODE_128K
 	#asm
-		halt                    ; esperamos retrazo.
+		halt                    ; We hope to delay.
 	#endasm
 #endif
 	#asm
 	.fade_out_bucle
-		ld   a, (hl )           ; nos traemos el atributo actual
+		ld   a, (hl )           ; We bring the current attribute
 
-		ld   d, a               ; tomar atributo
-		and  7                  ; aislar la tinta
-		jr   z, ink_done        ; si vale 0, no se decrementa
-		dec  a                  ; decrementamos tinta
+		ld   d, a               ; Take attribute
+		and  7                  ; isolate Ink 
+		jr   z, ink_done        ; If it is 0, it is not decremented
+		dec  a                  ; Decrement ink
 	.ink_done
-		ld   b, a               ; en b tenemos ahora la tinta ya procesada.
+		ld   b, a               ; In b we now have the ink already processed.
 
-		ld   a, d               ; tomar atributo
-		and  56                 ; aislar el papel, sin modificar su posiciÃ³n en el byte
-		jr   z, paper_done      ; si vale 0, no se decrementa
-		sub  8                  ; decrementamos papel restando 8
+		ld   a, d               ; Take attribute
+		and  56                 ; Isolate the paper without changing its position in the byte
+		jr   z, paper_done      ; If it is 0, it is not decremented
+		sub  8                  ; Decrement paper remaining 8
 	.paper_done
-		ld   c, a               ; en c tenemos ahora el papel ya procesado.
+		ld   c, a               ; In c we now have the paper already processed.
 		ld   a, d
-		and  192                ; nos quedamos con bits 6 y 7 (BRIGHT y FLASH)
-		or   c                  ; añadimos paper
-		or   b                  ; e ink, con lo que recompuesto el atributo
-		ld   (hl),a             ; lo escribimos,
-		inc  l                  ; e incrementamos el puntero.
-		jr   nz, fade_out_bucle ; continuamos hasta acabar el tercio (cuando L valga 0)
-		inc  h                  ; siguiente tercio
+		and  192                ; We were left with bits 6 and 7 (BRIGHT y FLASH)
+		or   c                  ; We add paper
+		or   b                  ; And ink, which recomposed the attribute
+		ld   (hl),a             ; We write it,
+		inc  l                  ; And increase the pointer.
+		jr   nz, fade_out_bucle ; We continue until the end of the third (when L is 0)
+		inc  h                  ; Next third
 		dec  e
-		jr   nz, fade_out_bucle ; repetir las 3 veces
+		jr   nz, fade_out_bucle ; Repeat 3 times
 		pop bc
 		djnz fade_out_extern
 	#endasm
@@ -110,7 +111,8 @@ unsigned int abs (int n) {
 
 // Engine globals (for speed) & size!
 unsigned char gpx, gpy, gpd, gpc, gpt, gps;
-unsigned char gpxx, gpyy, gpcx, gpcy;
+unsigned char gpxx, gpyy;//changed from unsigned
+unsigned char gpcx, gpcy;//changed from unsigned
 unsigned char possee, hit_v, hit_h, hit, wall_h, wall_v;
 unsigned char gpen_x, gpen_y, gpen_cx, gpen_cy, gpen_xx, gpen_yy, gpaux;
 unsigned char tocado, active, killable, animate;
@@ -174,6 +176,10 @@ void kill_player (unsigned char sound) {
 #include "engine/bullets.h"
 #endif
 
+
+
+	
+
 // Simple bomb helper functions
 #ifdef PLAYER_SIMPLE_BOMBS
 #include "engine/bombs-s.h"
@@ -197,7 +203,7 @@ void run_entering_script (void) {
 #ifdef LINE_OF_TEXT
 		print_str (LINE_OF_TEXT_X, LINE_OF_TEXT, LINE_OF_TEXT_ATTR, "                              ");
 #endif
-		// Ejecutamos los scripts de entrar en pantalla:
+		// We execute the scripts to enter screen:
 		run_script (2 * MAP_W * MAP_H + 1);
 		run_script (n_pant + n_pant);
 #ifdef EXTENDED_LEVELS
@@ -267,11 +273,14 @@ void run_fire_script (void) {
 // UP DOWN LEFT RIGHT FIRE JUMP <- with fire/hitter/throwable
 // UP DOWN LEFT RIGHT JUMP xxxx <- with just jump, so configure ahead:
 unsigned int keyscancodes [] = {
-	0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x047f, 0x087f,		// WSADMN
+	//0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x047f, 0x087f,		// WSADMN
+	0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x017f, 0,
 #ifdef USE_TWO_BUTTONS
-	0x01fb, 0x01fd, 0x02df, 0x01df, 0x047f, 0x087f 		// QAOPMN
+	//0x01fb, 0x01fd, 0x02df, 0x01df, 0x047f, 0x087f 		// QAOPMN
+	0x01fb, 0x01fd, 0x02df, 0x01df, 0x017f, 0 		// QAOPMN
 #else
-	0x01fb, 0x01fd, 0x02df, 0x01df, 0x01fb, 0 			// QAOPQ-
+	//0x01fb, 0x01fd, 0x02df, 0x01df, 0x01fb, 0 			// QAOPQ-
+	0x01fb, 0x01fd, 0x02df, 0x01df, 0x017f, 0 			// QAOPQ-
 #endif
 };
 #endif

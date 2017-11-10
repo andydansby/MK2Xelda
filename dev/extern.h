@@ -5,51 +5,17 @@
 // External custom code to be run from a script
 
 // =======[CUSTOM MODIFICATION]=======
-unsigned char *textbuff = 23458;
+unsigned char *textbuff = 23458;//23458
 unsigned char *extaddress;
 unsigned char exti, extx, exty, stepbystep, keyp;
 unsigned char is_cutscene = 0;
 extern unsigned char textos_load [0];
 
-// Leovigildo B needs 2 compressed images for the endings...
-/*
-extern const unsigned char im1 [0], im2 [0], imintro [0];
-const unsigned char *ims [] = {
-	im1, im2
-};
-
-#asm
-	._im1
-		BINARY "f1.bin"
-	._im2
-		BINARY "f2.bin"
-	._imintro
-		BINARY "fintro.bin"		
-#endasm
-*/
-//
-void cutsc_img (const unsigned char *ptr) {
-	cortina ();
-	#asm
-		ld hl, 16384
-		ld de, 16385
-		ld bc, 6143
-		ld (hl), 0
-		ldir
-		ld hl, 22528
-		ld de, 22529
-		ld bc, 767
-		ld (hl), 71
-		ldir
-	#endasm
-	unpack ((unsigned int) (ptr), 16384);
-}
-
 void do_extern_action (unsigned char n) {
 	// Add custom code here.
-	// Leovigildo: like Ninjajar plus some extra stuff, but for 48K
-	
-	if (n == 0) {
+
+	if (n == 0) 
+	{
 		saca_a_todo_el_mundo_de_aqui (0);
 		for (exti = 0; exti < 10; exti ++) {
 			for (extx = exti; extx < 30 - exti; extx ++) {
@@ -67,7 +33,60 @@ void do_extern_action (unsigned char n) {
 #endif
 			sp_UpdateNow ();
 		}
-	} else if (n < 250) {
+	}
+	
+	
+	else if (n == 243)
+	{
+		//BREAKABLE_WALLS_LIFE = 3;//increase breakable wall
+		//MAX_BREAKABLE = 3;
+	}
+	
+	//1 stops enemies & 0 enemies walk thru walls
+	else if (n == 244)
+	{
+		wall_stopping = 1;//stops enemies from walking thru walls
+	}
+	
+	else if (n == 245)
+	{
+		wall_stopping = 0;//enemies can walk thru walls
+	}
+	
+	
+	//lights on
+	else if (n == 246)
+	{
+		lit = 1;
+		*((unsigned char *) (24999)) = 1;
+		//#asm
+		//ld hl, 24999
+		//ld (hl), 1
+		//#endasm
+	}	
+	//lights off
+	else if (n == 247)
+	{
+		lit = 0;
+		*((unsigned char *) (24999)) = 0;
+		//#asm
+		//ld hl, 24999
+		//ld (hl), 0
+		//#endasm
+	}
+	
+	else if (n == 249)
+	{
+		//script_result = 1;
+		//sc_terminado = 1;
+		//game_ending ();
+		//mlplaying = 0;
+
+	}
+	
+	
+	else if (n < 240) 
+	{
 		
 		// Show text n
 		stepbystep = 1;
@@ -75,7 +94,10 @@ void do_extern_action (unsigned char n) {
 		asm_int [0] = (n - 1) << 1;
 		#asm
 			; First we get where to look for the packed string
-		
+			jr aaaa
+			defb 1,2,3,4,5,6,7,8
+		.aaaa
+			
 			ld a, (_asm_int)
 			ld e, a
 			ld a, (_asm_int + 1)
@@ -177,19 +199,22 @@ void do_extern_action (unsigned char n) {
 			} else {
 				sp_PrintAtInv (exty, extx, 71, exti - 32);
 				extx ++;
+				if (extx == 28) {
+					extx = 4; exty += 2;
+				}
 			}
 			if (stepbystep) {
 #ifdef MODE_128K
 	#asm
 				halt
 	#endasm
-				if (exti != 32 && is_cutscene == 0) _AY_PL_SND (10);
+				if (exti != 32 && is_cutscene == 0) wyz_play_sound (9);//3 is not bad
 	#asm
 				halt
 				halt
 	#endasm
 #endif
-				peta_el_beeper (6);
+				//peta_el_beeper (6);
 				sp_UpdateNow ();
 			}
 			
@@ -212,14 +237,23 @@ void do_extern_action (unsigned char n) {
 				sp_UpdateNow ();
 			}
 		}
-	} else if (n == 251) {
+	}
+	
+	else if (n == 251) 
+	{
 		is_cutscene = 1;
 		saca_a_todo_el_mundo_de_aqui (0);
 		sp_UpdateNow ();
-	} else if (n == 250) {
+	} 
+	
+	else if (n == 250) 
+	{
 		is_cutscene = 0;
-	} else {
-		//cutsc_img (ims [n - 252]);
+	} 
+	else 
+	{
+		cortina ();
+		//unpack ((unsigned int) (ims [n - 252]), 16384);
 	}
 }
 

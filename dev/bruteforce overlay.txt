@@ -1,0 +1,209 @@
+player_X = gpx >> 3; //this seems ok
+player_Y = 8 - gpy >> 3;
+
+player_Y = 8 + (gpy >> 4);
+//this is close, but when you go upwards or downwards from middle looses the centerization
+
+player_Y = (gpy + 8 >> 4);
+
+player_Y = (gpy + gpy) / 17;
+player_Y = (gpy + gpy) / 24;
+
+
+				//player_Y = (gpy + 6) >> 4;
+				//player_Y = (3 * gpy + 16) / 31;
+				//player_Y = (3 * gpy + 8) / 32;
+				//player_Y = 16 + (gpy) / 31;
+				//player_Y = (gpy * gpy) / 31;
+				//player_Y = (gpy + gpy) / 16;//so close!
+
+
+player_Y = ((gpy + 32) + gpy) / 24;
+
+// >> 3  = / 8
+// >> 4 is the same as divide by 16 
+// >> 5  = / 32
+// >> 6  = / 64
+
+player_Y = (2 * gpy) / 24;
+
+
+
+player_X = gpx >> 3;//works
+
+player_Y = (1 + gpy >> 3);//does not work properly
+
+
+x2,y2 (cannot find the variable?)
+
+player_X = VIEWPORT_X + gpx; //wrong
+
+
+
+				//player_Y = (gpy >> 4);
+				//player_Y = (gpy + 8) >> 4;
+				
+				//sc_x//wrong
+				//p_vx//wrong
+				
+				
+				
+				//player_X = gpxx + gpx >> 3;//this seems ok
+				//player_X = p_x;
+				//player_Y = p_y;
+				//player_Y = (8 - sc_y)  >> 3;
+				//player_Y = (gpy - gpyy) >> 3;//close halo above players head and not centered on y axis
+				
+				
+				//sc_x sc_y
+				//p_vx p_vy
+				//p_x p_y
+				//int p_x, p_y, p_cx;
+				
+				
+				//player_X = VIEWPORT_X + (gpx >> 3);
+				//player_Y = VIEWPORT_Y + (gpen_y >> 3);
+				
+				//player_Y = (gpy - (gpyy - 8)) >> 3;
+				
+				//player_X = gpxx + gpx >> 3;//this seems ok
+				
+				//player_Y = (gpy - gpyy) >> 3;//close halo above players head and not centered on y axis
+				//player_Y = (gpy - (gpyy - 12)) >> 3;
+				//player_Y = (gpy - (gpyy - 8)) >> 3;//cannot move up between screens
+				
+				
+				
+				
+				//player_Y = gpyy - gpy >> 2;/no halo
+				//player_Y = gpyy - (gpy >> 3);//no halo
+				//player_Y = gpyy - gpy >> 3;//crashes program
+				//player_Y = (gpyy - gpy) >> 3;//crashes program
+				//player_Y = (gpy + gpyy) >> 3;// cannot move
+				
+				//gpx / gpy
+				//gpxx / gpyy
+				
+				
+				//player_X = (gpx + 8) >> 4;//player_X = (gpx + 4) >> 4;
+				//player_Y = (gpy + 8) >> 4;
+				//player_Y = gpy + 8 >> 3;//in center, but no movement
+				
+				// x = hortizontal
+				// y = vertical				
+					
+				// not ovl_x / ovl_y
+				// not gpcx / gpcy
+				// not p_x / p_y
+				// not ptx1 / pty1
+				// not ptx2 / pty2
+				// not p_x / p_y
+				// not p_vx / p_vy
+				//	sc_x / sc_y
+				
+				//x = gpxx + 3;
+				//y = gpyy + 3;
+				// close again
+				
+				//x = gpx >> 3;
+				//y = (gpy >> 3) - 1;
+				//x = (gpx) >> 3;
+				//y = (gpy - 1) >> 3;
+				//x = gpx >> 3;
+				//y = gpy >> 3;
+				// gpx / gpy close but no cigar
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+//engine.h
+				
+void __FASTCALL__ draw_scr (void) {
+
+#ifdef ENABLE_FIRE_ZONE
+	f_zone_ac = 0;
+#endif	
+
+	draw_scr_background ();
+	
+	// Movemos y cambiamos a los enemigos según el tipo que tengan
+	enoffs = n_pant * 3;
+	
+	for (gpit = 0; gpit < 3; gpit ++) {
+		en_an [gpit].frame = 0;
+		en_an [gpit].count = 3;
+#ifdef ENABLE_RANDOM_RESPAWN
+		en_an [gpit].fanty_activo = 0;
+#endif
+#ifdef RESPAWN_ON_ENTER
+		// Back to life!
+		
+		malotes [enoffs + gpit].t &= 0xEF;	
+#ifdef PLAYER_CAN_FIRE
+		malotes [enoffs + gpit].life = ENEMIES_LIFE_GAUGE;
+#endif
+#endif
+		switch (malotes [enoffs + gpit].t) {
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+				en_an [gpit].base_frame = (malotes [enoffs + gpit].t - 1) << 1;
+				break;
+#ifdef ENABLE_RANDOM_RESPAWN
+			case 5: 
+				en_an [gpit].base_frame = 4;
+				break;
+#endif
+#ifdef ENABLE_CUSTOM_TYPE_6
+			case 6:
+				// Añade aquí tu código custom. Esto es un ejemplo:
+				en_an [gpit].base_frame = TYPE_6_FIXED_SPRITE << 1;
+				en_an [gpit].x = malotes [enoffs + gpit].x << 6;
+				en_an [gpit].y = malotes [enoffs + gpit].y << 6;
+				en_an [gpit].vx = en_an [gpit].vy = 0;
+				en_an [gpit].state = TYPE_6_IDLE;				
+				break;				
+#endif
+#ifdef ENABLE_PURSUERS
+			case 7:
+				en_an [gpit].alive = 0;
+				en_an [gpit].dead_row = 0;//DEATH_COUNT_EXPRESSION;
+				break;
+#endif
+			default:
+				en_an [gpit].next_frame = sprite_18_a;
+		}
+	}
+	
+#ifdef ACTIVATE_SCRIPTING
+#ifdef LINE_OF_TEXT
+	print_str (LINE_OF_TEXT_X, LINE_OF_TEXT, LINE_OF_TEXT_ATTR, "                              ");
+#endif
+	// Ejecutamos los scripts de entrar en pantalla:
+	script = e_scripts [MAP_W * MAP_H + 1];
+	run_script ();
+	script = e_scripts [n_pant];
+	run_script ();
+#endif
+
+#ifdef PLAYER_CAN_FIRE
+	init_bullets ();
+#endif	
+
+	// Lit?
+	if (hotspots [n_pant].act == 1 && hotspots [n_pant].tipo == 1) {
+		lit = 0;
+		*((unsigned char *) (24999)) = 0;
+	} else {
+		lit = 1;	
+		*((unsigned char *) (24999)) = 1;
+	}
+
+}

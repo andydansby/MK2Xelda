@@ -21,14 +21,16 @@ extern unsigned char *script;
 #endasm
 
 #define SCRIPT_0 0x0000
-#define SCRIPT_1 0x02CB
-#define SCRIPT_2 0x03FB
-#define SCRIPT_3 0x0482
-#define SCRIPT_4 0x04FA
-#define SCRIPT_5 0x055B
-#define SCRIPT_6 0x05BC
-#define SCRIPT_7 0x061D
-#define SCRIPT_8 0x067E
-#define SCRIPT_9 0x06DF
-#define SCRIPT_10 0x0749
-#define SCRIPT_INIT 49152
+#define SCRIPT_1 0x0401
+#define SCRIPT_2 0x06CA
+#define SCRIPT_3 0x0BD4
+#define SCRIPT_4 0x1061
+#define SCRIPT_5 0x1823
+#define SCRIPT_6 0x1F1E
+#define SCRIPT_7 0x213B
+#define SCRIPT_8 0x24B1
+#define SCRIPT_9 0x2754
+#define SCRIPT_10 0x3075
+#define SCRIPT_11 0x35BB
+#define SCRIPT_12 0x3B29
+#define SCRIPT_INIT 0xC000 

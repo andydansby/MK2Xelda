@@ -37,6 +37,8 @@ typedef struct
 	unsigned char d07;
 	unsigned char d08;
 	unsigned char d09;
+	//unsigned char d10;//added
+	//unsigned char d11;//added
 } LEVELHEADER;
 
 typedef struct 
@@ -112,7 +114,7 @@ extern BOLTS bolts [0];
 #endif
 extern unsigned char tileset [0];
 #asm
-	._tileset BINARY "basicts.bin"
+	._tileset BINARY "basicts.bin"//for FONT
 #endasm
 extern unsigned char spriteset [0];
 #include "sprites-empty.h"
@@ -137,6 +139,7 @@ extern unsigned char behs [0];
 #ifdef EXTENDED_LEVELS
 LEVEL levels [] = 
 {
+/*
 	// Fase 0: Intro.
 	{MAP5C_BIN, BOLTS5C_BIN, TS5C_BIN, SS0C_BIN, ENEMS5C_BIN, HOTSPOTS5C_BIN, BEHS5C_BIN, 0,
 	 8, 7, 7, 99, 7, 3, 99, 1, 2, SENG_JUMP, 0,
@@ -231,6 +234,7 @@ LEVEL levels [] =
 	{MAPXC_BIN, BOLTSXC_BIN, TSXC_BIN, SS0C_BIN, ENEMSXC_BIN, HOTSPOTSXC_BIN, BEHSXC_BIN, 3,
 	 0, 12, 8, 99, 3, 1, 99, 1, 2, SENG_JUMP, 0,
 	 1, SCRIPT_INIT + SCRIPT_10}
+*/
 };
 
 #ifdef LEVEL_SEQUENCE
@@ -247,50 +251,22 @@ unsigned char level_sequence [] = {
 
 #else
 
-/*
-LEVEL levels [] = 
-{
-	
-	//{3, 0, SCRIPT_INIT + SCRIPT_0},
-	//{4, 4, SCRIPT_INIT + SCRIPT_1},
-	//{5, 5, SCRIPT_INIT + SCRIPT_2}
-	
-	//{3, 0, SCRIPT_INIT + SCRIPT_0}	
-};
-#endif
-*/
-
-/*
-LEVEL levels [] = 
-{
-	{3, 0, SCRIPT_INIT + SCRIPT_0},
-	{4, 4, SCRIPT_INIT + SCRIPT_1},
-	{5, 5, SCRIPT_INIT + SCRIPT_2},
-	{7, 5, SCRIPT_INIT + SCRIPT_3},
-	{6, 5, SCRIPT_INIT + SCRIPT_4},
-	{8, 5, SCRIPT_INIT + SCRIPT_5},
-	{9, 5, SCRIPT_INIT + SCRIPT_6},
-	{10, 5, SCRIPT_INIT + SCRIPT_7},
-	{11, 5, SCRIPT_INIT + SCRIPT_8},
-	{12, 5, SCRIPT_INIT + SCRIPT_9},
-	{13, 5, SCRIPT_INIT + SCRIPT_10}	
-};
-#endif*/
-
 
 LEVEL levels [] = 
 {
-	{3, 0, SCRIPT_INIT + SCRIPT_0},
-	{4, 4, SCRIPT_INIT + SCRIPT_1},
-	{5, 5, SCRIPT_INIT + SCRIPT_2},
-	{6, 5, SCRIPT_INIT + SCRIPT_3},
-	{7, 5, SCRIPT_INIT + SCRIPT_4},
-	{8, 5, SCRIPT_INIT + SCRIPT_5},
-	{9, 5, SCRIPT_INIT + SCRIPT_6},
-	{10, 5, SCRIPT_INIT + SCRIPT_7},
-	{11, 5, SCRIPT_INIT + SCRIPT_8},
-	{12, 5, SCRIPT_INIT + SCRIPT_9},
-	{13, 5, SCRIPT_INIT + SCRIPT_10}	
+	{3, 2, SCRIPT_INIT + SCRIPT_0},
+	{4, 3, SCRIPT_INIT + SCRIPT_1},
+	{5, 1, SCRIPT_INIT + SCRIPT_2},
+	{6, 15, SCRIPT_INIT + SCRIPT_3},
+	{7, 16, SCRIPT_INIT + SCRIPT_4},
+	{8, 17, SCRIPT_INIT + SCRIPT_5},
+	{9, 3, SCRIPT_INIT + SCRIPT_6},
+	{10, 15, SCRIPT_INIT + SCRIPT_7},
+	{11, 1, SCRIPT_INIT + SCRIPT_8},
+	{12, 10, SCRIPT_INIT + SCRIPT_9},
+	{13, 11, SCRIPT_INIT + SCRIPT_10},
+	{14, 11, SCRIPT_INIT + SCRIPT_11},
+	{15, 11, SCRIPT_INIT + SCRIPT_12}
 };
 #endif
 

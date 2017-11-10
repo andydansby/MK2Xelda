@@ -1,0 +1,79 @@
+overlay.h
+
+this is the file that provides the lighting routines
+
+routines include
+draw_overlay
+del_overlay
+lightning
+draw_buff
+
+--------------------------------------
+
+%game.c
+
+#include <spritepack.h> *in all
+#include "overlay.h"
+
+--------------------------------------
+
+mainloop.h
+
+// Lit?
+if (!lit) 
+{
+	if ((rand () & 127) < 4 && ray_on == 0) 
+	{
+		ray_on = 1;
+	} 
+				
+	if (ray_on > 0) 
+	{
+		ray_on ++;
+		if (ray_on == 8) 
+		{
+			ray_on = 0;
+			peta_el_ay (0);
+		}
+	} 
+				
+	if (ray_on && (rand () & 3) < 2) 
+	{
+		lightning ();					
+	} else 
+	{
+		draw_overlay (x >> 3, y >> 3);
+		draw_buff ();
+		del_overlay (x >> 3, y >> 3);	
+	}
+}
+			
+	// Update to screen
+	sp_UpdateNow();
+	
+--------------------------------------
+
+definitions.h
+
+unsigned char lit;
+unsigned char ray_on;
+
+--------------------------------------
+
+engine.h
+
+
+// Lit?
+if (hotspots [n_pant].act == 1 && hotspots [n_pant].tipo == 1) 
+{
+	lit = 0;
+	*((unsigned char *) (24999)) = 0;
+} 
+else 
+{
+	lit = 1;	
+	*((unsigned char *) (24999)) = 1;
+}
+
+
+

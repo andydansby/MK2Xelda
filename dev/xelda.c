@@ -6,8 +6,9 @@
 
 #include <spritepack.h>
 
+
 // FOR 128K GAMES:
-#pragma output STACKPTR=24199
+#pragma output STACKPTR=24199//original
 #define FREEPOOL 61697
 
 // FOR 48K GAMES:
@@ -15,7 +16,7 @@
 //#define FREEPOOL 61440
 
 // Define where to store and how many sprite descriptors are needed.
-#define NUMBLOCKS			65//was at 52
+#define NUMBLOCKS			65//was at 52 & then 65
 #define AD_FREE				61440 - NUMBLOCKS * 15
 // Note the 15: blocks are 14 bytes, but there's an overhead of 1 byte per block
 
@@ -30,7 +31,7 @@
 // hitter and cocos need 4 * 10 + 4 * 5 = 60 blocks.
 // carriable plus nothing else 5 * 10 = 50 blocks
 // carriable and cocos 5 * 10 + 3 * 5 = 65 blocks
-// Just a whip: 4 * 10 + 7 ? 47 blocks.
+// Just a whip: 4 * 10 + 7 = 47 blocks.
 // Just a whip plus 1 shoot = 4*10 + 7 + 5 = 52 blocks.
 // Just do the math.
 
@@ -38,9 +39,11 @@
 // 23296 + MAP_W * MAP_H * (108) + MAX_BOLTS * 4 + 49
 // Check "Journey to the centre of the Nose" for some insight.
 
-#include "config.h"
 
-// Cosas del juego:
+#include "config.h"
+#include "overlay.h"//added, for lighting effects causes reset
+
+// Game items:
 
 #include "definitions.h"
 
@@ -117,6 +120,7 @@
 #endif
 
 #include "engine.h"
+
 #ifndef PLAYER_CANNOT_FLICK_SCREEN
 	#include "engine/flickscreen.h"
 #elif defined (PLAYER_WRAP_AROUND)

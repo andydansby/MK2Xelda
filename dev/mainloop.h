@@ -1,8 +1,15 @@
 // MT Engine MK2
+// MT Engine MK2
 // Copyleft 2014 the Mojon Twins
 
 // mainloop.h
 // This is, the main game loop (plus initializations, plus menu, plus level screen...
+
+//Get everybody out of here
+
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
+#define MAX(x, y) (((x) > (y)) ? (x) : (y))
+
 
 void saca_a_todo_el_mundo_de_aqui (unsigned char which_ones)
 {
@@ -270,7 +277,6 @@ void main (void)
             // ************
             // TITLE SCREEN
             // ************
-
             sp_UpdateNow();
 
             //blackout ();
@@ -284,7 +290,8 @@ void main (void)
 #endif
 
 #ifdef MODE_128K
-            _AY_PL_MUS (0);
+            _AY_PL_MUS (4);
+			//_AY_PL_MUS (0);
 #endif
             select_joyfunc ();
 #ifdef MODE_128K
@@ -314,6 +321,7 @@ void main (void)
 
 #ifndef DIRECT_TO_PLAY
             // Clear screen and show game frame
+			// only for Direct to play
             cortina ();
             sp_UpdateNow();
 #ifdef MODE_128K
@@ -341,6 +349,10 @@ void main (void)
                     // ****************
                     // NEW LEVEL SCREEN
                     // ****************
+					
+
+
+
 
                     if (!silent_level)
                         {
@@ -820,7 +832,6 @@ void main (void)
                                             sp_MoveSprAbs (sp_bullets [gpit], spritesClip, 0, -2, -2, 0, 0);
                                         }
                                 }
-
 #endif
 
 #ifdef ENABLE_SHOOTERS
@@ -840,6 +851,7 @@ void main (void)
 #endif
 
                             // Update to screen
+							//for shooters
                             sp_UpdateNow();
 
 // Experimental
@@ -860,6 +872,54 @@ void main (void)
                                 }
 
 #endif
+
+
+
+
+			//lighting effects
+			// Lit?
+			
+				// Lit?
+	//ADDED FOR LIGHTING EFFECTS
+	
+	//lights off
+	if (lit == 0) 
+	{
+		*((unsigned char *) (24999)) = 0;
+		
+		player_X = gpx >> 3;
+				player_Y = (gpy + gpy) >> 4;//so close!
+				
+				if (player_Y < 2) 
+				{
+					player_Y = MAX (2,player_Y);
+				}//upwards direction
+				//ok at 3
+				//ok at 2
+				
+				if (player_Y > 16) 
+				{
+					player_Y = MIN (16,player_Y);
+				}//downwards direction
+				//ok at 16
+				//crashes at 17
+				
+				
+				draw_overlay (player_X, player_Y);
+				draw_buff ();
+				del_overlay (player_X, player_Y);
+	} 
+	
+	//lights on
+	if (lit == 1)
+	{	
+		*((unsigned char *) (24999)) = 1;
+	}
+			
+			sp_UpdateNow();
+
+			
+
 
 #ifdef PLAYER_CAN_FIRE
                             for (gpit = 0; gpit < 3; gpit ++)
@@ -1046,7 +1106,7 @@ void main (void)
                                 }
 
 #else
-                                    // Modificaci?n para que los hotspots de tipo 3 sean recargas directas
+                                    // Modification for type 3 hotspots to be direct recharges
                                     // Was it an object, key or life boost?
                                     if (hotspots [n_pant].act)
                                         {
@@ -1088,7 +1148,7 @@ void main (void)
 
 #endif
 #ifdef MODE_128K
-                                                    _AY_PL_SND (5);
+                                                    _AY_PL_SND (5);//intro music
 
 #else
                                                     peta_el_beeper (9);
@@ -1315,14 +1375,14 @@ void main (void)
 
                                                     //draw_scr_background ();
 #ifdef ACTIVATE_SCRIPTING
-                                                    //run_entering_script ();
+			//run_entering_script ();
 #endif
 #ifdef MODE_128K
-                                                    // Play music
+			// Play music
 #ifdef COMPRESSED_LEVELS
-                                                    //_AY_PL_MUS (level_data->music_id);
+			//_AY_PL_MUS (level_data->music_id);
 #else
-                                                    //_AY_PL_MUS (1);
+			//_AY_PL_MUS (1);
 #endif
 #endif
                                                 }
@@ -1334,7 +1394,9 @@ void main (void)
 
 #endif
 
-                                            // Win game condition
+			// Win game condition
+			//i think the problem is here
+			//see http://www.mojontwins.com/mojoniaplus/viewtopic.php?f=16&t=1944&p=67302&hilit=WIN+GAME#p67302
 
 #if defined (MODE_128K) && defined (COMPRESSED_LEVELS) && !(defined (SIMPLE_LEVEL_MANAGER) || defined (HANNA_LEVEL_MANAGER))
                                             // 128K
@@ -1350,7 +1412,7 @@ void main (void)
 
                                             if (script_result == 1)
                                                 {
-#elif !defined (MODE_128K) && defined(COMPRESSED_LEVELS)
+/*#elif !defined (MODE_128K) && defined(COMPRESSED_LEVELS)
                                             // 48K, compressed levels.
 
                                             if (
@@ -1359,7 +1421,7 @@ void main (void)
 #ifdef ACTIVATE_SCRIPTING
                                                 || (win_condition == 2 && script_result == 1)
 #endif
-                                            )
+                                            )*/
                                                 {
 #else
                                             // 48K, legacy
@@ -1391,9 +1453,9 @@ void main (void)
 #ifdef ACTIVATE_SCRIPTING
                                                     || script_result == 2
 #endif
-#if defined(TIMER_ENABLE) && defined(TIMER_GAMEOVER_0)
+/*#if defined(TIMER_ENABLE) && defined(TIMER_GAMEOVER_0)
                                                     || ctimer.zero
-#endif
+#endif*/
                                                )
                                                 {
                                                     playing = 0;
@@ -1411,13 +1473,21 @@ void main (void)
 
 #endif
 
+
+
 #ifdef DIE_AND_RESPAWN
                                             // Respawn
                                             if (p_killme)
                                                 {
                                                     p_estado = EST_PARP;
                                                     sp_UpdateNow ();
+													
+													//SOUND THAT PLAYS ON player DEATH
                                                     //wyz_play_sample (0);
+													//_AY_PL_SND (18);
+													//wyz_play_sound (9);
+													_AY_PL_SND (6);
+													
                                                     espera_activa (50);
 #ifdef PLAYER_HAS_SWIM
 
@@ -1515,8 +1585,16 @@ void main (void)
 #ifdef MODE_128K
                                             //_AY_PL_MUS (8);
 #endif
-                                            //game_over ();
-                                            print_message (" GAME OVER! ");
+                                            //game_over ();//WAS COMMENTED
+                                            print_message (" GAME OVER!");//CORRECT AREA ON GAME ENDING
+											
+											//This is where you LOSE the game lost all lives
+											//ADDED RESET ALL Flags
+											//LETS RESET ALL OF OUR FLAGS TO 0
+											for (sc_c = 0; sc_c < MAX_FLAGS; sc_c ++)
+											{
+												flags [sc_c] = 0;
+											}
 
 #endif
                                             mlplaying = 0;
@@ -1528,6 +1606,7 @@ void main (void)
                                         case 1:
                                             //_AY_PL_MUS (7);
                                             //print_message (" ZONE CLEAR ");
+											
 
                                             level ++;
 
@@ -1540,7 +1619,6 @@ void main (void)
                                             blackout_area ();
 
                                             level = warp_to_level;
-
                                             break;
 
                                         case 4:
@@ -1549,6 +1627,15 @@ void main (void)
                                             espera_activa (1000);
 
                                             _AY_ST_ALL ();
+											
+											//this is where you WIN the game
+											//clear out variables
+											//ADDED RESET ALL Flags
+											//LETS RESET ALL OF OUR FLAGS TO 0
+											for (sc_c = 0; sc_c < MAX_FLAGS; sc_c ++)
+											{
+												flags [sc_c] = 0;
+											}
 
                                             cortina ();
 
@@ -1562,8 +1649,16 @@ void main (void)
 #ifndef SCRIPTED_GAME_ENDING
                                     if (level == MAX_LEVELS)
                                         {
+											//clear out variables
+											//ADDED RESET ALL Flags
+											//LETS RESET ALL OF OUR FLAGS TO 0
+											for (sc_c = 0; sc_c < MAX_FLAGS; sc_c ++)
+											{
+												flags [sc_c] = 0;
+											}
+											
                                             game_ending ();
-                                            mlplaying = 0;
+                                            mlplaying = 0;											
                                         }
 
 #endif
@@ -1575,19 +1670,33 @@ void main (void)
 
                                     if (success)
                                         {
+											//clear out variables
+											//ADDED RESET ALL Flags
+											//LETS RESET ALL OF OUR FLAGS TO 0
+											for (sc_c = 0; sc_c < MAX_FLAGS; sc_c ++)
+											{
+												flags [sc_c] = 0;
+											}
                                             game_ending ();
                                         }
 
                                     else
                                         {
                                             //_AY_PL_MUS (8)
+											
+											//clear out variables
+											//ADDED RESET ALL Flags
+											//LETS RESET ALL OF OUR FLAGS TO 0
+											for (sc_c = 0; sc_c < MAX_FLAGS; sc_c ++)
+											{
+												flags [sc_c] = 0;
+											}
                                             game_over ();
                                         }
 
                                     espera_activa (500);
-
+									
                                     cortina ();
 #endif
                         }
                 }
-
