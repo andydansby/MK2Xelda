@@ -1,0 +1,46 @@
+Well after a couple of weeks very bundled and dedicating little time to the game I have to tell you that the scripting is complicated but with patience and thinking a little everything before doing anything I think I can more or less control it, but I have a doubt, I thought that with the scripting I could do the presentations you make when you start a game, that is, put an image and present a text as a presentation and then start the game, but I do not particularly see how to do it, if it is true With the TEXT action I can put a text on screen (something that for now I do not know how to fuck it but I do not get it, but little by little) but not an image and the text below, I do not know if this option is only contemplated in MK2, or I have to be a master cook for this task.
+
+
+
+That requires more skill. It is not part of the engine itself. You have to make (or use some of them, see below) a cutscenes engine that you can put in extern.h and invoke it with EXTERN from the script. 
+
+Actually, if you do not have programming notions, it can be complicated, although it may help you: 
+
+- Although Leovigilds are for MK2, the extern theme works exactly the same so you can download the Leovigildo font package, and take the extern file. H that is in Leovigildo B. You place it in / dev, replacing the one you have. It should work and, if not, make it work should be easy . 
+
+- Create a folder / texts in your project, along with the ones that already exist. 
+
+- In / Leovigildo B utils, you will see textstuffer.exe. Copy it to / texts . 
+
+- In config.h, you have to enable support for EXTERN with #define ENABLE_EXTERN_CODE. This will allow you to include the extern.h file you just copied. 
+
+- Now you have to create the text. The text is created in a normal text file, which you should scream in / texts . For example, texts / texts .txt. Each line of that text file is a string of text that you can use from the game. The line number where it is is the number of the text string. You need a text editor with line number. If you create three lines of text, these will be texts 1, 2 and 3 in the order in which they appear. You need to know these numbers. 
+
+- The text has to be packed.
+
+
+
+textstuffer.exe texts.txt texts.bin 24
+
+
+That from above packs the texts using a line width of 24 characters and writes the resutlado in texts .bin. The lines are broken by respecting the words as in a word processor. It also creates an index that the program needs to place each text within the binary. 
+
+- Copy texts .bin in / dev, since extern.h will need it. 
+
+
+
+---------------------------------------------------------------
+
+
+
+
+
+Edit 3: The text of extern is that it occupies a cohón of memory! XDD Could you make some work?
+
+
+Yes. Put it in extra RAM. You have to get something to pack the texts and put them in a binary with an index. Then in your extern.h you create a buffer as big as the longest of the texts. Each time a text is requested, the RAM should be paged where the texts are, find where it starts, copy it to the buffer, re-paginate 0, and then paint the buffer text. 
+
+You can catch the extern.h of Ninjajar! And adapt it. The texts, moreover, are packaged using 5 bits per character with escapes, so they occupy less. In the Ninjajar package! Is the compressor (textstuffer.exe) that gets text.txt and generates texts.bin ready to place where you want. If you cheer up we'll see you slower.
+
+
+
