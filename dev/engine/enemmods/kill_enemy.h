@@ -27,7 +27,11 @@ void enemy_kill (unsigned char amount) {
 #ifdef MODE_128K
 		en_an_state [gpit] = GENERAL_DYING;
 		en_an_count [gpit] = 8;
-		_AY_PL_SND (14);
+		//_AY_PL_SND (14);
+		//sound that play on enemy death
+		//6 is a good sound
+		//7 sound of sword
+		_AY_PL_SND (8);
 #else
 		sp_MoveSprAbs (sp_moviles [gpit], spritesClip, en_an_next_frame [gpit] - en_an_current_frame [gpit], VIEWPORT_Y + (gpen_cy >> 3), VIEWPORT_X + (gpen_cx >> 3), gpen_cx & 7, gpen_cy & 7);
 		en_an_current_frame [gpit] = en_an_next_frame [gpit];
@@ -86,7 +90,10 @@ void enemy_kill (unsigned char amount) {
 
 // Play sound
 #ifdef MODE_128K
-		_AY_PL_SND (14);
+		//_AY_PL_SND (14);
+		_AY_PL_SND (8);
+		//sound that play on enemy death
+		//6 is a good sound
 #else
 		peta_el_beeper (5);
 #endif

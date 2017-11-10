@@ -36,11 +36,17 @@
 				// move / collide?
 
 				baddies [enoffsmasi].x += baddies [enoffsmasi].mx;
+				
+//next we will try to convert the #ifdef WALLS_STOP_ENEMIES to
+// (if wall_stopping = 1) {}
 #ifdef WALLS_STOP_ENEMIES
 				if (mons_col_sc_x ()) baddies [enoffsmasi].x = gpen_x;
 #endif
 
 				baddies [enoffsmasi].y += baddies [enoffsmasi].my;
+				
+//next we will try to convert the #ifdef WALLS_STOP_ENEMIES to
+// (if wall_stopping = 1) {}
 #ifdef WALLS_STOP_ENEMIES
 				if (mons_col_sc_x ()) baddies [enoffsmasi].y = gpen_x;
 #endif
