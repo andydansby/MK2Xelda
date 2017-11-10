@@ -104,4 +104,6 @@ typedef struct {
 	unsigned char d07;
 	unsigned char d08;
 	unsigned char d09;
+	//unsigned char d10;//added
+	//unsigned char d11;//added
 } LEVELHEADER;
