@@ -1,0 +1,55 @@
+loader.bas files and info
+
+Stopping the load screen is not exactly easy: if I do not initialize splib2 I can not read the keyboard, nor can I do it through ROM because I have interrupts touched, and initialize splib2 clears the screen. 
+
+So we have two options (which we have used, by the way). 
+
+A) Put a "PAUSE NOT PI" in loader.bas before the last RANDOMIZE USR:
+
+
+10 BORDER NOT PI:PAPER NOT PI:INK VAL"6":CLS:CLEAR VAL"24199":LOAD""SCREEN$:POKE VAL"23739",CODE"o":LOAD""CODE:PAUSE NOT PI:RANDOMIZE USR VAL"24200"
+
+B) This is more molona, ​​and is what we did in Ramiro: load a song of beepola in the position that is then overwritten with splib2, and run it before the game. This is how music plays while we watch the loading screen. For this we will have to generate it with beepola and place it from position 60655. There you have almost 5Kb that give to make a symphony. Then modify loader.bas to load that extra block and run it before the game:
+
+10 BORDER NOT PI:PAPER NOT PI:INK VAL"6":CLS:CLEAR VAL"24199":LOAD""SCREEN$:POKE VAL"23739",CODE"o":LOAD""CODE:LOAD""CODE:RANDOMIZE USR VAL "60655":RANDOMIZE USR VAL"24200"
+
+
+BASIC loader and make.bat
+
+Our game will now have two more blocks of data: one that will go in RAM1 and that will have the player and the music, and another that will go in RAM3 with the compressed files. In addition, it will be necessary to include in the loader the code that loads the new blocks and moves them to their definitive locations in the extended RAM. So I have to modify loader.bas and make.bat. In the folder / spare of the Churrera 3.99.3 are those that I used in Goku Mal, and I have based them. The first thing loader.bas does after loading the screen is to load a block "
+
+10 BORDER NOT PI:PAPER NOT PI:INK NOT PI:CLEAR VAL"24199":LET a=VAL"25000":LET b=a+VAL"2":LOAD""SCREEN$:POKE VAL"23739",CODE"o":LOAD""CODE:LOAD""CODE:POKE a,VAL"1":RANDOMIZE USR b:LOAD""CODE:POKE a,VAL"3":RANDOMIZE USR b:LOAD""CODE:RANDOMIZE USR VAL"24200"
+
+
+
+For the 128K so you have to put more things, actually: 
+
+- To include reubica.bin. No need to assemble it again, caught the bin directly. 
+- We must change LOADER.BAS to load relocates and all modules and put in place before loading the game. There are many examples, and all depends on how RAMx.BIN're using. For example, if you only use music (RAM1.BIN) and compressed screens (RAM3.BIN) will be worth with this LOADER.BAS
+
+
+10 BORDER NOT PI:PAPER NOT PI:INK NOT PI:CLEAR VAL "24199":LET D=VAL"25000":LET E=D+2:LOAD""SCREEN$:POKE VAL"23739",CODE"o":LOAD""CODE:LOAD""CODE:POKE D,VAL"1":RANDOMIZE USR E:LOAD""CODE:POKE D,VAL"3":RANDOMIZE USR E:LOAD""CODE:RANDOMIZE USR VAL"24200":REM UNA_PASHOSHA
+
+
+This charger does this: 
+- Load the screen. 
+- Load relocates. 
+- Load RAM1.BIN 
+- Pokea 1 for relocates and runs, placing the block in RAM 1. 
+- Load RAM3.BIN 
+- Pokea 3 for relocates and runs, placing the block in RAM 3. 
+- Load the block of the game 
+- The runs. 
+- A pashosha. 
+
+
+ Your script make.bat that creates the tape with the game should now include instructions to put ram4.bin too. Just duplicate what you have for ram1 and ram3 (if you have doubts put your make.bat and I will help). 
+- You have to modify loader.bas to load the new block and put it in its place. The same thing: is to repeat the code that there is for RAM3. Put here your loader.bas if you do not clarify.
+
+
+
+
+
+
+
+
