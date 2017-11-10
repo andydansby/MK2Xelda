@@ -1,0 +1,208 @@
+3In Leovigildo we completely rewrote the enemy module to make it better. Now you can choose which puppet and what behavior each enemy has in multiple combinations (almost always), and define whether an enemy fires or not. 
+
+To place the "new" enemies you have to use the MK2 Positioner that is in enems. Go ahead with this, the old setter is still there. For the next version I think to smoke all the support to the traditional enemies, so their thing is to get accustomed. 
+
+When you give an enemy in MK2 Putter comes out a dialog with three things to fill: SPR, TYPE and SHOOTS. 
+
+1.- Linear:
+SPR: Sprite number of our spriteset. 0, 1, 2 or 3. 
+TYPE : 1 
+SHOOTS: 0 or empty: does not fire. 1: yes it shoots. 
+1
+The bug will go from the source box to the destination box as usual. The speed gets in by selecting the destination box, as always. Must be 1, 2, 4. 
+
+2.- Fantys: Flying enemies
+SPR: Sprite number. 0, 1, 2 or 3. Yes, you can now choose. 
+TYPE : 2 
+SHOOTS: same thing. 
+
+It does not matter where we put the destination box and what speed we say. It is ignored. 
+
+3.- Drops:
+SPR: Ignores. Leave it empty. 
+TYPE : 9 
+SHOOTS: ignored. 
+
+The drop goes from the source box to the destination box. You have to put it vertically. Speed ??also affects. 
+
+4.- Arrows:
+SPR: Ignores. Leave it empty. 
+TYPE : 10
+SHOOTS: If you put 1, the arrow will be "trapped" (only activated if the player touches any of the squares of the path where it is defined). If you put 0, it will always leave. 
+
+The arrow goes from the source box to the destination box. You have to put it horizontally. Speed ??also affects. 
+
+The MK2 is very green. Editing an enemy already in place is a pain, because the SPR, TYPE and SHOOT parameters appear combined. I'll get better. It also does not take long to remove the bug and create it again. If you know of binaries and such you can understand those numbers if you look a bit the code of dev / engine / enems.h 
+
+Ah,
+
+
+
+
+
+
+0
+1
+2
+3
+4
+5
+6
+7	pig patrolling
+8	pig patrolling
+9	guard patrolling
+10	crab patrolling
+11	snake patrolling
+12
+
+
+enemy sprite 1 = pig
+enemy sprite 2 = guard
+enemy sprite 3 = crab
+enemy sprite 4 = snake
+
+
+
+sprites			type		shoots	Displays as
+
+0				1(linear)	0		= 8	pig
+1				1(linear)	0		= 9	guard
+2				1(linear)	0		= 10 crab
+3				1(linear)	0		= 11 snake
+
+0				1(linear)	1		= 12	pig shoots
+1				1(linear)	1		= 13	guard shoots
+2				1(linear)	1		= 14	crab shoots
+3				1(linear)	1		= 15	snake shoots
+
+0				2(Flying)	0		= 16 (not working) pig
+1				2(Flying)	0		= 17 (not working) pig
+2				2(Flying)	0		= 18 (not working) pig
+3				2(Flying)	0		= 19 (not working) pig
+
+0				2(Flying)	1		= 20 (not working) pig
+1				2(Flying)	1		= 21 (not working) pig
+2				2(Flying)	1		= 22 (not working) pig
+3				2(Flying)	1		= 23 (not working) pig
+
+0				3(pursuing)	0		= 24 snake
+1				3(pursuing)	0		= 25 snake
+2				3(pursuing)	0		= 26
+3				3(pursuing)	0		= 27
+
+0				3(pursuing)	1		= 28 snake
+1				3(pursuing)	1		= 29
+2				3(pursuing)	1		= 30
+3				3(pursuing)	1		= 31 snake
+
+
+0				4(pursuing)	0		= 32 snake
+1				4(pursuing)	0		= 33 snake
+2				4(pursuing)	0		= 34
+3				4(pursuing)	0		= 35
+
+0				4(?)	1		= 36 (not working)
+1				4(?)	1		= 37 (not working)
+2				4(?)	1		= 38 (not working)
+3				4(?)	1		= 39 (not working)
+
+0				5(?)	1		= 40 (not working)
+1				5(?)	1		= 41 (not working)
+2				5(?)	1		= 42 (not working)
+3				5(?)	1		= 43 (not working)
+
+0				5(?)	1		= 44 (not working)
+1				5(?)	1		= 45 (not working)
+2				5(?)	1		= 46 (?)
+3				5(?)	1		= 47 (?)
+
+0				6(?)	1		= 48 (?)
+1				6(?)	1		= 49 (not working)
+2				6(?)	1		= 50 (?)
+3				6(?)	1		= 51 (?)
+
+0				6(?)	1		= 52 (?)
+1				6(?)	1		= 53 (not working)
+2				6(?)	1		= 54 (?)
+3				6(?)	1		= 55 (?)
+
+0				7(?)	1		= 56 (?)
+1				7(?)	1		= 57 (not working)
+2				7(?)	1		= 58 (?)
+3				7(?)	1		= 59 (?)
+
+0				7(?)	1		= 60 (?)
+1				7(?)	1		= 61 (not working)
+2				7(?)	1		= 62 (?)
+3				7(?)	1		= 63 (?)
+
+0				8(?)	0		= 64 (patrolling pig) cannot kill
+1				8(?)	0		= 65 (patrolling guard)
+2				8(?)	0		= 66 (patrolling crab)
+3				8(?)	0		= 67 (patrolling snake)
+
+0				8(?)	1		= 68 (patrolling pig) cannot kill
+1				8(?)	1		= 69 (?)
+2				8(?)	1		= 70 (?)
+3				8(?)	1		= 71 (?)
+
+
+0				9(?)	1		= 72 (?) nothing
+1				9(?)	1		= 73 (?)
+2				9(?)	1		= 74 (?)
+3				9(?)	1		= 75 (?)
+
+
+0				9(?)	1		= 76 (?) nothing
+1				9(?)	1		= 77 (?)
+2				9(?)	1		= 78 (?)
+3				9(?)	1		= 79 (?)
+
+
+0				10(?)	1		= 80 (?)
+1				10(?)	1		= 81 (?) nothing
+2				10(?)	1		= 82 (?)
+3				10(?)	1		= 83 (?)
+
+0				10(?)	1		= 84 (?)
+1				10(?)	1		= 85 (?) nothing
+2				10(?)	1		= 86 (?)
+3				10(?)	1		= 87 (?)
+
+0				11(?)	1		= 88 (?) nothing
+1				11(?)	1		= 89 (?) nothing
+2				11(?)	1		= 90 (?)
+3				11(?)	1		= 91 (?)
+
+0				11(?)	1		= 92 (?)
+1				11(?)	1		= 93 (?) nothing
+2				11(?)	1		= 94 (?)
+3				11(?)	1		= 95 (?)
+
+
+
+
+
+
+128	nothing
+
+129	nothing
+
+135 nothing
+
+145
+
+155
+
+165
+
+175
+
+
+		1	9	0	= 73	oddball item from bottom to top
+		1	10	0	= 81	oddball left to right or right to left
+		1	11	0	= 89	not working
+		1	12	0	= 97	not working
+		1	13	0	= 105	not working
+		1	14	0	= 113	not working
+		1	15	0	= 121	not working

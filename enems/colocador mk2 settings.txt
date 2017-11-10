@@ -2,12 +2,13 @@ map file name = mapa1.map
 tiles file name = mappy1.bmp
 
 MAP_W = 4
-MAP_H = 5
+MAP_H = 4
 SCR_W = 15
 SCR_H = 10
 
 no of enemies per screen = 3
 
+enemsX.ene
 
 
 
