@@ -1,0 +1,12 @@
+8/24/2017 8:09:01 PM
+Sanford.Multimedia.Midi.InputDeviceException: Undefined external error.
+   at Sanford.Multimedia.Midi.InputDevice..ctor(Int32 deviceID)
+   at WYZTracker.VirtualPiano.initMidiDevices()
+8/24/2017 8:14:32 PM
+Sanford.Multimedia.Midi.InputDeviceException: Undefined external error.
+   at Sanford.Multimedia.Midi.InputDevice..ctor(Int32 deviceID)
+   at WYZTracker.VirtualPiano.initMidiDevices()
+8/24/2017 8:18:09 PM
+Sanford.Multimedia.Midi.InputDeviceException: Undefined external error.
+   at Sanford.Multimedia.Midi.InputDevice..ctor(Int32 deviceID)
+   at WYZTracker.VirtualPiano.initMidiDevices()
