@@ -1,0 +1,49 @@
+SOUND EFFECTS
+
+look for 
+
+kill_player (13);
+
+which does this funtion
+void kill_player (unsigned char sound) {
+	p_life --;
+#ifdef MODE_128K
+	//_AY_ST_ALL ();
+	_AY_PL_SND (sound);
+#else
+
+
+
+mainloop
+
+#ifdef DIE_AND_RESPAWN
+
+
+//SOUND THAT PLAYS ON player DEATH
+//wyz_play_sample (0);
+//_AY_PL_SND (18);
+wyz_play_sound (9);
+
+
+
+
+kill_enemy.h
+
+// Play sound								
+#ifdef MODE_128K
+		en_an_state [gpit] = GENERAL_DYING;
+		en_an_count [gpit] = 8;
+		//_AY_PL_SND (14);
+		//sound that play on enemy death
+		_AY_PL_SND (8);
+#else
+
+
+// Play sound
+#ifdef MODE_128K
+		//_AY_PL_SND (14);
+		_AY_PL_SND (8);
+		//sound that play on enemy death
+#else
+		peta_el_beeper (5);
+#endif
