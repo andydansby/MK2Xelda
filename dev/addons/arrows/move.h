@@ -1,35 +1,64 @@
-// move arrows
+// move drops
 
 /* Drops are as follows:
-	baddies [enoffsmasi].
-	x1/x2, y1 = initial position
-	mx = Arrow speed
+	x1, y1 = initial position
+	my = drop speed
 	x, y = position
-	my = state (0: off, 1: on)
-	y2 = activate me!
+	mx = state: 0 fall, 1, 2, 3 hit
+	x2 = subframe counter (hit)
 
-	enemy_shoots = 1: flag is only activated when player collides tile row
+	
+	we need to identify where wall collision happens
 */
 
-				baddies [enoffsmasi].y2 = 0;
-				if (baddies [enoffsmasi].my) {
-					baddies [enoffsmasi].x += baddies [enoffsmasi].mx;
-					en_an_next_frame [gpit] = arrow_sprites + (baddies [enoffsmasi].mx < 0 ? 0 : 144);
-					if (baddies [enoffsmasi].x == baddies [enoffsmasi].x2) baddies [enoffsmasi].my = 0;
-				} else {
-					en_an_next_frame [gpit] = sprite_18_a;
-					if (0 == enemy_shoots || (addons_between (gpy, baddies [enoffsmasi].y1, baddies [enoffsmasi].y1, 15, 15) && addons_between (gpx, baddies [enoffsmasi].x1, baddies [enoffsmasi].x2, 15, 31))){
-						baddies [enoffsmasi].y2 = 1;
-					}
-					
-				}
-				if (baddies [enoffsmasi].y2) {
-					baddies [enoffsmasi].my = 1;
-					baddies [enoffsmasi].x = baddies [enoffsmasi].x1;
-					_AY_PL_SND (7);
-				}
+if (baddies [enoffsmasi].mx) 
+{
+	en_an_next_frame [gpit] = drop_sprites + (baddies [enoffsmasi].mx << 7) + (baddies [enoffsmasi].mx << 4);
+	baddies [enoffsmasi].x2 = (baddies [enoffsmasi].x2 + 1) & 3;
+	
+	if (baddies [enoffsmasi].x2 == 0)
+	{
+		baddies [enoffsmasi].mx = (baddies [enoffsmasi].mx + 1) & 3;
+		if (0 == baddies [enoffsmasi].mx);
+	}
+} 
+else 
+{
+	if (baddies [enoffsmasi].x2 == 0) 
+	{
+		baddies [enoffsmasi].y = baddies [enoffsmasi].y1;
+		
+		baddies [enoffsmasi].x2 = 1;
+		
+	}
+	en_an_next_frame [gpit] = drop_sprites;//sprite
+	baddies [enoffsmasi].y += baddies [enoffsmasi].my;
+	
+	//baddies [enoffsmasi].x ++; //moves drop left to right
+	//baddies [enoffsmasi].x --;//moves drop right to left
+	
+	
+	
+	if ((baddies [enoffsmasi].y & 15) == 0) //edge detection?
+	{
+		
+		
+		gpen_xx = baddies [enoffsmasi].x >> 4;
+		gpen_yy = baddies [enoffsmasi].y >> 4;
+		
+		
+		if (attr (gpen_xx + 1, gpen_yy) & 12) 
+		{
+			//baddies [enoffsmasi].mx = 1;//commenting this line elimnates exploding drops
+			//place in restart of arrow here
+			
+			baddies [enoffsmasi].x2 = 0;
+			_AY_PL_SND (7);
+		}
 
-				gpen_cx = baddies [enoffsmasi].x;
-				gpen_cy = baddies [enoffsmasi].y;
+	}
+}
+	gpen_cx = baddies [enoffsmasi].x;
+	gpen_cy = baddies [enoffsmasi].y;
 
-				active = 1;
+	active = 1;
