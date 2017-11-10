@@ -1,0 +1,27 @@
+
+// 0 = Walkable (no action)
+// 1 = Walkable and kills.
+// 2 = Walkable and hides.
+// 4 = Platform (only stops player if falling on it)
+// 8 = Full obstacle (blocks player from all directions)
+// 10 = special obstacle (pushing blocks OR locks!)
+// 16 = Breakable (#ifdef BREAKABLE_WALLS)
+// 32 = Conveyor
+// 64 = CUSTOM FO -> SHEET!
+
+//24 = breakable + full obstacle an example of a combo tile
+
+This is something we wanted to have put down from the start, but we have been leaving it. Planning to have tiles with combination types (which were both several things at once) is the real reason why the list of tile types has so many holes. Now you'll see why.
+Basically, it is about combining tile types, so that a tile is at the same time, for example, a platform that kills you, or an obstacle that can break. To combine types of tiles, just add the types that we want to combine. Hence there are "holes" in the numbering.
+
+For example, to make an obstacle that can be broken, we would have to make that tile had obstacle type (8) and destructible type (16), ie it was type 8 + 16 = 24. In the last Game we have taken, that of Sgt. Helmet, no electric fences (killing) we can destroy. If you download the fonts (you should, now you're a developer churrero!) And look at the section types of tile (Behaviours) at the end of config.h see how the tile of the electrified fence has type 17, ie killing ( 1) and that is destructible (16): 16 + 1 = 17.
+There are many combinations stupid and make no sense, like putting an obstacle kills (8 + 1 = 9). In fact, it is one of those stupid and impossible combinations which we have used for special tiles (the blocks are pushed and locks), which are of type 10 (8 + 2 i.e, an obstacle that hides you).
+
+The engine continues to support simple types (1, 2, 4 or 8), so no need to change anything in your Dogmole or your own Game.
+
+
+
+Change behavior only
+Very, very silly. If you need it, it works just like SET TILE but only for the original behavior for which you specify.
+
+SET BEH (x, y) = b
