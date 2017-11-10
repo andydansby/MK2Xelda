@@ -86,7 +86,7 @@ void wyz_stop_sound (void) {
 }
 
 // CUSTOM
-/*
+
 void __FASTCALL__ wyz_play_sample (unsigned char sample_number) {
 	#asm
 		di
@@ -100,4 +100,4 @@ void __FASTCALL__ wyz_play_sample (unsigned char sample_number) {
 		ei
 	#endasm
 }
-*/
+
