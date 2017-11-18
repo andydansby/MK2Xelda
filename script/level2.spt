@@ -1,0 +1,689 @@
+
+##################################
+# Level 2	BEACH WITH SECRET AREA
+##################################
+
+INC_DECORATIONS decorations2.spt
+
+ENTERING GAME
+	IF TRUE	
+	
+		SET $SWITCH_8 = 0#FINAL BOSS GATE
+		
+		#from level 1
+		IF $WARPED_TO_HERE = 22 
+		THEN		
+			#RESET FLAGS ON ENTERING LEVEL
+			
+			SET $SWITCH_1 = 0
+			SET $SWITCH_2 = 0
+			SET $SWITCH_3 = 0
+			SET $SWITCH_4 = 0
+			SET $SWITCH_5 = 0
+			SET $SWITCH_6 = 0
+			SET $SWITCH_7 = 0
+		
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 12, 1, 7
+			BREAK
+		END
+		
+		#from level 5
+		IF $WARPED_TO_HERE = 12 
+		THEN
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 1, 13, 1
+			BREAK
+		END
+		
+		#from DESERT GATEMASTER
+		IF $WARPED_TO_HERE = 90 
+		THEN
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 5, 9, 5
+			BREAK
+		END	
+		
+		#from dungeon 2
+		IF $WARPED_TO_HERE = 165 
+		THEN
+			SET $SWITCH_6 = 1 
+			#this ensures you can get out to screen 6
+			
+			#RESET FLAGS ON ENTERING LEVEL
+			SET $SWITCH_1 = 0
+			SET $SWITCH_2 = 0
+			SET $SWITCH_3 = 0
+			SET $SWITCH_4 = 0
+			SET $SWITCH_5 = 0
+			SET $SWITCH_7 = 0
+			SET $SWITCH_8 = 0
+		
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 6, 9, 4
+			BREAK
+		END
+		
+		IF $WARPED_TO_HERE = 99 #warp from final boss screen
+		THEN
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 3,1,8
+			BREAK
+		END
+		
+		IF $WARPED_TO_HERE = 98 #TEMP WARP
+		THEN
+			SET $WARPED_TO_HERE = 0
+			# WARP_TO 12, 6, 3
+			# WARP_TO 2, 6, 6
+			# WARP_TO 15, 1, 8			
+			BREAK
+		END
+	END
+END
+
+ENTERING SCREEN 0
+	IF TRUE
+	THEN
+		SET $MOVED_X_FLAG = 0
+		SET $MOVED_Y_FLAG = 0
+		
+		IF $SWITCH_1 = 0
+		THEN
+			SET TILE (8,3) = 3
+		END
+		IF $SWITCH_1 = 1
+		THEN
+			SET TILE (8,3) = 0
+		END
+		
+		IF $SWITCH_2 = 0
+		THEN
+			SET TILE (1,3) = 28
+		END
+		
+		IF $SWITCH_2 = 1
+		THEN
+			SET TILE (1,3) = 27
+		END
+		
+		IF $SWITCH_7 = 0
+		THEN
+			SET TILE (2,3) = 3
+		END
+		
+		IF $SWITCH_7 = 1
+		THEN
+			SET TILE (2,3) = 0
+		END
+		
+		#HAVENT TALKED TO BOOM BETTY SO NO DYNOMITE SHOWN
+		IF $TALK_BOOM_BETTY < 2
+		THEN
+			SET TILE (13, 1) = 0
+		END
+		
+		#TALKED TO BOOM BETTY AND HAVE NOT COLLECTED DYNOMITE
+		IF $TALK_BOOM_BETTY = 2
+		IF $DYNOMITE_6 = 0
+		THEN
+			SET TILE (13, 1) = 30
+		END
+		
+		#TALKED TO BOOM BETTY AND HAVE COLLECTED DYNOMITE
+		IF $TALK_BOOM_BETTY = 2
+		IF $DYNOMITE_6 = 1
+		THEN
+			SET TILE (13, 1) = 0
+		END
+	
+	END
+END
+
+PRESS_FIRE AT SCREEN 0
+
+	IF PLAYER_TOUCHES 1,3
+	IF $SWITCH_2 = 0
+	THEN
+		SET TILE (1,3) = 27
+		#UP
+		SET $SWITCH_2 = 1
+		REENTER
+	END
+	
+	#if a pushable tile is in 1,1 unlock gate
+	IF $MOVED_X_FLAG = 1
+	IF $MOVED_Y_FLAG = 1
+	THEN
+		SET $SWITCH_7 = 1
+		REENTER
+	END
+	
+	#DYNOMITE  NOT OK NEED TO CHECK
+	IF $TALK_BOOM_BETTY = 2
+	IF PLAYER_TOUCHES 13,1
+	IF $DYNOMITE_6 = 0
+	THEN
+		EXTERN 70
+		#text YOU FOUND DYNOMITE
+		SET TILE (13, 1) = 0
+		#remove DYNOMITE from screen
+		SET $DYNOMITE_6 = 1
+		#set flag showing you have DYNOMITE
+		INC $NEED_DYNAMITE , 1
+		#increase the number of DYNOMITE
+		PRINT_TILE_AT (12, 22) = 30
+		#shows DYNOMITE in bottom
+		REDRAW 
+		# refresh the screen
+	END
+	
+END
+
+ENTERING SCREEN 1
+	IF TRUE
+	THEN
+	
+		SET_FIRE_ZONE 193, 0, 223, 15
+		
+		# TEMP, comment for real play
+		# SET $DESERT_GATE = 1
+		
+		IF $PLAINS_GATE = 0
+		THEN
+			SET TILE (13,1) = 20
+		END
+		
+		IF $PLAINS_GATE = 1
+		THEN
+			SET TILE (13,1) = 0
+		END
+		
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 1
+	#gateway to level 5
+	IF PLAYER_IN_X 193, 223
+    IF PLAYER_IN_Y 0, 15
+    THEN
+		SET $WARPED_TO_HERE = 11
+		WARP_TO_LEVEL 5, 13, 13, 8, 1
+    END	
+END
+
+ENTERING SCREEN 2
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 0, 25, 15, 39
+	END
+END
+
+PRESS_FIRE AT SCREEN 2
+	
+	IF PLAYER_IN_X 0, 15
+    IF PLAYER_IN_Y 25, 39
+    THEN
+		SET $WARPED_TO_HERE = 99
+		WARP_TO_LEVEL 9, 12, 13, 8, 1
+    END	
+END
+
+ENTERING SCREEN 3
+	IF TRUE
+	THEN
+	
+		#LIFE RECHARGE HAS NOT BEEN USED
+		IF $LIFE_10 = 0
+		THEN
+			SET TILE (1,1) = 16
+		END
+		#LIFE RECHARGE HAS BEEN USED
+		IF $LIFE_10 = 1
+		THEN
+			SET TILE (1,1) = 0
+		END
+		
+		IF $HAVE_GOLDEN_APPLE = 1
+		THEN
+			SET TILE (0,8) = 6
+		END
+		
+	END	
+END
+
+PRESS_FIRE AT SCREEN 3
+	IF PLAYER_TOUCHES 1, 1
+	IF $LIFE_10 = 0
+	THEN
+		EXTERN 2 
+		#TEXT YOU HAVE RECHARGED YOUR LIFE
+		RECHARGE 
+		#RECHARGE YOUR LIFE
+		SET $LIFE_10 = 1
+		#SHOW THAT RECHARGE HAS ALREADY BEEN USED
+		REDRAW 
+		#CLEARS THE TEXT
+		REHASH 
+		#FORCE ENTERING SCREEN AND REPLACE SPIKES
+	END	
+END
+
+
+ENTERING SCREEN 4
+	IF TRUE
+	THEN
+		
+		# we use these flags to prevent 
+		# you from blocking yourself in
+		SET $MOVED_X_FLAG = 0
+		SET $MOVED_Y_FLAG = 0		
+		
+		IF $SWITCH_3 = 0
+		THEN
+			SET TILE (13,1) = 3
+		END
+		IF $SWITCH_3 = 1
+		THEN
+			SET TILE (13,1) = 0
+		END
+		
+		IF $SWITCH_4 = 0
+		THEN
+			SET TILE (1,5) = 28
+		END
+		
+		IF $SWITCH_4 = 1
+		THEN
+			SET TILE (1,5) = 27
+		END
+		
+	
+		IF $HAVE_CRAB_CLAW = 0
+		THEN
+			SET TILE (11, 4) = 38
+		END
+		IF $HAVE_CRAB_CLAW = 1
+		THEN
+			SET TILE (11, 4) = 0			
+		END
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 4
+
+	IF PLAYER_TOUCHES 11, 4
+	IF $HAVE_CRAB_CLAW = 0
+	THEN
+		EXTERN 36
+		# YOU FOUND THE GIANT CRABCLAW
+		SET TILE (11, 4) = 0
+		SET $HAVE_CRAB_CLAW = 1
+		#now you have an CRABCLAW
+		PRINT_TILE_AT (2, 22) = 38
+		#shows CRABCLAW in bottom
+		SET $TALK_HUNGRY_MAGICIAN = 1
+		REDRAW
+	END
+	
+	IF PLAYER_TOUCHES 1,5
+	THEN
+		SET TILE (1,5) = 27
+		SET $SWITCH_4 = 1
+		EXTERN 71
+		#YOU FEEL AN EARTHQUAKE TO THE SOUTH
+		REDRAW
+	END	
+	
+	#if a pushable tile is in 4,9 reenter screen
+	#to prevent you from blocking yourself in
+	IF $MOVED_X_FLAG = 13
+	IF $MOVED_Y_FLAG = 1
+	THEN
+		REENTER
+	END
+END
+
+#DESERT GATEMASTER HOUSE
+ENTERING SCREEN 5
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 129, 49, 159, 79
+		
+		#LIFE RECHARGE HAS NOT BEEN USED
+		IF $LIFE_03 = 0
+		THEN
+			SET TILE (13,7) = 16
+		END
+		#LIFE RECHARGE HAS BEEN USED
+		IF $LIFE_03 = 1
+		THEN
+			SET TILE (13,7) = 0
+		END	
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 5
+
+	IF PLAYER_IN_X 129, 159
+    IF PLAYER_IN_Y 49, 79
+    THEN
+		SET $WARPED_TO_HERE = 89
+		WARP_TO_LEVEL 9, 7, 7, 8, 1
+    END
+	
+	IF PLAYER_TOUCHES 7, 4
+	THEN
+		EXTERN 40
+		#DESERT GATEMASTER
+		REDRAW
+	END
+	
+	IF PLAYER_TOUCHES 13, 7
+	IF $LIFE_03 = 0
+	THEN
+		EXTERN 2 
+		# TEXT YOU HAVE RECHARGED YOUR LIFE
+		RECHARGE 
+		# RECHARGE YOUR LIFE
+		SET $LIFE_03 = 1 
+		# SHOW THAT RECHARGE HAS ALREADY BEEN USED
+		REDRAW 
+		#CLEARS THE TEXT
+		REHASH 
+		#FORCE ENTERING SCREEN AND REPLACE SPIKES
+	END	
+	
+END
+
+#ENTRANCE TO DUNGEON
+ENTERING SCREEN 6
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 129, 17, 159, 47
+		#ENTRANCE TO DUNGEON
+		
+		EXTERN 246
+		#turn lights on
+		
+		# TEMP TO OPEN DUNGEON comment for real play
+		# SET $DUNGEON_TWO_OPEN = 1
+		
+		# we use these flags to prevent 
+		# you from blocking yourself in
+		SET $MOVED_X_FLAG = 0
+		SET $MOVED_Y_FLAG = 0
+		
+		IF $SWITCH_1 = 0
+		THEN
+			SET TILE (1,1) = 28
+		END
+		
+		IF $SWITCH_1 = 1
+		THEN
+			SET TILE (1,1) = 27
+		END
+		
+		IF $DUNGEON_TWO_CONQUERED = 1
+		THEN
+			SET $DUNGEON_TWO_OPEN = 0
+			SET $SWITCH_6 = 1 #MAKE SURE GATE IS OPEN
+		END
+		
+		IF $DUNGEON_TWO_OPEN = 0
+		THEN
+			SET TILE (9,3) = 20
+		END
+		
+		IF $DUNGEON_TWO_OPEN = 1
+		THEN
+			SET TILE (9,3) = 0
+		END		
+	END
+END
+
+PRESS_FIRE AT SCREEN 6
+	#WARP TO DUNGEON
+	IF PLAYER_IN_X 129, 159
+    IF PLAYER_IN_Y 17, 47
+    THEN
+		SET $WARPED_TO_HERE = 160
+		WARP_TO_LEVEL 11, 15, 7, 8, 1
+    END	
+	
+	IF PLAYER_TOUCHES 1,1
+	#IF $SWITCH_1 = 0
+	THEN
+		SET TILE (1,1) = 27
+		#UP
+		SET $SWITCH_1 = 1
+	END	
+	
+	#if a pushable tile is in 4,9 reenter screen
+	#we use this to prevent you from blocking yourself in
+	IF $MOVED_X_FLAG = 4
+	IF $MOVED_Y_FLAG = 9
+	THEN
+		REENTER
+	END
+END
+
+
+ENTERING SCREEN 8
+	IF TRUE
+	THEN
+		# we use these flags to prevent 
+		# you from blocking yourself in
+		SET $MOVED_X_FLAG = 0
+		SET $MOVED_Y_FLAG = 0		
+		
+		IF $SWITCH_2 = 0
+		THEN
+			SET TILE (8,1) = 3
+		END
+		IF $SWITCH_2 = 1
+		THEN
+			SET TILE (8,1) = 0
+		END
+		
+		IF $SWITCH_3 = 0
+		THEN
+			SET TILE (1,5) = 28
+		END
+		
+		IF $SWITCH_3 = 1
+		THEN
+			SET TILE (1,5) = 27
+		END		
+	END
+END
+
+PRESS_FIRE AT SCREEN 8
+	IF PLAYER_TOUCHES 1,5
+	IF $SWITCH_3 = 0
+	THEN
+		SET TILE (1,5) = 27#UP
+		SET $SWITCH_3 = 1
+	END
+		
+	#if a pushable tile is in 4,9 reenter screen
+	#we use this to prevent you from blocking yourself in
+	IF $MOVED_X_FLAG = 8
+	IF $MOVED_Y_FLAG = 1
+	THEN
+		REENTER
+	END
+END
+
+
+ENTERING SCREEN 10
+	IF TRUE
+	THEN		
+		
+		#DOWN
+		#toggle switches
+		IF $SWITCH_6 = 0
+		THEN
+			SET TILE (1,1) = 28
+			SET TILE (4,0) = 13
+		END
+		
+		#toggle switches
+		#UP
+		IF $SWITCH_6 = 1
+		THEN
+			SET TILE (1,1) = 27
+			SET TILE (4,0) = 0			
+		END
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 10
+	
+	#toggle switches
+	IF PLAYER_TOUCHES 1,1
+	THEN
+		FLIPFLOP $SWITCH_6
+	END
+	
+	###########
+	#DRAW SWITCH POSITION
+	###########
+	IF PLAYER_TOUCHES 1,1
+	IF $SWITCH_6 = 0
+	THEN
+		#MOVE SWITCH
+		SET TILE (1, 1) = 28
+		SET TILE (4,0) = 13
+	END	
+	
+	IF PLAYER_TOUCHES 1,1
+	IF $SWITCH_6 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (1, 1) = 27
+		SET TILE (4,0) = 0
+	END	
+	
+END
+
+
+#entryway to level
+ENTERING SCREEN 12
+	IF TRUE
+	THEN
+		#warp to level 1
+		SET_FIRE_ZONE 0, 97, 15, 127
+	END
+END
+
+PRESS_FIRE AT SCREEN 12
+	#to level 1
+	IF PLAYER_IN_X 0, 15
+    IF PLAYER_IN_Y 97, 127
+    THEN
+		SET $WARPED_TO_HERE = 22
+		WARP_TO_LEVEL 1, 19, 13, 6, 1
+    END
+	
+END
+
+
+ENTERING SCREEN 14
+	IF TRUE
+	THEN
+		# TEMP VARIABLE, COMMENT FOR REAL PLAY
+		# SET $RAISE_LANDBRIDGE = 1		
+		
+		IF $HAVE_GIANT_CLAM = 0
+		THEN
+			SET TILE (11, 7) = 31
+		END
+		IF $HAVE_GIANT_CLAM = 1
+		THEN
+			SET TILE (11, 7) = 0			
+		END
+		
+		IF $SWITCH_4 = 1
+		THEN
+			SET TILE (12,7) = 0
+		END
+		
+		IF $RAISE_LANDBRIDGE = 0
+		THEN
+			#WATER
+			SET TILE (14, 8) = 6
+		END	
+		
+		IF $RAISE_LANDBRIDGE = 1
+		THEN
+			#ADD SOME MORE LAND
+			SET TILE (14, 8) = 1
+		END
+	END
+END
+
+PRESS_FIRE AT SCREEN 14
+
+	IF PLAYER_TOUCHES 11, 7
+	IF $HAVE_GIANT_CLAM = 0
+	THEN
+		EXTERN 37
+		# YOU FOUND THE GIANT CLAM
+		SET TILE (11, 7) = 0
+		SET $HAVE_GIANT_CLAM = 1
+		#now you have an CLAM
+		PRINT_TILE_AT (4, 22) = 31
+		#shows CLAM in bottom
+		SET $TALK_HUNGRY_MAGICIAN = 1
+		REDRAW
+	END
+END
+
+ENTERING SCREEN 15
+	IF TRUE
+	THEN
+		#1,8
+		SET_FIRE_ZONE 9, 121, 23, 135
+		
+		IF $RAISE_LANDBRIDGE = 0
+		THEN
+			#WATER
+			SET TILE (0, 8) = 6
+		END	
+		IF $RAISE_LANDBRIDGE = 1
+		THEN
+			#ADD SOME MORE LAND
+			SET TILE (0, 8) = 1
+		END		
+	END
+END
+
+PRESS_FIRE AT SCREEN 15
+
+	#once you have entered the screen you are
+	#now commeted to get to the golden apple
+	#by blocking you in
+	
+	IF PLAYER_TOUCHES 1, 8
+	IF $HAVE_GOLDEN_APPLE = 0
+	THEN
+		SET $RAISE_LANDBRIDGE = 0
+		SET TILE (0,8) = 6
+	END	
+	
+	#now that you have the golden apple you can now exit the area
+	IF PLAYER_TOUCHES 1, 8
+	IF $HAVE_GOLDEN_APPLE = 1
+	THEN
+		SET $RAISE_LANDBRIDGE = 1
+		#SET TILE (0,8) = 6
+	END	
+END
+
+END_OF_LEVEL 
+#end level 2

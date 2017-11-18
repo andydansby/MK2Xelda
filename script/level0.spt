@@ -1,0 +1,539 @@
+
+##################################
+# Level 0 ENTRY LEVEL
+##################################
+
+#GAME STARTS AT SCREEN 10 AS DEFINED IN BUILDLEVELS.BAT
+		
+INC_DECORATIONS decorations0.spt
+#pulls in the extra tiles
+
+ENTERING GAME	
+	IF TRUE
+		
+		# if there are no defined WARPED_TO_HERE values set 
+		# game will start at screen 10
+		# the WARPED_TO_HERE variable is used for 
+		# entry ways of doors and gates
+		
+		
+		#GAME STARTS AT SCREEN 10 AS DEFINED IN BUILDLEVELS.BAT
+		EXTERN 246 #TURN LIGHTS ON AT EVERY ENTRANCE
+		
+		#from level 1 TREE MAZE
+		IF $WARPED_TO_HERE = 21
+		THEN
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 15, 13, 6
+			BREAK
+		END
+		
+		#from level 2 SWAMP
+		IF $WARPED_TO_HERE = 4
+		THEN
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 0, 6, 1
+			BREAK			
+		END
+		
+		#from level 9 island keeper house
+		IF $WARPED_TO_HERE = 76
+		THEN
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 10, 12, 7
+			BREAK
+		END
+		
+		#from level 9 child gatekeeper
+		IF $WARPED_TO_HERE = 78
+		THEN
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 4, 6, 7
+			BREAK
+		END
+		
+		#from level 9 woodsman
+		IF $WARPED_TO_HERE = 80
+		THEN
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 6, 7, 6
+			BREAK
+		END
+		
+		#from level 9 caveman
+		IF $WARPED_TO_HERE = 82
+		THEN
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 1, 10, 1
+			BREAK
+		END
+		
+		#from level 9 blacksmith
+		IF $WARPED_TO_HERE = 84
+		THEN
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 8, 7, 4
+			BREAK
+		END
+		
+		#from level 10 DUNGEON
+		IF $WARPED_TO_HERE = 120
+		THEN
+			EXTERN 246 #LIGHTS ON
+			
+			#reset the switches found in the dungeon
+			SET $SWITCH_1 = 0
+			SET $SWITCH_2 = 0
+			SET $SWITCH_3 = 0
+			SET $SWITCH_4 = 0
+			SET $SWITCH_5 = 0
+			SET $SWITCH_6 = 0
+			SET $SWITCH_7 = 0
+			SET $SWITCH_8 = 0
+			SET $SWITCH_9 = 0
+			SET $SWITCH_10 = 0
+			SET $SWITCH_11 = 0
+			SET $SWITCH_13 = 0
+		
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 3, 9, 3
+			BREAK
+		END
+	END
+END
+
+ENTERING ANY
+	IF TRUE		
+		
+	END
+END
+
+# upper left gateway swamp
+ENTERING SCREEN 0	
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 81, 0, 111, 15
+		#this fire zone is for a jump to level 3
+		
+		#cheater to keep gate open
+		#TEMP/ COMMENT REMOVE FOR REAL PLAY
+		#SET $SWAMP_GATE = 1
+		
+		#CLOSED GATE
+		IF $SWAMP_GATE = 0
+		THEN
+			SET TILE (6, 1) = 20
+			#tile 20 is a gate
+		END
+		
+		#OPEN GATE
+		IF $SWAMP_GATE = 1
+		THEN
+			SET TILE (6, 1) = 0
+			#tile 0 is open grass
+		END
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 0
+	#gateway to level 3
+	IF PLAYER_IN_X 81, 111
+    IF PLAYER_IN_Y 0, 15
+    THEN
+		#if you enter the area defined by the 
+		#PLAYER_IN_X and PLAYER_IN_Y
+		#warp to level 3
+		SET $WARPED_TO_HERE = 24
+		WARP_TO_LEVEL 3, 16, 3, 3, 1
+    END
+END
+
+# cave screen
+#house door of swamp gatekeeper
+ENTERING SCREEN 1	
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 145, 0, 175, 15
+		#this fire zone is for a jump to level 9 
+		#in house level to swamp gatekeeper
+	END
+END
+
+PRESS_FIRE AT SCREEN 1
+	#sign
+	IF PLAYER_TOUCHES 7, 1
+	THEN
+		EXTERN 1#gatekeeper
+		REDRAW
+	END	
+	
+	#Door to house swamp gatekeeper
+	#jump to level 9
+	IF PLAYER_IN_X 145, 175
+    IF PLAYER_IN_Y 0, 15
+    THEN
+		SET $WARPED_TO_HERE = 81
+		WARP_TO_LEVEL 9, 3, 7, 8, 1
+    END
+END
+
+
+# dungeon entrance
+ENTERING SCREEN 3	
+	IF TRUE
+	THEN
+		#entrance to dungeon
+		SET_FIRE_ZONE 137, 9, 151, 28
+		EXTERN 246 #TURN LIGHTS ON AT EVERY ENTRANCE
+
+		#cheater to let you in the dungeon
+		#TEMP / COMMENT FOR REAL PLAY
+		#SET $DUNGEON_ONE_OPEN = 1
+		
+		IF $DUNGEON_ONE_OPEN = 0
+		THEN
+			SET TILE (9,2) = 20
+			#tile 20 is a gate
+		END
+		IF $DUNGEON_ONE_OPEN = 1
+		THEN
+			SET TILE (9,2) = 7
+			#tile 7 is an entrance
+		END		
+	END
+END
+
+PRESS_FIRE AT SCREEN 3
+	#to dungeon 1, MAP 10
+	IF PLAYER_IN_X 137, 151
+    IF PLAYER_IN_Y 9, 28
+    THEN
+		SET $WARPED_TO_HERE = 150
+		WARP_TO_LEVEL 10, 1, 7, 7, 1
+		#jump to the dungeon once you enter the fire zone
+    END	
+	
+	IF PLAYER_TOUCHES 8, 3
+	THEN
+		EXTERN 59
+		#SIGN CANNOT ENTER DUNGEON WITHOUT TORCH
+		REDRAW
+	END
+END
+
+# YARD of child gatekeeper, uses XYZZY to open gate, missing teddybear
+ENTERING SCREEN 4	
+	IF TRUE
+	THEN
+		#DOOR AT 6,6
+		SET_FIRE_ZONE 89, 89, 103, 103
+		#fire zone to enter the house of the dungeon gatemaster
+	END
+END
+
+PRESS_FIRE AT SCREEN 4
+	#Door to house child gatekeeper
+	IF PLAYER_IN_X 89, 103
+    IF PLAYER_IN_Y 89, 103
+    THEN
+		SET $WARPED_TO_HERE = 77
+		WARP_TO_LEVEL 9, 1, 7, 7, 1
+    END
+	
+	IF PLAYER_TOUCHES 8, 6
+	THEN
+		EXTERN 3
+		#SIGN dungeon gatemaster
+		REDRAW
+	END	
+END
+
+#TEDDY bear
+ENTERING SCREEN 5
+	IF TRUE
+	THEN
+		
+		#trees in the way for the teddybear
+		IF $TEDDYBEAR_GATE = 0
+		THEN
+			SET TILE (5, 3) = 9
+			SET TILE (6, 3) = 10
+			SET TILE (5, 4) = 11
+			SET TILE (6, 4) = 12
+		END
+		
+		#trees out of the way to get the teddybear
+		IF $TEDDYBEAR_GATE = 1
+		THEN
+			SET TILE (5, 3) = 0
+			SET TILE (6, 3) = 0
+			SET TILE (5, 4) = 0
+			SET TILE (6, 4) = 0
+		END
+		
+		#if you have not collected the teddybear will show the bear
+		IF $HAVE_TEDDY_BEAR = 0
+		THEN
+			SET TILE (7,5) = 30
+		END
+		#if you have already collected the teddybear, shows nothing
+		IF $HAVE_TEDDY_BEAR = 1
+		THEN
+			SET TILE (7,5) = 0
+		END
+	
+	END
+END
+
+PRESS_FIRE AT SCREEN 5
+
+	IF PLAYER_TOUCHES 7, 5
+	IF $HAVE_TEDDY_BEAR = 0
+	THEN
+		EXTERN 34
+		#text you now have the teddy
+		SET TILE (7, 5) = 0
+		SET $HAVE_TEDDY_BEAR = 1
+		SET $TALK_DUNGEON_GATEMASTER = 1
+		PRINT_TILE_AT (0, 22) = 30
+		#shows TEDDY BEAR in bottom inventory
+		REDRAW
+	END	
+END
+
+
+# house of woodsman, needs axe to cut down trees
+ENTERING SCREEN 6
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 105, 73, 119, 87
+		#DOOR AT 7 5
+	END
+END
+
+PRESS_FIRE AT SCREEN 6
+	#SIGN
+	IF PLAYER_TOUCHES 5, 5
+	THEN
+		EXTERN 4
+		#woodsman text
+		REDRAW
+	END
+	
+	#door TO WOODSMAN 7 5
+	IF PLAYER_IN_X 105, 119
+    IF PLAYER_IN_Y 73, 87
+    THEN
+		SET $WARPED_TO_HERE = 79
+		WARP_TO_LEVEL 9, 2, 7, 7, 1
+    END	
+END
+
+
+#BLACKSMITH
+ENTERING SCREEN 8
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 105, 41, 119, 55
+	END
+END
+
+PRESS_FIRE AT SCREEN 8
+	IF PLAYER_IN_X 105, 119
+    IF PLAYER_IN_Y 41, 55
+	THEN
+		SET $WARPED_TO_HERE = 83
+		WARP_TO_LEVEL 9, 4, 7, 8, 1
+	END
+	
+	#sign
+	IF PLAYER_TOUCHES 5, 3
+	THEN
+		EXTERN 6
+		#TEXT blacksmith
+		REDRAW
+	END
+END
+
+# STATUE
+ENTERING SCREEN 9
+	IF TRUE
+	THEN
+		#NEED FLAG TO CHECK IF APPLE IS RETURNED TO 11    4
+		#FIRE ZONE 169 57 183 71
+		
+		#TEMP TESTING
+		#for a quick end to the game
+		#SET $HAVE_GOLDEN_APPLE = 1
+	END
+END
+
+PRESS_FIRE AT SCREEN 9
+	#statue sign
+	IF PLAYER_TOUCHES 8, 5
+	THEN
+		EXTERN 5
+		#statue of protection text
+		REDRAW
+	END
+	
+	IF PLAYER_TOUCHES 11, 4
+	IF $HAVE_GOLDEN_APPLE = 1
+	THEN
+		EXTERN 74
+		REDRAW
+		GAME_ENDING
+		#ta da the game has been completed
+	END	
+END
+
+#ISLAND KEEPER
+ENTERING SCREEN 10
+	IF TRUE
+	THEN		
+		SET_FIRE_ZONE 185, 89, 199, 103
+		
+		EXTERN 246 
+		#TURN LIGHTS ON
+		
+		#TEMP TO GET OUT OF GATE
+		#just in case you are feeling trapped
+		#SET $TALK_ISLAND_KEEPER = 1
+		
+		# IF YOU HAVENT TALKED TO THE ISLAND KEEPER 
+		# YOU CANNOT ESCAPE THE GATE
+		IF $TALK_ISLAND_KEEPER = 0
+		THEN
+			SET TILE (6,8) = 3
+		END
+		
+		# YOU HAVE TALKED TO THE ISLAND KEEPER 
+		# NOW YOU CAN EXPLORE
+		IF $TALK_ISLAND_KEEPER = 1
+		THEN
+			SET TILE (6,8) = 0
+		END
+		
+	END
+END
+
+#ISLAND KEEPER
+PRESS_FIRE AT SCREEN 10
+	#door TO ISLAND KEEPER
+	IF PLAYER_IN_X 185, 199
+    IF PLAYER_IN_Y 89, 103
+    THEN
+		SET $WARPED_TO_HERE = 75
+		WARP_TO_LEVEL 9, 1, 7, 8, 1
+    END
+	
+	#sign
+	IF PLAYER_TOUCHES 10, 6
+	THEN
+		EXTERN 7
+		#TEXT island keeper
+		REDRAW
+	END
+	
+	#TEMP warping MUSHROOM used to jump to places
+	IF PLAYER_TOUCHES 8, 5
+	THEN
+		#SET $HAVE_TORCH = 1
+		SET $WARPED_TO_HERE = 98
+		
+		#	WARP_TO_LEVEL 1, 13, 7, 8, 1
+		#	WARP_TO_LEVEL 2, 3, 6, 3, 1
+		#	WARP_TO_LEVEL 2, 15, 1, 8, 1
+		#	WARP_TO_LEVEL 3, 13, 7, 8, 1
+		#	WARP_TO_LEVEL 4, 13, 7, 8, 1
+		#	WARP_TO_LEVEL 5, 13, 7, 8, 1
+		#	WARP_TO_LEVEL 6, 13, 7, 8, 1
+		#	WARP_TO_LEVEL 7, 11, 7, 8, 1
+		#	WARP_TO_LEVEL 8, 11, 6, 7, 1
+		#	WARP_TO_LEVEL 9, 12, 7, 8, 1
+		#temp
+		#	SET $HAVE_TORCH = 1
+		#	WARP_TO_LEVEL 10, 7, 11, 4, 1		
+		
+		#  WARP_TO_LEVEL 11, 3, 7, 8, 1		
+		#	WARP_TO_LEVEL 12, 1, 2, 1, 1
+		#	WARP_TO_LEVEL 12, 4, 2, 1, 1
+	END
+END
+
+	
+ENTERING SCREEN 12
+	IF TRUE
+	THEN
+	
+		#RECHARGE HAS NOT BEEN USED show heart
+		IF $LIFE_01 = 0
+		THEN
+			SET TILE (2,7) = 16
+		END
+		#RECHARGE HAS BEEN USED heart disappears
+		IF $LIFE_01 = 1
+		THEN
+			SET TILE (2,7) = 0
+		END
+		
+	END	
+END
+
+PRESS_FIRE AT SCREEN 12
+	IF PLAYER_TOUCHES 2, 7
+	IF $LIFE_01 = 0
+	THEN
+		EXTERN 2 
+		#TEXT YOU HAVE RECHARGED YOUR LIFE
+		RECHARGE 
+		#RECHARGE YOUR LIFE FULLY
+		SET $LIFE_01 = 1 
+		#SHOW THAT RECHARGE HAS ALREADY BEEN USED
+		REDRAW 
+		#CLEARS THE TEXT
+		REHASH 
+		#FORCE ENTERING SCREEN AND REPLACE SPIKES
+	END	
+END
+
+#gate to another level (woods for Axeman)
+#need to talk to axeman first
+ENTERING SCREEN 15
+	IF TRUE
+	THEN		
+		
+		#GATE AT 14 6
+		SET_FIRE_ZONE 209, 89, 231, 103
+		
+		#TEMP TO ACCESS LEVEL 1
+		#cheater to open the gate
+		#SET $FOREST_GATE = 1
+		
+		#GATE CLOSED
+		IF $FOREST_GATE = 0
+		THEN
+			SET TILE (13, 6) = 20
+		END
+		#gate open
+		IF $FOREST_GATE = 1
+		THEN
+			SET TILE (13, 6) = 1
+		END		
+	END
+END
+
+PRESS_FIRE AT SCREEN 15
+	#entry to level 1	
+	IF PLAYER_IN_X 209, 231
+    IF PLAYER_IN_Y 89, 103
+    THEN
+		SET $WARPED_TO_HERE = 1
+		WARP_TO_LEVEL 1, 12, 1, 6, 1
+    END	
+END
+
+
+END_OF_LEVEL
+

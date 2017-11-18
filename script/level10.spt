@@ -1,0 +1,718 @@
+# puzzle ideas
+# http://www.rpgmakercentral.com/topic/34542-puzzles/
+##################################
+# Level 10  DUNGEON 1
+##################################
+
+INC_DECORATIONS decorations10.spt
+
+ENTERING GAME
+	IF TRUE
+	
+		SET $SWITCH_1 = 0
+		SET $SWITCH_2 = 0
+		SET $SWITCH_3 = 0
+		SET $SWITCH_4 = 0
+		SET $SWITCH_5 = 0
+		SET $SWITCH_6 = 0
+		SET $SWITCH_7 = 0
+		SET $SWITCH_8 = 0
+		SET $SWITCH_9 = 0
+		SET $SWITCH_10 = 0
+		SET $SWITCH_11 = 0
+#		SET $SWITCH_12 = 0
+		SET $SWITCH_13 = 0
+				
+		#temp from level 0 mushroom warp
+		IF $WARPED_TO_HERE = 98
+		THEN
+			SET $WARPED_TO_HERE = 0
+			#WARP_TO 12, 7, 7
+			#WARP_TO 7, 11, 4
+			#WARP_TO 14, 12, 4
+			#WARP_TO 15, 3, 5
+			#WARP_TO 2, 2, 8
+			BREAK
+		END
+		
+		#from level 0
+		IF $WARPED_TO_HERE = 150
+		THEN
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 12, 7, 7
+			BREAK
+		END		
+	END
+END
+
+
+ENTERING SCREEN 0
+	IF TRUE
+	THEN
+		IF $SWITCH_1 = 0
+		THEN
+		#MOVE SWITCH
+			SET TILE (3, 1) = 38
+		END	
+	
+		IF $SWITCH_1 = 1
+		THEN
+			#MOVE SWITCH
+			SET TILE (3, 1) = 39
+		END		
+	END
+END
+
+PRESS_FIRE AT SCREEN 0
+	IF PLAYER_TOUCHES 3,1
+	THEN
+		SET $SWITCH_1 = 1
+	END
+
+	###########
+	#DRAW SWITCH POSITIONS
+	###########
+	IF $SWITCH_1 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (3, 1) = 39
+		#SET TILE (2, 1) = 24
+	END
+END
+
+
+ENTERING SCREEN 2
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 25, 9, 103, 103
+
+		#####
+		#pressure switch 5 1
+		#####
+		#INITALIZES AS 0
+		IF $SWITCH_2 = 0
+		THEN
+			SET TILE (5,1) = 7
+			#PRESSURE SWITCH
+			
+			SET TILE (7,1) = 0
+			SET TILE (8,7) = 15
+		END	
+		
+		IF $SWITCH_2 = 1
+		THEN
+			SET TILE (5,1) = 6
+			#PRESSURE SWITCH
+			
+			SET TILE (7,1) = 15
+			SET TILE (8,7) = 0
+		END
+
+		#####
+		#pressure switch
+		#####
+		
+		IF $SWITCH_1 = 0
+		THEN
+			SET TILE (9,9) = 15
+			SET TILE (10,9) = 15
+		END
+		
+		IF $SWITCH_1 = 1
+		THEN
+			SET TILE (9,9) = 0
+			SET TILE (10,9) = 0
+		END
+		
+		IF $SWITCH_7 = 0
+		THEN
+			SET TILE (14, 4) = 15
+		END	
+		IF $SWITCH_7 = 1
+		THEN
+			SET TILE (14, 4) = 0
+		END
+	END
+END
+
+PRESS_FIRE AT SCREEN 2
+	#PRESSURE TILE LOGIC
+	#switch 2
+	#STEPPED ON TILE
+	IF PLAYER_TOUCHES 5, 1
+	THEN
+		SET $SWITCH_2 = 3
+	END	
+	
+	#STEPPED TO LEFT
+	IF $SWITCH_2 = 3
+	IF PLAYER_TOUCHES 4, 1
+	THEN		
+		SET TILE (5,1) = 7#PRESSURE SWITCH
+		SET TILE (7,1) = 0
+		SET TILE (8,7) = 15
+		SET $SWITCH_2 = 0
+	END
+	
+	#STEPPED TO RIGHT
+	IF $SWITCH_2 = 3
+	IF PLAYER_TOUCHES 6, 1
+	THEN
+		SET TILE (5,1) = 6#PRESSURE SWITCH
+		SET TILE (7,1) = 15
+		SET TILE (8,7) = 0
+		SET $SWITCH_2 = 1
+	END
+
+END
+
+ENTERING SCREEN 3
+	IF TRUE
+	THEN	
+		IF $SWITCH_3 = 0
+		THEN
+			SET TILE (13, 3) = 38
+		END	
+		IF $SWITCH_3 = 1
+		THEN
+			SET TILE (13, 3) = 39
+		END
+		
+		IF $SWITCH_4 = 0
+		THEN
+			SET TILE (13, 7) = 38
+		END	
+		IF $SWITCH_4 = 1
+		THEN
+			SET TILE (13, 7) = 39
+		END	
+		
+		IF $SWITCH_7 = 0
+		THEN
+			SET TILE (0, 4) = 15
+		END	
+		IF $SWITCH_7 = 1
+		THEN
+			SET TILE (0, 4) = 0
+		END
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 3
+	IF PLAYER_TOUCHES 13,3
+	THEN
+		#FLIPFLOP $SWITCH_3
+		SET $SWITCH_3 = 1
+	END
+	
+	IF PLAYER_TOUCHES 13,7
+	THEN
+		FLIPFLOP $SWITCH_4
+	END
+	
+	###########
+	#DRAW SWITCH POSITIONS
+	###########	
+	IF $SWITCH_3 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 3) = 39
+		#SET TILE (12, 3) = 22
+	END
+	
+	IF $SWITCH_4 = 0
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 7) = 38
+	END	
+	IF $SWITCH_4 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 7) = 39
+	END
+END
+
+
+ENTERING SCREEN 6
+	IF TRUE
+	THEN	
+		IF $SWITCH_1 = 0
+		THEN
+			SET TILE (9,0) = 15
+			SET TILE (10,0) = 15
+		END
+		
+		IF $SWITCH_1 = 1
+		THEN
+			SET TILE (9,0) = 0
+			SET TILE (10,0) = 0
+		END
+		
+		IF $SWITCH_3 = 0
+		THEN
+			SET TILE (14,1) = 15
+			SET TILE (14,2) = 15
+		END
+		
+		IF $SWITCH_3 = 1
+		THEN
+			SET TILE (14,1) = 0
+			SET TILE (14,2) = 0
+		END
+		
+		IF $SWITCH_6 = 0
+		THEN
+			SET TILE (14,7) = 15
+			SET TILE (14,8) = 15
+		END	
+		IF $SWITCH_6 = 1
+		THEN
+			SET TILE (14,7) = 0
+			SET TILE (14,8) = 0
+		END
+	END
+END
+
+ENTERING SCREEN 7
+	IF TRUE
+	THEN	
+		IF $SWITCH_5 = 0
+		THEN
+			SET TILE (13, 3) = 38
+		END	
+		IF $SWITCH_5 = 1
+		THEN
+			SET TILE (13, 3) = 39
+		END
+		
+		IF $SWITCH_6 = 0
+		THEN
+			SET TILE (13, 6) = 38
+			SET TILE (0,7) = 15
+			SET TILE (0,8) = 15
+			#SET TILE (12, 6) = 0
+		END	
+		IF $SWITCH_6 = 1
+		THEN
+			SET TILE (13, 6) = 39
+			SET TILE (0,7) = 0
+			SET TILE (0,8) = 0
+			#SET TILE (12, 6) = 21
+		END
+		
+		IF $SWITCH_3 = 0
+		THEN
+			SET TILE (0, 1) = 15
+			SET TILE (0, 2) = 15
+		END	
+		IF $SWITCH_3 = 1
+		THEN
+			SET TILE (0, 1) = 0
+			SET TILE (0, 2) = 0
+		END
+	END
+END
+
+PRESS_FIRE AT SCREEN 7
+
+	IF PLAYER_TOUCHES 13,3
+	THEN
+		FLIPFLOP $SWITCH_5
+	END
+	
+	IF PLAYER_TOUCHES 13,6
+	THEN
+		#FLIPFLOP $SWITCH_6
+		SET $SWITCH_6 = 1
+	END
+	
+	###########
+	#DRAW SWITCH POSITIONS
+	###########	
+	IF $SWITCH_6 = 1
+	THEN
+		SET TILE (13, 6) = 39#up
+		SET TILE (0,7) = 0
+		SET TILE (0,8) = 0
+		#SET TILE (12, 6) = 21#arrow
+	END
+	
+	IF $SWITCH_5 = 0
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 3) = 38
+	END	
+	IF $SWITCH_5 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 3) = 39
+	END
+	
+END
+
+
+ENTERING SCREEN 10
+	IF TRUE
+	THEN
+	
+		IF $SWITCH_7 = 0
+		THEN
+			SET TILE (3, 7) = 38
+			SET TILE (3, 8) = 0
+		END	
+		IF $SWITCH_7 = 1
+		THEN
+			SET TILE (3, 7) = 39
+		END
+		
+		IF $SWITCH_8 = 0
+		THEN
+			SET TILE (13, 5) = 38
+			SET TILE (14, 1) = 15
+			SET TILE (14, 2) = 15
+			SET TILE (13, 4) = 0
+		END	
+		IF $SWITCH_8 = 1
+		THEN
+			SET TILE (13, 5) = 39
+			SET TILE (14, 1) = 0
+			SET TILE (14, 2) = 0
+			#SET TILE (13, 4) = 19
+		END
+		
+		IF $SWITCH_9 = 0
+		THEN
+			SET TILE (11,9) = 15
+		END	
+		IF $SWITCH_9 = 1
+		THEN
+			SET TILE (11,9) = 0
+		END
+		
+		#CLOSES THE GATE AGAIN IF YOU TRY TO REENTER ONCE YOU CAPTURE THE SCEPTRE
+		IF $HAVE_SCEPTRE = 1
+		THEN
+			SET TILE (11,9) = 15
+		END
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 10
+
+	IF PLAYER_TOUCHES 3,7
+	THEN
+		#FLIPFLOP $SWITCH_7
+		SET $SWITCH_7 = 1
+	END
+	
+	IF PLAYER_TOUCHES 13,5
+	THEN
+		#FLIPFLOP $SWITCH_8
+		SET $SWITCH_8 = 1
+	END
+	
+	###########
+	#DRAW SWITCH POSITIONS
+	###########	
+
+	IF $SWITCH_7 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (3, 7) = 39
+	END
+
+	IF $SWITCH_8 = 1
+	THEN
+		SET TILE (13, 5) = 39
+		SET TILE (14, 1) = 0
+		SET TILE (14, 2) = 0
+		#SET TILE (13, 4) = 19
+	END		
+END
+
+ENTERING SCREEN 11
+	IF TRUE
+	THEN
+	
+		IF $SWITCH_9 = 0
+		THEN
+			SET TILE (13, 5) = 38
+		END	
+		IF $SWITCH_9 = 1
+		THEN
+			SET TILE (13, 5) = 39
+		END
+		
+		IF $SWITCH_8 = 0
+		THEN
+			SET TILE (0, 1) = 15
+			SET TILE (0, 2) = 15		
+		END	
+		IF $SWITCH_8 = 1
+		THEN
+			SET TILE (0, 1) = 0
+			SET TILE (0, 2) = 0
+		END
+
+	END
+END
+
+PRESS_FIRE AT SCREEN 11
+
+	IF PLAYER_TOUCHES 13,5
+	THEN
+		SET $SWITCH_9 = 1
+	END
+	
+	###########
+	#DRAW SWITCH POSITIONS
+	###########	
+	IF $SWITCH_9 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 5) = 39
+		#SET TILE (13, 6) = 21
+	END
+END
+
+
+ENTERING SCREEN 12
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 9, 23, 127, 159
+		
+		SET $MOVED_X_FLAG = 0
+		SET $MOVED_Y_FLAG = 0
+		
+		#TEMP / COMMENT FOR REAL PLAY
+		#SET $HAVE_TORCH = 1
+		
+		IF $HAVE_TORCH = 1
+		THEN
+			#temp, uncomment for real play
+			EXTERN 247 
+			#LIGHTS OFF
+		END
+		
+		#DO YOU HAVE THE TORCH
+		IF $HAVE_TORCH = 0
+		THEN
+			SET $WARPED_TO_HERE = 120
+			WARP_TO_LEVEL 0, 2, 6, 4, 1
+		END
+		
+		#block gate until you have sceptre
+		IF $HAVE_SCEPTRE = 0
+		THEN
+			SET TILE (7,8) = 15
+		END
+		IF $HAVE_SCEPTRE = 1
+		THEN
+			SET TILE (7,8) = 0
+		END
+	END
+END
+
+PRESS_FIRE AT SCREEN 12
+	IF PLAYER_IN_X 97, 127
+    IF PLAYER_IN_Y 129, 159
+    THEN
+		SET $WARPED_TO_HERE = 120
+		WARP_TO_LEVEL 0, 2, 6, 4, 1
+    END	
+	
+	#reset button logic
+	IF PLAYER_IN_X 1, 31
+    IF PLAYER_IN_Y 1, 31
+    THEN
+		WARP_TO 12, 7, 7
+		REENTER		
+    END
+	
+	#if a pushable tile is in 4,9 reenter screen
+	IF $MOVED_X_FLAG = 7
+	IF $MOVED_Y_FLAG = 0
+	THEN
+		REENTER
+	END
+	IF $MOVED_X_FLAG = 7
+	IF $MOVED_Y_FLAG = 1
+	THEN
+		REENTER
+	END
+	
+	#if you push a block onto the reset button
+	IF $MOVED_X_FLAG = 1
+	IF $MOVED_Y_FLAG = 1
+	THEN
+		REENTER
+	END
+	
+END
+
+#WORKING ON
+ENTERING SCREEN 13
+	IF TRUE
+	THEN
+	
+		IF $SWITCH_10 = 0
+		THEN
+			SET TILE (13, 1) = 38
+			SET TILE (7, 0) = 15
+		END	
+		IF $SWITCH_10 = 1
+		THEN
+			SET TILE (13, 1) = 39
+			SET TILE (7, 0) = 0
+		END
+
+	END
+END
+
+PRESS_FIRE AT SCREEN 13
+
+	IF PLAYER_TOUCHES 13,1
+	THEN
+		SET $SWITCH_10 = 1
+	END
+
+	
+	###########
+	#DRAW SWITCH POSITIONS
+	###########
+	IF $SWITCH_10 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 1) = 39
+		SET TILE (7, 0) = 0
+		#SET TILE (12, 1) = 21
+	END
+END
+
+
+ENTERING SCREEN 14
+	IF TRUE
+	THEN	
+		EXTERN 247 #LIGHTS OFF
+		
+		IF $SWITCH_9 = 0
+		THEN
+			SET TILE (11,0) = 15
+		END	
+		IF $SWITCH_9 = 1
+		THEN
+			SET TILE (11,0) = 0
+		END
+		
+		IF $SWITCH_11 = 0
+		THEN
+			SET TILE (13, 4) = 38
+			SET TILE (11, 4) = 19
+			SET TILE (11, 0) = 0
+			SET TILE (14, 8) = 1
+		END	
+		IF $SWITCH_11 = 1
+		THEN
+			SET TILE (13, 4) = 39
+			SET TILE (11, 4) = 23
+			SET TILE (11, 0) = 1
+			SET TILE (14, 8) = 0
+		END
+	END
+END
+
+PRESS_FIRE AT SCREEN 14
+
+	IF PLAYER_TOUCHES 13,4
+	THEN
+		FLIPFLOP $SWITCH_11
+	END	
+	###########
+	#DRAW SWITCH POSITIONS
+	###########	
+	IF $SWITCH_11 = 0
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 4) = 38
+		#SET TILE (13, 3) = 19
+		SET TILE (11, 4) = 19
+		SET TILE (11, 0) = 0
+		SET TILE (14, 8) = 1
+	END	
+	IF $SWITCH_11 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 4) = 39
+		
+		SET TILE (11, 4) = 23
+		SET TILE (11, 0) = 1
+		SET TILE (14, 8) = 0
+	END
+END
+
+#BOSS SCREEN
+ENTERING SCREEN 15
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 9, 121, 23, 135
+
+		SET $SWITCH_0 = 0#BLOCK DOOR
+		SET $ENEMS_KILLED = 0
+		
+		IF $HAVE_SCEPTRE = 0
+		THEN
+			SET TILE (13,1) = 40
+		END
+		IF $HAVE_SCEPTRE = 1
+		THEN
+			SET TILE (13,1) = 0
+		END
+
+	END
+END
+
+PRESS_FIRE AT SCREEN 15
+	
+	IF PLAYER_TOUCHES 1, 8
+	IF $SWITCH_0 = 0
+	THEN
+		SET TILE (0,8) = 15
+	END
+	
+	#GRAB THE SCEPTRE
+	IF PLAYER_TOUCHES 13, 1
+	IF $HAVE_SCEPTRE = 0
+	THEN
+		SET $HAVE_SCEPTRE = 1
+		PRINT_TILE_AT (0, 22) = 40
+		SET TILE (13,1) = 0
+		EXTERN 246
+		# LIGHTS ON
+		
+		EXTERN 63
+		#YOU FOUND THE SCEPTRE
+		REDRAW
+		EXTERN 247
+		# LIGHTS OFF
+		
+		SET $TALK_GATEKEEPER = 1
+		
+		SET $DUNGEON_ONE_OPEN = 0
+		#SO THE DUNGEON CLOSES BACK UP WHEN YOU ARE DONE		
+	END
+	
+	#OPEN THE ENTRANCE IF YOU HAVE KILLED ALL AND HAVE THE SCEPTRE
+	IF $ENEMS_KILLED = 3
+	IF $HAVE_SCEPTRE = 1
+	THEN
+		SET $SWITCH_0 = 1
+		SET TILE (0,8) = 0
+		WARP_TO 10,11,8
+	END
+END
+
+
+END_OF_LEVEL 
+#end level 10

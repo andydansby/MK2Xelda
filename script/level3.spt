@@ -1,0 +1,659 @@
+
+##################################
+# Level 3 SWAMP
+##################################
+
+INC_DECORATIONS decorations3.spt
+
+ENTERING GAME
+	IF TRUE
+		SET $SWITCH_6 = 0
+		SET $SWITCH_7 = 0
+		SET $SWITCH_8 = 0
+		SET $SWITCH_9 = 0
+		
+		# extern 244 turns off the ability 
+		# of enemies walking through walls
+		#from level 0
+		IF $WARPED_TO_HERE = 24
+		THEN
+			EXTERN 244 
+			#ENEMIES CANNOT WALK THRU WALLS
+			SET $SWITCH_6 = 0
+			SET $SWITCH_7 = 0
+			SET $SWITCH_8 = 0
+			SET $SWITCH_9 = 0
+		
+		
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 12, 6, 8
+			BREAK			
+		END
+		
+		IF $WARPED_TO_HERE = 30
+		THEN
+			EXTERN 244
+			#ENEMIES CANNOT WALK THRU WALLS
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 3, 1, 1
+			BREAK			
+		END
+
+		#from level 4
+		IF $WARPED_TO_HERE = 8
+		THEN
+			EXTERN 244
+			#ENEMIES CANNOT WALK THRU WALLS
+			
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 15, 13, 3
+			BREAK			
+		END
+		#from level ?
+		IF $WARPED_TO_HERE = 13
+		THEN
+			EXTERN 244
+			#ENEMIES CANNOT WALK THRU WALLS
+			
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 2, 3, 1
+			BREAK			
+		END
+		
+		IF $WARPED_TO_HERE = 86
+		THEN
+			EXTERN 244
+			#ENEMIES CANNOT WALK THRU WALLS
+			
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 11, 9, 7
+			BREAK			
+		END
+		
+		IF $WARPED_TO_HERE = 88
+		THEN
+			EXTERN 244
+			#ENEMIES CANNOT WALK THRU WALLS
+			
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 1, 9, 5
+			BREAK			
+		END
+		
+		#temp mushroom warp
+		IF $WARPED_TO_HERE = 98
+		THEN
+			SET $WARPED_TO_HERE = 0
+			#WARP_TO 5, 3, 5
+			#WARP_TO 12, 11, 3
+			BREAK			
+		END		
+	END
+END
+
+ENTERING SCREEN 0	
+	IF TRUE
+	THEN
+		#if you have not collected the frog
+		IF $HAVE_FROG = 0
+		THEN
+			SET TILE (6,5) = 38
+		END
+		
+		#if you have collected the frog
+		IF $HAVE_FROG = 1
+		THEN
+			SET TILE (6,5) = 0
+		END
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 0
+	
+	#you can collect the frog
+	#but you have to bring it to 
+	#anthony to get the key
+	IF PLAYER_TOUCHES 6, 5
+	IF $HAVE_FROG = 0
+	IF $TALK_MAGICIAN_COUSIN = 0
+	THEN
+		EXTERN 35
+		# YOU FOUND THE FROG
+		
+		SET TILE (6, 5) = 0
+		SET $HAVE_FROG = 1
+		SET $TALK_HUNGRY_MAGICIAN = 1
+		SET $TALK_MAGICIAN_COUSIN = 1
+		
+		PRINT_TILE_AT (0, 22) = 38
+		#shows FROG in bottom		
+		REDRAW
+	END
+	
+	#if you do not have the magic ring
+	#you will be transported and have the 
+	#frog taken from you
+	IF PLAYER_TOUCHES 6, 5
+	IF $HAVE_MAGIC_RING = 0
+	IF $HAVE_FROG = 0
+	THEN
+		EXTERN 26
+		# THE FROG IS MINE! PISS OFF.
+		SET TILE (6, 5) = 0
+		SET $HAVE_FROG = 0		
+		PRINT_TILE_AT (0, 22) = 47
+		#REMOVES FROG in bottom
+		REDRAW
+		WARP_TO 12, 6, 8
+		#TRANSPORTS TO START
+	END
+	
+	#now you can grab frog
+	#you will still be transported
+	#but now you have the frog
+	IF PLAYER_TOUCHES 6, 5
+	IF $HAVE_MAGIC_RING = 1
+	IF $HAVE_FROG = 0
+	THEN
+		EXTERN 30
+		#HEY THAT IS MY FROG.
+		SET TILE (6, 5) = 0
+		SET $HAVE_FROG = 1		
+		PRINT_TILE_AT (0, 22) = 38
+		#PLACES FROG in bottom
+		REDRAW
+		WARP_TO 12, 6, 8
+		#TRANSPORTS TO START
+	END
+	
+END
+
+
+ENTERING SCREEN 1	
+	IF TRUE
+	THEN	
+		SET_FIRE_ZONE_TILES 7, 4, 7, 4
+		#SIGN
+		
+		SET_FIRE_ZONE 129, 49, 159, 79
+		#DOOR 9,4
+	END
+END
+
+PRESS_FIRE AT SCREEN 1
+
+#Anthony Hole home
+	IF PLAYER_TOUCHES 7, 4
+	THEN
+		EXTERN 8
+		#a hole
+		REDRAW
+	END
+
+	IF PLAYER_IN_X 129, 159
+    IF PLAYER_IN_Y 49, 79
+    THEN
+		SET $WARPED_TO_HERE = 87
+		WARP_TO_LEVEL 9, 5, 7, 8, 1
+    END	
+END
+
+ENTERING SCREEN 2
+	IF TRUE
+	THEN	
+
+		SET_FIRE_ZONE 33, 0, 63, 15
+		
+		#ALL_GATES_OPEN flag will change once you bring back
+		#both halves of the wizard staff
+		IF $ALL_GATES_OPEN = 0
+		THEN
+			SET TILE (3,1) = 20
+		END
+		
+		IF $ALL_GATES_OPEN = 1
+		THEN
+			SET TILE (3,1) = 0
+		END
+		
+		#LIFE RECHARGE HAS NOT BEEN USED
+		IF $LIFE_04 = 0
+		THEN
+			SET TILE (13,1) = 16
+		END
+		
+		#LIFE RECHARGE HAS BEEN USED
+		IF $LIFE_04 = 1
+		THEN
+			SET TILE (13,1) = 0
+		END
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 2
+
+	#gateway
+	IF PLAYER_IN_X 33, 63
+    IF PLAYER_IN_Y 0, 15
+    THEN
+		SET $WARPED_TO_HERE = 5
+		WARP_TO_LEVEL 6, 14, 3, 8, 1
+    END
+	
+	IF PLAYER_TOUCHES 13, 1
+	IF $LIFE_04 = 0
+	THEN
+		EXTERN 2 
+		#TEXT YOU HAVE RECHARGED YOUR LIFE
+		RECHARGE 
+		#RECHARGE YOUR LIFE
+		SET $LIFE_04 = 1
+		#SHOW THAT RECHARGE HAS ALREADY BEEN USED
+		REDRAW 
+		#CLEARS THE TEXT
+		REHASH 
+		#FORCE ENTERING SCREEN AND REPLACE SPIKES
+	END	
+	
+END
+
+ENTERING SCREEN 3
+	IF TRUE
+	THEN
+		
+		#HAVENT TALKED TO BOOM BETTY SO NO DYNOMITE SHOWN
+		IF $TALK_BOOM_BETTY < 2
+		THEN
+			SET TILE (13, 1) = 0
+		END
+		
+		#TALKED TO BOOM BETTY AND HAVE NOT COLLECTED DYNOMITE
+		IF $TALK_BOOM_BETTY = 2
+		IF $DYNOMITE_5 = 0
+		THEN
+			SET TILE (13, 1) = 22
+		END
+		
+		#TALKED TO BOOM BETTY AND HAVE COLLECTED DYNOMITE
+		IF $TALK_BOOM_BETTY = 2
+		IF $DYNOMITE_5 = 1
+		THEN
+			SET TILE (13, 1) = 0
+		END
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 3
+
+	#DYNOMITE OK
+	IF $TALK_BOOM_BETTY = 2
+	IF PLAYER_TOUCHES 13,1
+	IF $DYNOMITE_5 = 0
+	THEN
+		EXTERN 70
+		#text YOU FOUND DYNOMITE
+		
+		SET TILE (13, 1) = 0
+		#remove DYNOMITE from screen
+		
+		SET $DYNOMITE_5 = 1
+		#set flag showing you have DYNOMITE
+		
+		INC $NEED_DYNAMITE , 1		
+		#increase the number of orbs
+		
+		PRINT_TILE_AT (10, 22) = 22
+		#shows DYNOMITE in bottom
+		
+		REDRAW 
+		# refresh the screen
+	END
+	
+END
+
+ENTERING SCREEN 4
+	IF TRUE
+	THEN
+		
+		SET_FIRE_ZONE 185, 1, 207, 127
+		
+		SET $SWITCH_6 = 0
+		SET $SWITCH_7 = 0
+		SET $SWITCH_8 = 0
+		SET $SWITCH_9 = 0
+		
+		#these are used for the push block puzzle
+		SET $MOVED_TILE_FLAG = 0
+		SET $MOVED_X_FLAG = 0
+		SET $MOVED_Y_FLAG = 0
+		
+		
+		IF $CAN_COLLECT_ORBS = 0
+		THEN
+			#SET TILE (14,5) = 13#CLOSED WALL
+			
+			#TEMP FOR TESTING
+			#SET TILE (14,5) = 0#CLOSED WALL
+		END
+		
+		#OPEN WALL SO YOU CAN GET ORB
+		IF $CAN_COLLECT_ORBS = 1
+		THEN
+			SET TILE (14,5) = 0
+		END
+		
+		IF $HAVE_MAGENTA_ORB = 0
+		THEN
+			SET TILE (3, 4) = 17
+			#ADD ORB
+		END
+		
+		IF $HAVE_MAGENTA_ORB = 1
+		THEN
+			SET TILE (3, 4) = 0
+			#REMOVE ORB
+		END
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 4
+
+	#RESET SWITCH 1
+	#if you touch the reset button
+	#everything goes back including the orb
+	
+	IF $SWITCH_6 = 1
+	IF $HAVE_MAGENTA_ORB = 1
+	IF PLAYER_IN_X 185, 207
+    IF PLAYER_IN_Y 1, 28
+    THEN
+		SET $SWITCH_6 = 0
+		SET $SWITCH_7 = 0
+		SET $SWITCH_8 = 0
+		SET $SWITCH_9 = 0
+		
+		SET TILE (3, 4) = 17
+		#PRINT ORB
+		SET $HAVE_MAGENTA_ORB = 0
+		
+		PRINT_TILE_AT (16, 22) = 47
+		DEC $NUMBER_OF_ORBS , 1
+		REENTER
+    END
+	
+	#RESET SWITCH 2
+	#if you touch the reset button
+	#everything goes back including the orb
+	IF $SWITCH_6 = 1
+	IF $HAVE_MAGENTA_ORB = 1
+	IF PLAYER_IN_X 185, 207
+    IF PLAYER_IN_Y 70, 87
+    THEN
+		SET $SWITCH_6 = 0
+		SET $SWITCH_7 = 0
+		SET $SWITCH_8 = 0
+		SET $SWITCH_9 = 0
+		
+		SET TILE (3, 4) = 17
+		#PRINT ORB
+		SET $HAVE_MAGENTA_ORB = 0
+		
+		PRINT_TILE_AT (16, 22) = 47
+		DEC $NUMBER_OF_ORBS , 1
+		REENTER
+    END
+	
+	#RESET SWITCH 3
+	#if you touch the reset button
+	#everything goes back including the orb
+	IF $SWITCH_6 = 1
+	IF $HAVE_MAGENTA_ORB = 1
+	IF PLAYER_IN_X 185, 207
+    IF PLAYER_IN_Y 102, 119
+    THEN
+		SET $SWITCH_6 = 0
+		SET $SWITCH_7 = 0
+		SET $SWITCH_8 = 0
+		SET $SWITCH_9 = 0
+		
+		SET TILE (3, 4) = 17
+		#PRINT ORB
+		SET $HAVE_MAGENTA_ORB = 0
+		
+		PRINT_TILE_AT (16, 22) = 47
+		DEC $NUMBER_OF_ORBS , 1
+		REENTER
+    END
+
+
+	#ORB
+	IF PLAYER_TOUCHES 3,4
+	IF $HAVE_MAGENTA_ORB = 0
+	THEN
+		EXTERN 46
+		#YOU FOUND A ORB
+		
+		SET TILE (3, 4) = 0
+		#clears orb from screen	
+		
+		SET $HAVE_MAGENTA_ORB = 1
+		INC $NUMBER_OF_ORBS , 1
+		PRINT_TILE_AT (16, 22) = 17
+		#shows ORB in bottom	
+		
+		SET TILE (14,5) = 13
+		#CLOSED WALL
+		
+		SET $SWITCH_6 = 1		
+		REDRAW
+	END
+	
+	#BLOCK PUZZLE
+	IF $MOVED_X_FLAG = 13
+	IF $MOVED_Y_FLAG = 1
+	THEN
+		SET $SWITCH_7 = 1
+	END
+	
+	#BLOCK PUZZLE
+	IF $MOVED_X_FLAG = 13
+	IF $MOVED_Y_FLAG = 8
+	THEN
+		SET $SWITCH_8 = 1
+	END
+	
+	IF $SWITCH_7 = 1
+	IF $SWITCH_8 = 1
+	THEN
+		SET TILE (13,6) = 0
+		SET TILE (14,5) = 0
+	END	
+END
+
+
+ENTERING SCREEN 5
+	IF TRUE
+	THEN
+		
+		#need to talk to doug bag first
+		#if you have not talked to him
+		#the gate will be closed
+		
+		IF $TALK_HUNGRY_MAGICIAN = 0
+		THEN
+			SET TILE (11,1) = 3
+			SET TILE (12,1) = 3
+		END
+		
+		#now the gate is opened
+		IF $TALK_HUNGRY_MAGICIAN >= 1
+		THEN
+			SET TILE (11,1) = 0
+			SET TILE (12,1) = 0
+		END		
+		
+		#IS THE GATE OPEN
+		#you cannot get the key until you have collected the frog
+		IF $SWAMP_KEY_GATE = 0
+		THEN
+			SET TILE (11,6) = 4
+		END
+		
+		IF $SWAMP_KEY_GATE = 1
+		THEN
+			SET TILE (11,6) = 0
+		END
+		
+		#DO YOU HAVE THE KEY
+		#used to display the key
+		IF $HAVE_DESERT_KEY = 0
+		THEN
+			SET TILE (12, 6) = 18
+		END
+		IF $HAVE_DESERT_KEY = 1
+		THEN
+			SET TILE (12, 6) = 0
+		END
+		
+		# TEMP FOR TESTING COMMENT FOR REAL PLAY
+		# SET $CAN_COLLECT_ORBS = 1
+		
+		#if you have not talked to the librarian
+		#you cannot collect the orb
+		IF $CAN_COLLECT_ORBS = 0
+		THEN
+			SET TILE (0,5) = 13
+			#CLOSED WALL
+		END
+		
+		IF $CAN_COLLECT_ORBS = 1
+		THEN
+			SET TILE (0,5) = 0
+		END
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 5
+	IF PLAYER_TOUCHES 12, 6
+	IF $HAVE_DESERT_KEY = 0
+	THEN
+		SET TILE (12, 6) = 0
+		SET $HAVE_DESERT_KEY = 1
+		# now you have an KEY
+		
+		PRINT_TILE_AT (27, 22) = 18
+		# shows KEY in bottom
+		
+		EXTERN 38
+		# YOU FOUND THE KEY
+		
+		REDRAW
+	END	
+END
+
+
+ENTERING SCREEN 10
+	IF TRUE
+	THEN
+		IF $TALK_HUNGRY_MAGICIAN = 0
+		THEN
+			SET TILE (1,6) = 3
+		END
+		
+		IF $TALK_HUNGRY_MAGICIAN >= 1
+		THEN
+			SET TILE (1,6) = 0
+		END
+	
+	END
+END
+
+
+ENTERING SCREEN 11
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE_TILES 7, 6, 7, 6
+		#SIGN
+		
+		#DOOR 9,6
+		SET_FIRE_ZONE 137, 89, 151, 103
+	END
+END
+
+PRESS_FIRE AT SCREEN 11
+
+	IF PLAYER_TOUCHES 7, 6
+	THEN
+		EXTERN 9
+		#D BAG
+		REDRAW
+	END
+	
+#TO HUNGRY MAGICIAN
+	IF PLAYER_IN_X 137, 151
+    IF PLAYER_IN_Y 89, 103
+    THEN
+		SET $WARPED_TO_HERE = 85
+		WARP_TO_LEVEL 9, 5, 7, 8, 1
+    END	
+END
+
+ENTERING SCREEN 12	
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 81, 129, 111, 159
+	END
+END
+
+PRESS_FIRE AT SCREEN 12
+#to level 0	
+	IF PLAYER_IN_X 81, 111
+    IF PLAYER_IN_Y 129, 159
+    THEN
+		SET $WARPED_TO_HERE = 4
+		WARP_TO_LEVEL 0, 0, 6, 1, 1
+    END	
+END
+
+ENTERING SCREEN 15
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 209, 33, 239, 63
+		
+		#TEMP TO OPEN UP LEVEL 3
+		#COMMENT FOR REAL PLAY
+		#SET $MAP4_GATE = 1
+		
+		#CLOSED GATE		
+		IF $MAP4_GATE = 0
+		THEN
+			SET TILE (13, 3) = 20
+		END
+		
+		#OPEN GATE
+		IF $MAP4_GATE = 1
+		THEN
+			SET TILE (13, 3) = 0
+		END	
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 15
+
+	IF PLAYER_IN_X 209, 239
+    IF PLAYER_IN_Y 33, 63
+    THEN
+		SET $WARPED_TO_HERE = 6
+		WARP_TO_LEVEL 4, 12, 1, 3, 1
+    END
+	
+END
+
+END_OF_LEVEL 
+##end level 3

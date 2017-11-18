@@ -1,0 +1,335 @@
+
+##################################
+# Level 1	TREE MAZE
+##################################
+
+INC_DECORATIONS decorations1.spt
+
+ENTERING GAME
+	IF TRUE
+		#testing cheater warp
+		IF $WARPED_TO_HERE = 98
+		THEN
+			SET $WARPED_TO_HERE = 0
+			#WARP_TO 12, 1, 6
+			#WARP_TO 0, 1, 6
+			BREAK
+		END
+	
+		#from level 0
+		IF $WARPED_TO_HERE = 1
+		THEN
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 12, 1, 6
+			BREAK
+		END
+		
+		#from level 2
+		IF $WARPED_TO_HERE = 22
+		THEN
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 15, 13, 7
+			BREAK			
+		END
+
+	END
+END
+
+ENTERING SCREEN 0
+	IF TRUE
+	THEN
+		#if you have not collected the torch before
+		#tile 28 is the torch
+		IF $HAVE_TORCH = 0
+		THEN
+			SET TILE (4, 8) = 28
+		END
+		#if you have already collected the torch shows grass
+		IF $HAVE_TORCH = 1
+		THEN
+			SET TILE (4, 8) = 0
+		END
+		
+		#LIFE RECHARGE HAS NOT BEEN USED
+		IF $LIFE_02 = 0
+		THEN
+			SET TILE (13,1) = 16
+		END
+		
+		#LIFE RECHARGE HAS BEEN USED
+		IF $LIFE_02 = 1
+		THEN
+			SET TILE (13,1) = 0
+		END	
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 0
+
+	IF PLAYER_TOUCHES 4, 8
+	IF $HAVE_TORCH = 0
+	THEN
+		EXTERN 60
+		# found the TORCH
+		SET TILE (4, 8) = 0
+		SET $HAVE_TORCH = 1
+		#now you have a TORCH
+		PRINT_TILE_AT (29, 22) = 28
+		#shows TORCH in bottom
+		REDRAW
+	END
+	
+	IF PLAYER_TOUCHES 13, 1
+	IF $LIFE_02 = 0
+	THEN
+		EXTERN 2 
+		#TEXT YOU HAVE RECHARGED YOUR LIFE
+		RECHARGE 
+		#RECHARGE YOUR LIFE
+		SET $LIFE_02 = 1
+		#SHOW THAT RECHARGE HAS ALREADY BEEN USED
+		REDRAW 
+		#CLEARS THE TEXT
+		REHASH 
+		#FORCE ENTERING SCREEN
+	END	
+	
+END
+
+
+
+ENTERING SCREEN 1
+	IF TRUE
+	THEN
+		#if you have not collected the axe yet
+		#tile 30 is the axe
+		IF $HAVE_AXE = 0
+		THEN
+			SET TILE (11, 4) = 30
+		END
+		
+		#if you have already collected the axe
+		IF $HAVE_AXE = 1
+		THEN
+			SET TILE (11, 4) = 0
+		END
+
+	END
+END
+
+PRESS_FIRE AT SCREEN 1
+	IF PLAYER_TOUCHES 11, 4
+	IF $HAVE_AXE = 0
+	THEN
+		EXTERN 32
+		# found the axe
+		SET TILE (11, 4) = 0
+		SET $HAVE_AXE = 1
+		#now you have an axe
+		SET $TALK_WOODSMAN = 2
+		#now talk about rusty axe
+		PRINT_TILE_AT (0, 22) = 30
+		#shows axe in bottom
+		REDRAW
+	END	
+END
+
+
+ENTERING SCREEN 5
+	IF TRUE
+	THEN		
+		#you havent been asked to collect orbs yet
+		IF $CAN_COLLECT_ORBS = 0
+		THEN
+			SET TILE (13,5) = 13
+			#CLOSED WALL
+		END
+		
+		#OPEN WALL SO YOU CAN GET ORB
+		IF $CAN_COLLECT_ORBS = 1
+		THEN
+			SET TILE (13,5) = 0
+			#opened wall
+		END
+		
+		IF $HAVE_BLUE_ORB = 0
+		THEN
+			SET TILE (11, 6) = 17
+			#shows orb
+		END
+		
+		IF $HAVE_BLUE_ORB = 1
+		THEN
+			SET TILE (11, 6) = 0
+			#shows grass
+		END
+	END
+END
+
+
+PRESS_FIRE AT SCREEN 5
+	#ORB
+	IF PLAYER_TOUCHES 11,6
+	IF $HAVE_BLUE_ORB = 0
+	THEN
+		EXTERN 46
+		#YOU FOUND A ORB
+		SET TILE (11, 6) = 0
+		#remove from screen
+		SET $HAVE_BLUE_ORB = 1
+		#set flag showing you have orb
+		INC $NUMBER_OF_ORBS , 1
+		#increase the number of orbs
+		PRINT_TILE_AT (12, 22) = 17
+		#shows ORB in bottom
+		REDRAW 
+		# refresh the screen
+	END
+END
+
+
+ENTERING SCREEN 6
+	IF TRUE
+	THEN
+		#gate opens once you have talked to the blacksmith
+		IF $FIREFLOWER_GATE = 0
+		THEN
+			SET TILE (6, 3) = 13
+		END
+		IF $FIREFLOWER_GATE = 1
+		THEN
+			SET TILE (6, 3) = 1
+		END
+		
+		#if you have not collected the fireflower
+		IF $HAVE_FIRE_FLOWER = 0
+		THEN
+			SET TILE (6,2) = 27
+		END
+		#already have collected the fireflower
+		IF $HAVE_FIRE_FLOWER = 1
+		THEN
+			SET TILE (1,4) = 0
+		END
+		
+		#HAVENT TALKED TO BOOM BETTY SO NO DYNOMITE SHOWN
+		IF $TALK_BOOM_BETTY < 2
+		THEN
+			SET TILE (1, 4) = 0
+		END
+		
+		#TALKED TO BOOM BETTY AND HAVE NOT COLLECTED DYNOMITE
+		IF $TALK_BOOM_BETTY = 2
+		IF $DYNOMITE_7 = 0
+		THEN
+			SET TILE (1, 4) = 38
+		END
+		
+		#TALKED TO BOOM BETTY AND HAVE COLLECTED DYNOMITE
+		IF $TALK_BOOM_BETTY = 2
+		IF $DYNOMITE_7 = 1
+		THEN
+			SET TILE (1, 4) = 0
+		END
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 6
+	IF PLAYER_TOUCHES 6, 2
+	IF $HAVE_FIRE_FLOWER = 0
+	THEN
+		EXTERN 33
+		#found fireflower
+		SET TILE (6, 2) = 0
+		SET $HAVE_FIRE_FLOWER = 1
+		SET $TALK_BLACKSMITH = 2
+		PRINT_TILE_AT (2, 22) = 27
+		#shows FLOWER in bottom
+		REDRAW
+	END	
+	
+	IF $TALK_BOOM_BETTY = 2
+	IF PLAYER_TOUCHES 1,4
+	IF $DYNOMITE_7 = 0
+	THEN
+		EXTERN 70
+		#text YOU FOUND DYNOMITE
+		SET TILE (1, 4) = 0
+		#remove DYNOMITE from screen
+		SET $DYNOMITE_7 = 1
+		#set flag showing you have DYNOMITE
+		INC $NEED_DYNAMITE , 1
+		#increase the number of orbs
+		PRINT_TILE_AT (14, 22) = 38
+		#shows DYNOMITE in bottom
+		REDRAW 
+		# refresh the screen
+	END
+	
+END
+
+
+ENTERING SCREEN 12
+	IF TRUE
+	THEN	
+		SET_FIRE_ZONE 0, 81, 15, 111	
+	END
+END
+
+PRESS_FIRE AT SCREEN 12
+	#GATE AT 0,6
+	IF PLAYER_IN_X 0, 15
+    IF PLAYER_IN_Y 81, 111
+    THEN
+		SET $WARPED_TO_HERE = 21
+		WARP_TO_LEVEL 0, 19, 13, 6, 1
+    END
+END
+
+
+ENTERING SCREEN 15
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 210, 97, 239, 127
+		
+		IF $DESERT_GATE = 0
+		THEN
+			SET TILE (13,7) = 20
+			#GATE
+		END
+		
+		IF $DESERT_GATE = 1
+		THEN
+			SET TILE (13,7) = 1
+			#SAND
+		END
+	END
+END
+
+PRESS_FIRE AT SCREEN 15
+	#gateway to level 2
+	IF PLAYER_IN_X 210, 239
+    IF PLAYER_IN_Y 97, 127
+    THEN
+		SET $WARPED_TO_HERE = 22
+		WARP_TO_LEVEL 2, 12, 1, 7, 1
+    END	
+	
+	IF PLAYER_TOUCHES 13, 5
+	IF $HAVE_DESERT_KEY = 1
+	THEN
+		SET TILE (13, 7) = 1
+		SET $HAVE_DESERT_KEY = 1
+		SET $DESERT_GATE = 1
+		EXTERN 28
+		#the gate is now open
+		PRINT_TILE_AT (27, 22) = 47
+		REDRAW
+	END	
+END
+
+
+END_OF_LEVEL
+

@@ -1,0 +1,819 @@
+##################################
+# Level 11 DUNGEON 2
+##################################
+
+
+INC_DECORATIONS decorations11.spt
+
+ENTERING GAME
+	IF TRUE
+
+		SET $ENEMS_KILLED = 0
+		
+		SET $DUNGEON_FLAG_1 = 0
+		SET $DUNGEON_FLAG_2 = 0
+		SET $DUNGEON_FLAG_3 = 0
+		
+		SET $FINISH_DUNGEON = 0
+		
+		IF $WARPED_TO_HERE = 160#from level 2
+		THEN
+			SET $SWITCH_1 = 1#used to be pressure switch
+			
+			#used on screen 1
+			SET $SWITCH_2 = 0 
+			#flip switch opens passage room 8 and 9
+			
+			SET $SWITCH_3 = 1 
+			# used to be pressure switch
+			
+			#used on screen 2
+			SET $SWITCH_4 = 0 
+			#defunt switch was used on screen 2
+			
+			#used nowhere
+			SET $SWITCH_5 = 0
+			#defunt switch was used as pressure switch	
+			
+			SET $SWITCH_6 = 0 
+			#defunt switch was used as pressure switch	
+			
+			SET $SWITCH_7 = 0 
+			#defunt switch was used as pressure switch
+			
+			
+			#used on screen 7
+			SET $SWITCH_8 = 0 
+			#defunt switch was used to teleport on screen 11
+			
+			SET $SWITCH_9 = 0 
+			#defunt switch was used to teleport on screen 15
+			
+			
+			SET $SWITCH_10 = 0 
+			#defunt switch
+			
+			#used on screen 8
+			SET $SWITCH_11 = 0 
+			#opens passage screen 2 FINAL screen
+			#to grab the ring
+			
+			#used on screen 9
+			SET $SWITCH_12 = 0 
+			#changes passage same screen
+			
+			#used in screen 10
+			SET $SWITCH_13 = 0 
+			#non functional just moves
+			
+			#used in room 11
+			SET $SWITCH_14 = 0 
+			#non functional just moves
+			
+			
+			SET $SWITCH_15 = 0 
+			#defunt switch was used to teleport on screen 11
+			
+			SET $SWITCH_16 = 0
+			#defunt switch
+			
+			#used in room 12
+			SET $SWITCH_17 = 0
+			
+			#used in room 14
+			SET $SWITCH_18 = 0 
+			#pressure switch			
+			
+			SET $SWITCH_19 = 0 
+			#pressure switch now defunt
+			
+			SET $SWITCH_20 = 0 
+			#pressure switch now defunt
+			
+			SET $SWITCH_21 = 0 
+			#opens door to screen 13
+			
+			#used in screen 15
+			SET $SWITCH_22 = 0 
+			#opens passage to room 14
+			
+			SET $SWITCH_23 = 0 
+			#teleport you now defunt	
+			
+			SET $SWITCH_24 = 0 
+			#does nothing but flipflop
+		
+			SET $DUNGEON_FLAG_1 = 0
+			SET $DUNGEON_FLAG_2 = 0
+			SET $DUNGEON_FLAG_3 = 0
+				
+			SET $FINISH_DUNGEON = 0
+		
+			SET $WARPED_TO_HERE = 0
+			WARP_TO 15, 7, 7
+			BREAK
+		END
+		
+		IF $WARPED_TO_HERE = 98#testing entry
+		THEN
+			SET $WARPED_TO_HERE = 0
+			
+			#WARP_TO 0, 4, 3
+			#WARP_TO 1, 6, 3
+			#WARP_TO 15, 7, 7#END PRODUCT
+			#WARP_TO 3, 0, 1
+			BREAK
+		END
+		#########
+	END
+END
+
+
+ENTERING SCREEN 0
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 105,89,151,103
+	END
+END
+
+
+ENTERING SCREEN 1
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 25, 89, 215, 135
+		
+		#####
+		#pressure switch
+		#####	
+		#INITALIZES AS 0
+		IF $SWITCH_3 = 1
+		THEN
+			SET TILE (1,8) = 2
+		END
+		IF $SWITCH_3 = 0
+		THEN
+			SET TILE (1,8) = 0
+		END
+		
+		IF $SWITCH_4 = 1
+		THEN
+			SET TILE (4,4) = 2
+		END
+		IF $SWITCH_4 = 0
+		THEN
+			SET TILE (4,4) = 0
+		END	
+		#####
+		#pressure switch
+		#####
+		
+		#FLIP SWITCH
+		IF $SWITCH_2 = 0
+		THEN
+			#MOVE SWITCH
+			SET TILE (3, 2) = 27
+		END	
+		IF $SWITCH_2 = 1
+		THEN
+			#MOVE SWITCH
+			SET TILE (3, 2) = 28
+		END
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 1
+	#TOGGLE SWITCH LOGIC
+	IF PLAYER_TOUCHES 3,2
+	THEN
+		#FLIPFLOP $SWITCH_2
+		SET $SWITCH_2 = 1
+		EXTERN 247 #lights off
+	END	
+	
+	###########
+	#DRAW SWITCH POSITIONS
+	###########
+	IF $SWITCH_2 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (3, 2) = 28
+	END	
+END
+
+
+ENTERING SCREEN 2
+	IF TRUE
+	THEN
+	
+		EXTERN 244 
+		#WALLS STOP PURSERS
+		
+		#temp, comment for real play
+		#SET $SWITCH_11 = 1
+	
+		IF $SWITCH_4 = 1
+		THEN
+			SET TILE (1,1) = 0#LEFT CLOSE
+		END
+		IF $SWITCH_4 = 0
+		THEN
+			SET TILE (1,1) = 2#LEFT OPEN
+		END
+
+		IF $SWITCH_11 = 1
+		THEN	
+			SET TILE (14,1) = 0#GATE OPEN
+		END
+		IF $SWITCH_11 = 0
+		THEN		
+			SET TILE (14,1) = 20#GATE CLOSED
+		END
+		
+		#LAST CLAUSE TO KEEP YOU FROM GETTING LOCKED IN
+		IF $HAVE_MAGIC_RING = 1
+		THEN
+			SET TILE (14,1) = 20#GATE CLOSED
+		END
+		
+	END
+END
+
+
+
+#boss screen
+ENTERING SCREEN 3
+	IF TRUE
+	THEN		
+		EXTERN 246 #lights on
+		SET_FIRE_ZONE 9, 9, 23, 23
+		
+		SET $TALK_DESERT_GATEMASTER = 3
+		
+		SET $SWITCH_1 = 0
+		
+		IF $HAVE_MAGIC_RING = 0
+		THEN
+			SET TILE (13,1) = 30
+		END		
+		IF $HAVE_MAGIC_RING = 1
+		THEN
+			SET TILE (13,1) = 0
+		END
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 3
+
+	IF PLAYER_TOUCHES 1,1
+	THEN
+		SET TILE (0, 1) = 2
+	END
+
+	IF PLAYER_TOUCHES 13, 1
+	IF $HAVE_MAGIC_RING = 0
+	THEN
+		EXTERN 39
+		#YOU FOUND THE MAGIC RING
+		
+		SET TILE (13, 1) = 0
+		SET $HAVE_MAGIC_RING = 1
+		SET $DUNGEON_TWO_CONQUERED = 1
+		
+		PRINT_TILE_AT (6, 22) = 30
+		#PLACES RING in bottom
+		
+		REDRAW
+		EXTERN 247 
+		#lights off
+		
+		WARP_TO 11,12,2
+	END
+	
+	#SET $SWITCH_1 = 0
+
+	
+	IF $ENEMS_KILLED = 3
+	IF $HAVE_MAGIC_RING = 1
+	THEN
+		#open door
+		#SET TILE (0,1) = 0
+		WARP_TO 11,12,2
+	END
+END
+
+ENTERING SCREEN 4
+	IF TRUE
+	THEN	
+		SET_FIRE_ZONE 9, 41, 23, 87		
+	END
+END
+
+PRESS_FIRE AT SCREEN 4
+END
+
+ENTERING SCREEN 5
+	IF TRUE
+	THEN		
+		IF $SWITCH_3 = 1
+		THEN
+			SET TILE (12,3) = 0#LEFT CLOSE
+		END
+		IF $SWITCH_3 = 0
+		THEN
+			SET TILE (12,3) = 2#LEFT OPEN
+		END		
+	END
+END
+
+
+ENTERING SCREEN 6
+	IF TRUE
+	THEN	
+		SET_FIRE_ZONE 57, 121, 103, 135
+	END
+END
+
+PRESS_FIRE AT SCREEN 6
+	
+END
+
+ENTERING SCREEN 7
+	IF TRUE
+	THEN
+		#BEGIN SWITCHES
+		IF $SWITCH_8 = 0
+		THEN
+			#MOVE SWITCH
+			SET TILE (13, 2) = 27		
+		END		
+		IF $SWITCH_8 = 1
+		THEN
+			#MOVE SWITCH
+			SET TILE (13, 2) = 28
+		END
+		
+		IF $SWITCH_9 = 0
+		THEN
+			#MOVE SWITCH
+			SET TILE (13, 6) = 27
+		END	
+		IF $SWITCH_9 = 1
+		THEN
+			#MOVE SWITCH
+			SET TILE (13, 6) = 28
+		END
+		#END SWITCHES
+	END
+END
+
+PRESS_FIRE AT SCREEN 7
+
+	#SWITCH 8
+	IF PLAYER_TOUCHES 13,2
+	THEN
+		WARP_TO 11,12,2
+	END
+	#SWITCH_9
+	IF PLAYER_TOUCHES 13,6
+	THEN
+		WARP_TO 15,12,6
+	END	
+END
+
+
+ENTERING SCREEN 8
+	IF TRUE
+	THEN	
+		SET_FIRE_ZONE 137, 41, 183, 55
+		#10,3
+		#FROM ROOM 2
+		IF $SWITCH_2 = 0
+		THEN
+			SET TILE (14, 1) = 2
+		END		
+		IF $SWITCH_2 = 1
+		THEN
+			SET TILE (14, 1) = 0
+		END
+		
+		#DISPLAY TOGGLE SWITCH
+		IF $SWITCH_11 = 0
+		THEN			
+			SET TILE (13, 6) = 27
+		END		
+		IF $SWITCH_11 = 1
+		THEN
+			SET TILE (13, 6) = 28
+		END		
+	END
+END
+
+PRESS_FIRE AT SCREEN 8
+	#TOGGLE SWITCH LOGIC
+	IF PLAYER_TOUCHES 13,6
+	THEN
+		SET $SWITCH_11 = 1
+	END	
+	
+	###########
+	#DRAW SWITCH POSITIONS
+	###########
+	IF $SWITCH_11 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 6) = 28
+	END	
+END
+
+ENTERING SCREEN 9
+	IF TRUE
+	THEN
+	
+		IF $SWITCH_2 = 0
+		THEN
+			SET TILE (0, 1) = 2
+		END		
+		IF $SWITCH_2 = 1
+		THEN
+			SET TILE (0, 1) = 0
+		END
+		
+		#DISPLAY TOGGLE SWITCH
+		IF $SWITCH_12 = 0
+		THEN			
+			SET TILE (13, 2) = 27
+			SET TILE (5, 2) = 2
+			SET TILE (7, 2) = 0
+		END		
+		IF $SWITCH_12 = 1
+		THEN
+			SET TILE (13, 2) = 28
+			SET TILE (5, 2) = 0
+			SET TILE (7, 2) = 2
+		END	
+	END
+END
+
+PRESS_FIRE AT SCREEN 9
+
+	#TOGGLE SWITCH LOGIC
+	IF PLAYER_TOUCHES 13,2
+	THEN
+		#FLIPFLOP $SWITCH_12
+		SET $SWITCH_12 = 1
+	END	
+	
+	###########
+	#DRAW SWITCH POSITIONS
+	###########
+	IF $SWITCH_12 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 2) = 28
+		SET TILE (5, 2) = 0
+		SET TILE (7, 2) = 2
+	END
+END
+
+ENTERING SCREEN 10
+	IF TRUE
+	THEN
+			
+		#MOVE TOGGLE SWITCH
+		IF $SWITCH_13 = 0
+		THEN			
+			SET TILE (13, 4) = 27
+		END		
+		IF $SWITCH_13 = 1
+		THEN
+			SET TILE (13, 4) = 28
+		END
+		
+		#PRESSURE SWITCH FROM ROOM 14
+		IF $SWITCH_19 = 0
+		THEN
+			SET TILE (1,8) = 2
+		END
+		IF $SWITCH_19 = 1
+		THEN
+			SET TILE (1,8) = 0
+		END	
+	END
+END
+
+PRESS_FIRE AT SCREEN 10
+	#TOGGLE SWITCH LOGIC
+	IF PLAYER_TOUCHES 13,4
+	THEN
+		FLIPFLOP $SWITCH_13
+	END	
+	
+	###########
+	#DRAW SWITCH POSITIONS
+	###########
+	IF $SWITCH_13 = 0
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 4) = 27
+	END	
+	IF $SWITCH_13 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 4) = 28
+	END
+END
+
+ENTERING SCREEN 11
+	IF TRUE
+	THEN
+		#BEGIN SWITCHES
+		IF $SWITCH_14 = 0
+		THEN
+		#MOVE SWITCH
+			SET TILE (13, 2) = 27		
+		END		
+		IF $SWITCH_14 = 1
+		THEN
+			#MOVE SWITCH
+			SET TILE (13, 2) = 28
+		END
+		
+
+	END
+END
+
+PRESS_FIRE AT SCREEN 11
+
+	#SWITCH_14
+	IF PLAYER_TOUCHES 13,2
+	THEN
+		FLIPFLOP $SWITCH_14
+	END
+	
+	IF PLAYER_TOUCHES 13,6
+	THEN
+		WARP_TO 7,12,2		
+	END	
+	
+	###########
+	#DRAW SWITCH POSITIONS
+	###########	
+	IF $SWITCH_14 = 0
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 2) = 27
+	END	
+	IF $SWITCH_14 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 2) = 28
+	END	
+END
+
+ENTERING SCREEN 12
+	IF TRUE
+	THEN
+		#MOVE TOGGLE SWITCH
+		IF $SWITCH_17 = 0
+		THEN			
+			SET TILE (13, 7) = 27
+		END		
+		IF $SWITCH_17 = 1
+		THEN
+			SET TILE (13, 7) = 28
+		END
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 12	
+	
+	#TOGGLE SWITCH LOGIC
+	IF PLAYER_TOUCHES 13,7
+	THEN
+		SET $SWITCH_17 = 1
+	END	
+	
+	###########
+	#DRAW SWITCH POSITIONS
+	###########
+	IF $SWITCH_17 = 0
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 7) = 27
+	END	
+	IF $SWITCH_17 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 7) = 28
+	END
+END
+
+ENTERING SCREEN 13
+	IF TRUE
+	THEN
+		#to room 12, initally blocked
+		#switch in room 14
+		IF $SWITCH_21 = 1
+		THEN
+			SET TILE (0,8) = 12
+		END
+		IF $SWITCH_21 = 0
+		THEN
+			SET TILE (0,8) = 20
+		END
+		
+		#switch in room 12
+		IF $SWITCH_17 = 1
+		THEN
+			SET TILE (8,1) = 0
+		END
+		IF $SWITCH_17 = 0
+		THEN
+			SET TILE (8,1) = 2
+		END
+	
+	END
+END
+
+ENTERING SCREEN 14
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 9,9,151,135
+		#PRESSURE TILE
+
+		IF $SWITCH_18 = 0
+		THEN
+			SET TILE (3,8) = 10
+			SET TILE (5,8) = 0
+		END
+		IF $SWITCH_18 = 1
+		THEN
+			SET TILE (3,8) = 17
+			SET TILE (5,8) = 2
+		END	
+
+		IF $SWITCH_21 = 0
+		THEN
+			#MOVE SWITCH
+			#CLOSES DOOR SCREEN 13
+			SET TILE (13, 6) = 27
+		END	
+		IF $SWITCH_21 = 1
+		THEN
+			#OPENS DOOR SCREEN 13
+			SET TILE (13, 6) = 28
+		END
+		
+		IF $SWITCH_22 = 0
+		THEN
+			SET TILE (14,8) = 2
+			SET TILE (12,3) = 2
+		END
+		IF $SWITCH_22 = 1
+		THEN
+			SET TILE (14,8) = 0
+			SET TILE (12,3) = 0
+		END
+		
+	END
+END
+
+PRESS_FIRE AT SCREEN 14
+	
+	#OK
+	#switch 18
+	#PRESSURE TILE
+	IF PLAYER_TOUCHES 3, 8
+	THEN
+		SET $SWITCH_18 = 3
+		#STEPPED ON TILE
+	END	
+	IF $SWITCH_18 = 3
+	IF PLAYER_TOUCHES 4, 8
+	THEN
+		SET $SWITCH_18 = 1
+		#STEPPED TO RIGHT
+		
+		SET TILE (3,8) = 17
+		SET TILE (5,8) = 2
+		#BLOCK PASSAGE		
+	END	
+	#PRESSURE TILE LOGIC
+	
+	IF PLAYER_TOUCHES 13,6
+	THEN
+		#OPENS DOOR SCREEN 13
+		SET $SWITCH_21 = 1
+	END
+	
+	IF $SWITCH_21 = 1
+	THEN
+		#MOVE SWITCH
+		#OPENS DOOR SCREEN 13
+		SET TILE (13, 6) = 28
+	END
+END
+
+ENTERING SCREEN 15
+	IF TRUE
+	THEN
+		SET_FIRE_ZONE 97, 129, 127, 159		
+		
+		EXTERN 247
+		#TURN OFF LIGHTS
+		
+		#TEMP COMMENT FOR REAL PLAY
+		#SET HAVE_MAGIC_RING = 1
+		
+		IF $HAVE_MAGIC_RING = 0
+		THEN
+			SET TILE (7,8) = 20
+		END
+		IF $HAVE_MAGIC_RING = 1
+		THEN
+			SET TILE (7,8) = 0
+		END
+			
+		#BEGIN SWITCHES
+		IF $SWITCH_22 = 0
+		THEN
+		#MOVE SWITCH
+			SET TILE (2, 3) = 27
+			SET TILE (0, 8) = 2
+		END	
+		
+		IF $SWITCH_22 = 1
+		THEN
+			#MOVE SWITCH
+			SET TILE (2, 3) = 28
+			SET TILE (0, 8) = 0
+		END
+		
+		IF $SWITCH_23 = 0
+		THEN
+		#MOVE SWITCH
+			SET TILE (13, 3) = 27		
+		END		
+		IF $SWITCH_23 = 1
+		THEN
+			#MOVE SWITCH
+			SET TILE (13, 3) = 28
+		END
+
+	END
+END
+
+PRESS_FIRE AT SCREEN 15
+
+	IF PLAYER_TOUCHES 2,3
+	THEN
+		SET $SWITCH_22 = 1
+	END
+	
+	IF PLAYER_TOUCHES 13,3
+	THEN
+		FLIPFLOP $SWITCH_23
+	END
+	
+	###########
+	#DRAW SWITCH POSITIONS
+	###########	
+	IF $SWITCH_22 = 0
+	THEN
+		#MOVE SWITCH
+		SET TILE (2, 3) = 27
+		SET TILE (0, 8) = 2
+	END	
+	IF $SWITCH_22 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (2, 3) = 28
+		SET TILE (0, 8) = 0
+	END
+	
+	IF $SWITCH_23 = 0
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 3) = 27
+	END	
+	IF $SWITCH_23 = 1
+	THEN
+		#MOVE SWITCH
+		SET TILE (13, 3) = 28
+	END
+
+	#gateway
+	IF PLAYER_IN_X 97, 127
+    IF PLAYER_IN_Y 129, 159
+    THEN
+		SET $WARPED_TO_HERE = 165
+		WARP_TO_LEVEL 2, 10, 9, 3, 1
+    END	
+END
+
+
+END_OF_LEVEL 
+#end level 11
