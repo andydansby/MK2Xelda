@@ -1,0 +1,1 @@
+copy variables.spt + level0.spt + level1.spt + level2.spt + level3.spt + level4.spt + level5.spt + level6.spt + level7.spt + level8.spt + level9.spt + level10.spt + level11.spt + level12.spt  xelda.spt
