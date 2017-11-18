@@ -1,0 +1,179 @@
+ENTERING SCREEN 0
+	IF TRUE
+	THEN
+		DECORATIONS
+			1, 2, 46
+		END
+	END
+END
+ 
+ENTERING SCREEN 1
+	IF TRUE
+	THEN
+		DECORATIONS
+			3, 2, 27
+			7, 2, 46
+		END
+	END
+END
+ 
+ENTERING SCREEN 2
+	IF TRUE
+	THEN
+		DECORATIONS
+			12, 1, 46
+			14, 1, 20
+		END
+	END
+END
+ 
+ENTERING SCREEN 3
+	IF TRUE
+	THEN
+		DECORATIONS
+			13, 1, 30
+			11, 4, 40
+			12, 4, 41
+			11, 5, 42
+			12, 5, 43
+		END
+	END
+END
+ 
+ENTERING SCREEN 4
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ENTERING SCREEN 5
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ENTERING SCREEN 6
+	IF TRUE
+	THEN
+		DECORATIONS
+			14, 8, 20
+		END
+	END
+END
+ 
+ENTERING SCREEN 7
+	IF TRUE
+	THEN
+		DECORATIONS
+			13, 2, 27
+			7, 4, 46
+			13, 6, 27
+			0, 8, 20
+		END
+	END
+END
+ 
+ENTERING SCREEN 8
+	IF TRUE
+	THEN
+		DECORATIONS
+			13, 6, 27
+		END
+	END
+END
+ 
+ENTERING SCREEN 9
+	IF TRUE
+	THEN
+		DECORATIONS
+			13, 2, 27
+		END
+	END
+END
+ 
+ENTERING SCREEN 10
+	IF TRUE
+	THEN
+		DECORATIONS
+			4, 1, 46
+			10, 1, 46
+			13, 4, 27
+			8, 5, 46
+			14, 8, 20
+		END
+	END
+END
+ 
+ENTERING SCREEN 11
+	IF TRUE
+	THEN
+		DECORATIONS
+			13, 2, 27
+			7, 5, 46
+			13, 6, 27
+			0, 8, 20
+		END
+	END
+END
+ 
+ENTERING SCREEN 12
+	IF TRUE
+	THEN
+		DECORATIONS
+			13, 7, 27
+		END
+	END
+END
+ 
+ENTERING SCREEN 13
+	IF TRUE
+	THEN
+		DECORATIONS
+			0, 8, 20
+		END
+	END
+END
+ 
+ENTERING SCREEN 14
+	IF TRUE
+	THEN
+		DECORATIONS
+			13, 6, 27
+			3, 8, 17
+		END
+	END
+END
+ 
+ENTERING SCREEN 15
+	IF TRUE
+	THEN
+		DECORATIONS
+			2, 3, 27
+			13, 3, 27
+			7, 8, 20
+			7, 9, 44
+		END
+	END
+END
+ 
+ 
+// If you use extraprints.h, trim this bit and use it!
+const unsigned char ep_scr_00 [] = { 0x12, 46 };
+const unsigned char ep_scr_01 [] = { 0x32, 27, 0x72, 46 };
+const unsigned char ep_scr_02 [] = { 0xC1, 46, 0xE1, 20 };
+const unsigned char ep_scr_03 [] = { 0xD1, 30, 0xB4, 40, 0xC4, 41, 0xB5, 42, 0xC5, 43 };
+const unsigned char ep_scr_06 [] = { 0xE8, 20 };
+const unsigned char ep_scr_07 [] = { 0xD2, 27, 0x74, 46, 0xD6, 27, 0x8, 20 };
+const unsigned char ep_scr_08 [] = { 0xD6, 27 };
+const unsigned char ep_scr_09 [] = { 0xD2, 27 };
+const unsigned char ep_scr_0A [] = { 0x41, 46, 0xA1, 46, 0xD4, 27, 0x85, 46, 0xE8, 20 };
+const unsigned char ep_scr_0B [] = { 0xD2, 27, 0x75, 46, 0xD6, 27, 0x8, 20 };
+const unsigned char ep_scr_0C [] = { 0xD7, 27 };
+const unsigned char ep_scr_0D [] = { 0x8, 20 };
+const unsigned char ep_scr_0E [] = { 0xD6, 27, 0x38, 17 };
+const unsigned char ep_scr_0F [] = { 0x23, 27, 0xD3, 27, 0x78, 20, 0x79, 44 };
+const unsigned char *prints [] = { ep_scr_00, ep_scr_01, ep_scr_02, ep_scr_03, 0, 0, ep_scr_06, ep_scr_07, ep_scr_08, ep_scr_09, ep_scr_0A, ep_scr_0B, ep_scr_0C, ep_scr_0D, ep_scr_0E, ep_scr_0F };

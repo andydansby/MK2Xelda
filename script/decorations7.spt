@@ -1,0 +1,210 @@
+ENTERING SCREEN 0
+	IF TRUE
+	THEN
+		DECORATIONS
+			2, 2, 33
+			12, 2, 33
+			7, 4, 33
+			5, 6, 33
+			0, 7, 32
+			7, 7, 33
+			13, 7, 33
+		END
+	END
+END
+ 
+ENTERING SCREEN 1
+	IF TRUE
+	THEN
+		DECORATIONS
+			12, 2, 33
+			8, 4, 33
+			2, 8, 33
+		END
+	END
+END
+ 
+ENTERING SCREEN 2
+	IF TRUE
+	THEN
+		DECORATIONS
+			7, 2, 33
+			11, 2, 33
+			1, 6, 33
+			6, 6, 33
+		END
+	END
+END
+ 
+ENTERING SCREEN 3
+	IF TRUE
+	THEN
+		DECORATIONS
+			12, 2, 33
+			14, 4, 32
+			13, 7, 33
+			12, 8, 33
+		END
+	END
+END
+ 
+ENTERING SCREEN 4
+	IF TRUE
+	THEN
+		DECORATIONS
+			4, 1, 37
+			5, 1, 37
+			1, 2, 16
+			2, 2, 37
+			4, 2, 37
+			1, 3, 37
+			2, 3, 37
+			6, 3, 37
+			9, 3, 24
+			2, 4, 37
+			3, 4, 37
+			4, 4, 37
+			6, 5, 24
+			9, 7, 24
+		END
+	END
+END
+ 
+ENTERING SCREEN 5
+	IF TRUE
+	THEN
+		DECORATIONS
+			7, 2, 24
+		END
+	END
+END
+ 
+ENTERING SCREEN 6
+	IF TRUE
+	THEN
+		DECORATIONS
+			2, 2, 24
+		END
+	END
+END
+ 
+ENTERING SCREEN 7
+	IF TRUE
+	THEN
+		DECORATIONS
+			5, 1, 42
+			6, 1, 43
+			7, 1, 42
+			4, 2, 34
+			5, 2, 41
+			6, 2, 40
+			7, 2, 41
+		END
+	END
+END
+ 
+ENTERING SCREEN 8
+	IF TRUE
+	THEN
+		DECORATIONS
+			1, 3, 38
+			3, 4, 22
+		END
+	END
+END
+ 
+ENTERING SCREEN 9
+	IF TRUE
+	THEN
+		DECORATIONS
+			1, 8, 24
+			8, 8, 24
+		END
+	END
+END
+ 
+ENTERING SCREEN 10
+	IF TRUE
+	THEN
+		DECORATIONS
+			12, 1, 24
+			12, 4, 24
+			14, 8, 33
+		END
+	END
+END
+ 
+ENTERING SCREEN 11
+	IF TRUE
+	THEN
+		DECORATIONS
+			2, 2, 33
+			2, 5, 33
+			0, 8, 33
+		END
+	END
+END
+ 
+ENTERING SCREEN 12
+	IF TRUE
+	THEN
+		DECORATIONS
+			4, 1, 24
+			0, 2, 32
+			12, 2, 24
+			2, 7, 24
+		END
+	END
+END
+ 
+ENTERING SCREEN 13
+	IF TRUE
+	THEN
+		DECORATIONS
+			1, 1, 30
+			6, 2, 24
+			10, 2, 24
+			9, 7, 24
+		END
+	END
+END
+ 
+ENTERING SCREEN 14
+	IF TRUE
+	THEN
+		DECORATIONS
+			4, 8, 24
+			13, 8, 24
+		END
+	END
+END
+ 
+ENTERING SCREEN 15
+	IF TRUE
+	THEN
+		DECORATIONS
+			11, 5, 22
+			5, 9, 32
+		END
+	END
+END
+ 
+ 
+// If you use extraprints.h, trim this bit and use it!
+const unsigned char ep_scr_00 [] = { 0x22, 33, 0xC2, 33, 0x74, 33, 0x56, 33, 0x7, 32, 0x77, 33, 0xD7, 33 };
+const unsigned char ep_scr_01 [] = { 0xC2, 33, 0x84, 33, 0x28, 33 };
+const unsigned char ep_scr_02 [] = { 0x72, 33, 0xB2, 33, 0x16, 33, 0x66, 33 };
+const unsigned char ep_scr_03 [] = { 0xC2, 33, 0xE4, 32, 0xD7, 33, 0xC8, 33 };
+const unsigned char ep_scr_04 [] = { 0x41, 37, 0x51, 37, 0x12, 16, 0x22, 37, 0x42, 37, 0x13, 37, 0x23, 37, 0x63, 37, 0x93, 24, 0x24, 37, 0x34, 37, 0x44, 37, 0x65, 24, 0x97, 24 };
+const unsigned char ep_scr_05 [] = { 0x72, 24 };
+const unsigned char ep_scr_06 [] = { 0x22, 24 };
+const unsigned char ep_scr_07 [] = { 0x51, 42, 0x61, 43, 0x71, 42, 0x42, 34, 0x52, 41, 0x62, 40, 0x72, 41 };
+const unsigned char ep_scr_08 [] = { 0x13, 38, 0x34, 22 };
+const unsigned char ep_scr_09 [] = { 0x18, 24, 0x88, 24 };
+const unsigned char ep_scr_0A [] = { 0xC1, 24, 0xC4, 24, 0xE8, 33 };
+const unsigned char ep_scr_0B [] = { 0x22, 33, 0x25, 33, 0x8, 33 };
+const unsigned char ep_scr_0C [] = { 0x41, 24, 0x2, 32, 0xC2, 24, 0x27, 24 };
+const unsigned char ep_scr_0D [] = { 0x11, 30, 0x62, 24, 0xA2, 24, 0x97, 24 };
+const unsigned char ep_scr_0E [] = { 0x48, 24, 0xD8, 24 };
+const unsigned char ep_scr_0F [] = { 0xB5, 22, 0x59, 32 };
+const unsigned char *prints [] = { ep_scr_00, ep_scr_01, ep_scr_02, ep_scr_03, ep_scr_04, ep_scr_05, ep_scr_06, ep_scr_07, ep_scr_08, ep_scr_09, ep_scr_0A, ep_scr_0B, ep_scr_0C, ep_scr_0D, ep_scr_0E, ep_scr_0F };
